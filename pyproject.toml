@@ -29,7 +29,7 @@ dev = [
   "pytest>=9,<10",
   "pytest-cov>=7,<8",
   "pytest-qt>=4.5,<5",
-  "ruff>=0.14,<0.15",
+  "ruff>=0.14,<0.17",
 ]
 performance = [
   "duckdb>=1.4,<2",
