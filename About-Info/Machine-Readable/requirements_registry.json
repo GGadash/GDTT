@@ -1,0 +1,313 @@
+{
+  "schema_version": 1,
+  "product": "GDTT — Data Transform Tool by Gadash (Akila DJ)",
+  "updated": "2026-09-01",
+  "requirements": [
+    {
+      "id": "CODEX-001",
+      "description": "Repository provides concise Codex navigation and resumable handoff state.",
+      "module": "AGENTS.md; About-Info/AI-Handoff",
+      "status": "implemented",
+      "test_reference": null,
+      "implementation_symbol": null,
+      "documentation_reference": "AGENTS.md"
+    },
+    {
+      "id": "ARCH-001",
+      "description": "Business calculations remain independent of the Qt UI layer.",
+      "module": "src/data_transform_tool/domain; src/data_transform_tool/transformation; src/data_transform_tool/datetime; src/data_transform_tool/timezone; src/data_transform_tool/gaps; src/data_transform_tool/aggregation; src/data_transform_tool/validation",
+      "status": "implemented",
+      "test_reference": "tests/unit; tests/regression/test_phase3_acceptance.py; tests/regression/test_phase4_acceptance.py; tests/regression/test_phase6_acceptance.py; tests/regression/test_phase7_acceptance.py",
+      "implementation_symbol": "DataTable; TransformationPlan; AppError",
+      "documentation_reference": "About-Info/Architecture/ARCHITECTURE.md"
+    },
+    {
+      "id": "UX-001",
+      "description": "Home screen exposes Reformat, Averaging, and future processing modes.",
+      "module": "src/data_transform_tool/ui/views/home_view.py",
+      "status": "implemented",
+      "test_reference": "tests/integration/test_desktop_shell.py",
+      "implementation_symbol": "HomeView",
+      "documentation_reference": "About-Info/Human-Docs/USER_GUIDE.md"
+    },
+    {
+      "id": "UX-002",
+      "description": "Application supports Dark, Light, Auto, and System theme preferences.",
+      "module": "src/data_transform_tool/ui/theme.py",
+      "status": "implemented",
+      "test_reference": "tests/integration/test_desktop_shell.py",
+      "implementation_symbol": "apply_theme",
+      "documentation_reference": "About-Info/AI-Handoff/DECISIONS.md#d-008--ui-direction"
+    },
+    {
+      "id": "UX-003",
+      "description": "Reformat configuration provides mapping and proposed-output previews, reversible column edits, optional default-on gap insertion, explicit interval confirmation, and one global output missing-value choice.",
+      "module": "src/data_transform_tool/app/reformat_configuration.py; src/data_transform_tool/app/reformat_preview.py; src/data_transform_tool/ui/views/configuration_view.py; src/data_transform_tool/ui/models/configuration_models.py; src/data_transform_tool/ui/dialogs/column_wizard.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_reformat_configuration.py; tests/integration/test_configuration_view.py; tests/integration/test_inspection_view.py",
+      "implementation_symbol": "ConfigurationSession; ReformatDraft; build_proposed_preview; ReformatConfigurationView; MappingTableModel; ColumnWizardDialog",
+      "documentation_reference": "DATA TRANSFORM TOOL STUDIO.md#phase-5---reformatting-ui"
+    },
+    {
+      "id": "UX-004",
+      "description": "Averaging configuration provides explicit timestamp, separate source/reporting timezones, interval, missing-marker, field-rule, period, chain, completeness, and output-null choices plus bounded final and per-stage evidence previews.",
+      "module": "src/data_transform_tool/app/averaging_configuration.py; src/data_transform_tool/app/averaging_preview.py; src/data_transform_tool/ui/views/averaging_view.py; src/data_transform_tool/ui/models/averaging_models.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_averaging_configuration.py; tests/integration/test_averaging_view.py; tests/integration/test_desktop_shell.py; tests/regression/test_phase7_acceptance.py",
+      "implementation_symbol": "AveragingDraft; AveragingConfigurationSession; build_averaging_preview; AveragingConfigurationView; AveragingFieldTableModel",
+      "documentation_reference": "DATA TRANSFORM TOOL STUDIO.md#phase-7---averaging-ui"
+    },
+    {
+      "id": "UX-005",
+      "description": "Pre-export review shows complete-file counts and first/middle/last input and proposed output slices, while output, missing-value, style, evidence, and overwrite controls remain explicit.",
+      "module": "src/data_transform_tool/ui/views/export_view.py; src/data_transform_tool/ui/workers/export_worker.py",
+      "status": "implemented",
+      "test_reference": "tests/integration/test_export_view.py; tests/regression/test_phase8_acceptance.py",
+      "implementation_symbol": "ExportView; PreparationWorker; ExecutionWorker",
+      "documentation_reference": "About-Info/Human-Docs/USER_GUIDE.md#phase-8-review-export-and-verification"
+    },
+    {
+      "id": "PRIV-001",
+      "description": "Dataset processing is local/offline with no dataset telemetry.",
+      "module": "project-wide",
+      "status": "architectural_constraint",
+      "test_reference": null,
+      "implementation_symbol": null,
+      "documentation_reference": "README.md#privacy"
+    },
+    {
+      "id": "SET-001",
+      "description": "Safe user preferences are validated and stored locally with atomic replacement.",
+      "module": "src/data_transform_tool/settings",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_settings.py",
+      "implementation_symbol": "SettingsRepository",
+      "documentation_reference": "About-Info/Architecture/MODULE_MAP.md"
+    },
+    {
+      "id": "ERR-001",
+      "description": "Errors use Information, Warning, and Blocking Error levels.",
+      "module": "src/data_transform_tool/domain/errors.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_errors.py",
+      "implementation_symbol": "Severity",
+      "documentation_reference": "DATA TRANSFORM TOOL STUDIO.md#101-warning-levels"
+    },
+    {
+      "id": "LOG-001",
+      "description": "Application writes rotating local logs without dataset contents.",
+      "module": "src/data_transform_tool/reporting/logging_setup.py",
+      "status": "implemented",
+      "test_reference": null,
+      "implementation_symbol": "configure_logging",
+      "documentation_reference": "About-Info/Architecture/ARCHITECTURE.md"
+    },
+    {
+      "id": "IO-001",
+      "description": "Read CSV, TSV, delimited TXT, and one selected XLSX worksheet.",
+      "module": "src/data_transform_tool/io",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_file_inspection.py; tests/integration/test_inspection_view.py",
+      "implementation_symbol": "FileInspector; DelimitedTextReader; XlsxReader",
+      "documentation_reference": "About-Info/Data-Processing/DATA_PIPELINE_SPEC.md"
+    },
+    {
+      "id": "IO-002",
+      "description": "Profile structure, inferred types, missing-marker candidates, time interval, large-file strategy, and first/middle/last previews without modifying input.",
+      "module": "src/data_transform_tool/io; src/data_transform_tool/ui/views/inspection_view.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_file_inspection.py; tests/integration/test_inspection_view.py",
+      "implementation_symbol": "TableProfiler; FileInspection; FileInspectionView",
+      "documentation_reference": "About-Info/Data-Processing/DATA_PIPELINE_SPEC.md"
+    },
+    {
+      "id": "IO-003",
+      "description": "Accept one or more local files through browsing or drag-and-drop, treat the first as the reference, and block shared configuration when file type, ordered schema, header, delimiter/quote behavior, or XLSX worksheet is incompatible.",
+      "module": "src/data_transform_tool/app/batch_input.py; src/data_transform_tool/ui/views/inspection_view.py; src/data_transform_tool/ui/workers/inspection_worker.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_batch_input.py; tests/integration/test_inspection_view.py",
+      "implementation_symbol": "BatchInspection; CompatibilityResult; inspect_source_batch; BatchInspectionWorker",
+      "documentation_reference": "About-Info/Human-Docs/USER_GUIDE.md#phase-2-source-inspection"
+    },
+    {
+      "id": "DT-001",
+      "description": "Keep printed date/time format separate from timestamp semantics.",
+      "module": "src/data_transform_tool/datetime",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_datetime_transformations.py",
+      "implementation_symbol": "DateTimeParser; TimestampSemantics; DeriveIntervalFields",
+      "documentation_reference": "About-Info/Data-Processing/DATE_TIME_DESIGN.md"
+    },
+    {
+      "id": "TZ-001",
+      "description": "Timezone conversion preserves the instant and is separate from time shift.",
+      "module": "src/data_transform_tool/timezone",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_timezone_transformations.py",
+      "implementation_symbol": "TimezoneConversion; TimezoneSource; DstResolution",
+      "documentation_reference": "About-Info/Data-Processing/TIMEZONE_DESIGN.md"
+    },
+    {
+      "id": "NULL-001",
+      "description": "Normalize confirmed missing markers to one canonical internal missing state.",
+      "module": "src/data_transform_tool/transformation/nulls.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_transformation_columns.py; tests/unit/test_validation_engine.py; tests/regression/test_phase3_acceptance.py; tests/regression/test_phase4_acceptance.py",
+      "implementation_symbol": "NormalizeConfirmedNulls",
+      "documentation_reference": "About-Info/Data-Processing/NULL_HANDLING.md"
+    },
+    {
+      "id": "TR-001",
+      "description": "Apply immutable rename, reorder, select, empty, duplicate, index, and safe calculated-field operations with audit entries.",
+      "module": "src/data_transform_tool/domain/table.py; src/data_transform_tool/transformation",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_transformation_columns.py; tests/unit/test_numeric_transformations.py; tests/regression/test_phase3_acceptance.py",
+      "implementation_symbol": "TransformationPlan; TransformationOperation; AddCalculatedField",
+      "documentation_reference": "About-Info/Data-Processing/TRANSFORMATION_ENGINE.md"
+    },
+    {
+      "id": "NUM-001",
+      "description": "Use arithmetic rounding, ppm/ppb conversion, and explicit invalid-numeric policies without string truncation.",
+      "module": "src/data_transform_tool/transformation/numeric.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_numeric_transformations.py; tests/regression/test_phase3_acceptance.py",
+      "implementation_symbol": "RoundNumeric; ConvertConcentration; InvalidValuePolicy",
+      "documentation_reference": "About-Info/Data-Processing/TRANSFORMATION_ENGINE.md"
+    },
+    {
+      "id": "RECIPE-001",
+      "description": "Represent transformation intent in validated version-1 recipes without data records or executable code.",
+      "module": "src/data_transform_tool/transformation/recipe.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_transformation_columns.py",
+      "implementation_symbol": "TransformationRecipe; TransformationSpec; GapRecipe; MissingDataRecipe; AggregationRecipe",
+      "documentation_reference": "About-Info/Machine-Readable/transformation_recipe_schema.json"
+    },
+    {
+      "id": "GAP-001",
+      "description": "Analyze a confirmed elapsed-time grid and insert expected timestamp rows with explicit metadata policies without interpolating measurements.",
+      "module": "src/data_transform_tool/gaps",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_gap_engine.py; tests/regression/test_phase4_acceptance.py",
+      "implementation_symbol": "ConfirmedInterval; TimestampAnalysis; analyze_timestamps; generate_gap_rows",
+      "documentation_reference": "About-Info/Data-Processing/GAP_FILLING.md"
+    },
+    {
+      "id": "VAL-001",
+      "description": "Report invalid numerics, duplicate/disordered/off-grid timestamps, preview remove-null rules, and suggest deselection of entirely null output fields.",
+      "module": "src/data_transform_tool/gaps; src/data_transform_tool/validation",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_gap_engine.py; tests/unit/test_validation_engine.py; tests/regression/test_phase4_acceptance.py",
+      "implementation_symbol": "analyze_invalid_numeric; resolve_invalid_numeric; preview_remove_null_rows; suggest_export_fields",
+      "documentation_reference": "About-Info/Data-Processing/NULL_HANDLING.md"
+    },
+    {
+      "id": "NULL-002",
+      "description": "Preserve strict canonical-null behavior for future delimited and XLSX exporters while keeping empty source text distinct.",
+      "module": "src/data_transform_tool/validation/serialization.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_validation_engine.py; tests/regression/test_phase4_acceptance.py",
+      "implementation_symbol": "serialize_delimited_row; xlsx_cell_value",
+      "documentation_reference": "About-Info/Data-Processing/NULL_HANDLING.md"
+    },
+    {
+      "id": "AVG-001",
+      "description": "Support direct and configurable incremental completeness-aware aggregation.",
+      "module": "src/data_transform_tool/aggregation",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_aggregation_periods.py; tests/unit/test_aggregation_strategies.py; tests/unit/test_aggregation_engine.py; tests/unit/test_aggregation_recipe.py; tests/unit/test_averaging_configuration.py; tests/regression/test_phase6_acceptance.py; tests/regression/test_phase7_acceptance.py",
+      "implementation_symbol": "AggregationConfig; Periodizer; aggregate_table; AggregationRecipe; CompletenessRecord",
+      "documentation_reference": "About-Info/Data-Processing/AVERAGING_DESIGN.md"
+    },
+    {
+      "id": "EXP-001",
+      "description": "Export new CSV/XLSX files and reopen them for verification.",
+      "module": "src/data_transform_tool/export; src/data_transform_tool/app/export_workflow.py; src/data_transform_tool/reporting/processing_report.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_export_outputs.py; tests/unit/test_phase8_workflow.py; tests/integration/test_export_view.py; tests/regression/test_phase8_acceptance.py",
+      "implementation_symbol": "write_data_outputs; verify_artifacts; prepare_export; execute_export; build_processing_report",
+      "documentation_reference": "DATA TRANSFORM TOOL STUDIO.md#99-post-export-verification"
+    },
+    {
+      "id": "EXP-002",
+      "description": "Apply one confirmed configuration to a compatible batch with deterministic per-source names, isolated source failures, independent artifacts/reports/reopen verification, reference-preview labeling, and a process-more continuation.",
+      "module": "src/data_transform_tool/app/batch_export.py; src/data_transform_tool/ui/views/export_view.py; src/data_transform_tool/ui/workers/export_worker.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_phase8_workflow.py; tests/integration/test_export_view.py",
+      "implementation_symbol": "BatchExportResult; execute_batch_export; BatchExecutionWorker",
+      "documentation_reference": "About-Info/Human-Docs/USER_GUIDE.md#phase-8-review-export-and-verification"
+    },
+    {
+      "id": "TEMPLATE-001",
+      "description": "Persist versioned local recipe templates and XLSX styles without measurement data, with CRUD/import/export and schema-count matching.",
+      "module": "src/data_transform_tool/templates",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_phase8_workflow.py",
+      "implementation_symbol": "TemplateRecord; TemplateRepository; StyleRepository; TemplateManagerDialog",
+      "documentation_reference": "About-Info/Human-Docs/USER_GUIDE.md#phase-8-review-export-and-verification"
+    },
+    {
+      "id": "PERF-001",
+      "description": "Benchmark candidate large-file backends with generated data, isolated peak-memory measurement, semantic checksums, and explicit provisional budgets before replacing the reference executor.",
+      "module": "scripts/benchmark_backends.py; tests/performance",
+      "status": "benchmark_checkpoint_implemented",
+      "test_reference": "tests/performance/test_benchmark_harness.py",
+      "implementation_symbol": "BenchmarkResult; generate_dataset",
+      "documentation_reference": "About-Info/Data-Processing/PERFORMANCE_BASELINE.md"
+    },
+    {
+      "id": "PERF-002",
+      "description": "Execute complete-source Reformat and Averaging through replayable bounded batches and private spill storage while preserving global ordering, gap, duplicate, completeness, export, verification, cancellation, and cleanup semantics.",
+      "module": "src/data_transform_tool/domain/batches.py; src/data_transform_tool/domain/spill.py; src/data_transform_tool/transformation/batch_executor.py; src/data_transform_tool/aggregation/batch_engine.py; src/data_transform_tool/export",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_batch_spill.py; tests/unit/test_batch_reformat_executor.py; tests/unit/test_batch_aggregation_engine.py; tests/unit/test_phase8_workflow.py",
+      "implementation_symbol": "DataBatch; TabularData; SpillWorkspace; execute_reformat_batches; aggregate_table_batches; write_data_outputs; verify_artifacts",
+      "documentation_reference": "About-Info/Data-Processing/PERFORMANCE_BASELINE.md"
+    },
+    {
+      "id": "CI-001",
+      "description": "Run locked Python 3.13 formatting, lint, typing, and test checks on Windows and Ubuntu with read-only repository permissions.",
+      "module": ".github/workflows/ci.yml",
+      "status": "implemented_unpublished",
+      "test_reference": null,
+      "implementation_symbol": null,
+      "documentation_reference": "About-Info/AI-Handoff/DECISIONS.md#d-018--phase-9-measured-backend-direction-and-early-ci"
+    },
+    {
+      "id": "PKG-001",
+      "description": "Build a versioned Windows PyInstaller onedir bundle with canonical icon/metadata, required notices, portable archive, manifest, checksums, and packaged smoke verification.",
+      "module": "packaging/data_transform_tool.spec; scripts/build_windows.ps1; scripts/verify_release.ps1; .github/workflows/build-windows.yml",
+      "status": "implemented_build_host_verified",
+      "test_reference": "tests/unit/test_packaging_metadata.py",
+      "implementation_symbol": null,
+      "documentation_reference": "packaging/README.md"
+    },
+    {
+      "id": "PKG-002",
+      "description": "Build a current-user Windows installer with project license, Start Menu and uninstall registration, optional desktop shortcut, and automated install/smoke/uninstall verification.",
+      "module": "packaging/data_transform_tool.nsi; scripts/bootstrap_nsis.ps1; scripts/build_installer.ps1; scripts/verify_installer.ps1",
+      "status": "implemented_build_host_verified",
+      "test_reference": "tests/unit/test_packaging_metadata.py",
+      "implementation_symbol": null,
+      "documentation_reference": "packaging/README.md"
+    },
+    {
+      "id": "REL-001",
+      "description": "Prepare an auditable local Windows release candidate with source hygiene, representative CSV/TSV/XLSX workflows, isolated-profile portable and installer checks, dependency inventory, source archive, reports, logs, signatures, manifests, and checksums while preserving the separate clean-host limitation.",
+      "module": "scripts/audit_release_tree.py; scripts/run_representative_workflows.py; scripts/build_source_archive.ps1; scripts/verify_c_lite.ps1; scripts/build_release_candidate.ps1; .github/workflows",
+      "status": "local_acceptance_implemented_clean_host_pending",
+      "test_reference": "tests/unit/test_release_audit.py; tests/unit/test_packaging_metadata.py; tests/regression/test_phase8_acceptance.py",
+      "implementation_symbol": null,
+      "documentation_reference": "About-Info/Human-Docs/RELEASE_ACCEPTANCE.md"
+    },
+    {
+      "id": "GIT-001",
+      "description": "Use local Git safely without automatic commit or push.",
+      "module": ".git; About-Info/Git-GitHub",
+      "status": "implemented",
+      "test_reference": null,
+      "implementation_symbol": null,
+      "documentation_reference": "About-Info/Git-GitHub/GIT_AND_GITHUB_GUIDE.md"
+    }
+  ]
+}

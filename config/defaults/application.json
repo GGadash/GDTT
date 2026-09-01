@@ -1,0 +1,6 @@
+{
+  "schema_version": 1,
+  "home_modes": ["reformat", "average"],
+  "future_mode_slot": true,
+  "default_theme": "auto"
+}

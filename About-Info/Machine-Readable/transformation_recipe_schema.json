@@ -1,0 +1,407 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://data-transform-tool.local/schemas/transformation-recipe-v1.json",
+  "title": "GDTT Transformation Recipe",
+  "type": "object",
+  "$defs": {
+    "seasonBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "month"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "month": { "type": "integer", "minimum": 1, "maximum": 12 },
+        "day": { "type": "integer", "minimum": 1, "maximum": 31, "default": 1 }
+      }
+    },
+    "aggregationPeriod": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "fixed_clock",
+            "day",
+            "week",
+            "calendar_month",
+            "fixed_days",
+            "quarter",
+            "season",
+            "calendar_year",
+            "fixed_year"
+          ]
+        },
+        "duration_seconds": { "type": ["number", "null"], "exclusiveMinimum": 0 },
+        "day_start": { "type": "string", "format": "time", "default": "00:00:00" },
+        "week_start": { "type": "integer", "minimum": 0, "maximum": 6, "default": 0 },
+        "anchor": { "type": ["string", "null"], "format": "date-time" },
+        "quarter_start_month": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12,
+          "default": 1
+        },
+        "year_start_month": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12,
+          "default": 1
+        },
+        "year_start_day": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 31,
+          "default": 1
+        },
+        "seasons": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/seasonBoundary" }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "fixed_clock" } } },
+          "then": {
+            "required": ["duration_seconds"],
+            "properties": { "duration_seconds": { "type": "number", "exclusiveMinimum": 0 } }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "fixed_days" } } },
+          "then": {
+            "required": ["duration_seconds", "anchor"],
+            "properties": {
+              "duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+              "anchor": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "fixed_year" } } },
+          "then": {
+            "required": ["anchor"],
+            "properties": { "anchor": { "type": "string", "format": "date-time" } }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "season" } } },
+          "then": {
+            "required": ["seasons"],
+            "properties": { "seasons": { "type": "array", "minItems": 2 } }
+          }
+        }
+      ]
+    },
+    "aggregationCompleteness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "threshold": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "default": 0.75
+        },
+        "allow_two_of_three": { "type": "boolean", "default": false }
+      }
+    },
+    "aggregationStage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["period"],
+      "properties": {
+        "period": { "$ref": "#/$defs/aggregationPeriod" },
+        "completeness": { "$ref": "#/$defs/aggregationCompleteness" },
+        "label": { "type": ["string", "null"], "minLength": 1 }
+      }
+    },
+    "aggregationField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["column"],
+      "properties": {
+        "column": { "type": "string", "minLength": 1 },
+        "statistic": {
+          "enum": [
+            "arithmetic_mean",
+            "minimum",
+            "maximum",
+            "sum",
+            "median",
+            "standard_deviation",
+            "count",
+            "energy_average_leq",
+            "rainfall_accumulation",
+            "rain_rate_mean"
+          ],
+          "default": "arithmetic_mean"
+        },
+        "output_name": { "type": ["string", "null"], "minLength": 1 },
+        "duration_column": { "type": ["string", "null"], "minLength": 1 }
+      }
+    },
+    "aggregationRecipe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timestamp_column",
+        "input_interval_seconds",
+        "reporting_timezone",
+        "fields",
+        "stages"
+      ],
+      "properties": {
+        "timestamp_column": { "type": "string", "minLength": 1 },
+        "input_interval_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "reporting_timezone": { "type": "string", "minLength": 1 },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/aggregationField" }
+        },
+        "stages": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/aggregationStage" }
+        },
+        "approach": { "enum": ["direct", "incremental"], "default": "direct" },
+        "allow_reorder": { "type": "boolean", "default": false },
+        "max_periods": { "type": "integer", "exclusiveMinimum": 0, "default": 1000000 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "approach": { "const": "direct" } } },
+          "then": { "properties": { "stages": { "maxItems": 1 } } },
+          "else": { "properties": { "stages": { "minItems": 2 } } }
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "source", "columns", "output"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "recipe_name": { "type": ["string", "null"], "minLength": 1 },
+    "mode": { "enum": ["reformat", "average"] },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file_type"],
+      "properties": {
+        "file_type": { "enum": ["csv", "tsv", "txt", "xlsx"] },
+        "worksheet": { "type": ["string", "null"] },
+        "expected_columns": { "type": "array", "items": { "type": "string" } },
+        "missing_markers": { "type": "array", "items": { "type": ["string", "number"] } }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "file_type": { "const": "xlsx" } } },
+          "then": { "required": ["worksheet"], "properties": { "worksheet": { "type": "string", "minLength": 1 } } },
+          "else": { "properties": { "worksheet": { "type": "null" } } }
+        }
+      ]
+    },
+    "columns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_name", "output_name", "export", "transformations"],
+        "properties": {
+          "source_name": { "type": ["string", "null"] },
+          "output_name": { "type": "string", "minLength": 1 },
+          "export": { "type": "boolean", "default": true },
+          "semantic_type": { "type": ["string", "null"] },
+          "transformations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kind", "parameters"],
+              "properties": {
+                "kind": { "type": "string", "minLength": 1 },
+                "parameters": { "type": "object" }
+              }
+            }
+          },
+          "aggregation": { "type": ["object", "null"] }
+        }
+      }
+    },
+    "timestamp": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["column", "role"],
+      "properties": {
+        "column": { "type": "string", "minLength": 1 },
+        "role": { "enum": ["start", "end", "midpoint", "instantaneous", "unknown", "custom"] },
+        "duration_seconds": { "type": ["number", "null"], "exclusiveMinimum": 0 },
+        "input_profile": { "type": ["string", "null"] },
+        "output_profile": { "type": ["string", "null"] },
+        "source_timezone": { "type": ["string", "null"] },
+        "target_timezone": { "type": ["string", "null"] }
+      }
+    },
+    "missing_data": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "confirmed_null_markers": {
+          "type": "array",
+          "items": { "type": ["string", "number"] }
+        },
+        "numeric_columns": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "invalid_numeric_policy": {
+          "enum": ["null_and_continue", "inspect", "stop", "preserve_source"]
+        },
+        "remove_null_rule": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["mode", "columns"],
+          "properties": {
+            "mode": {
+              "enum": [
+                "all_measurements_missing",
+                "all_selected_missing",
+                "any_required_missing",
+                "selected_subset_missing",
+                "below_present_threshold"
+              ]
+            },
+            "columns": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "minimum_present": { "type": ["integer", "null"], "minimum": 0 }
+          },
+          "allOf": [
+            {
+              "if": { "properties": { "mode": { "const": "below_present_threshold" } } },
+              "then": {
+                "required": ["minimum_present"],
+                "properties": { "minimum_present": { "type": "integer", "minimum": 0 } }
+              },
+              "else": { "properties": { "minimum_present": { "type": "null" } } }
+            }
+          ]
+        }
+      }
+    },
+    "gap_policy": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["timestamp_column", "interval_seconds", "measurement_columns"],
+      "properties": {
+        "timestamp_column": { "type": "string", "minLength": 1 },
+        "interval_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "measurement_columns": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "field_policies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["column", "behavior"],
+            "properties": {
+              "column": { "type": "string", "minLength": 1 },
+              "behavior": {
+                "enum": ["null", "carry_stable", "fixed_value", "derived_from_timestamp"]
+              },
+              "fixed_value": { "type": ["string", "number", "boolean", "null"] },
+              "derivation": {
+                "type": ["string", "null"],
+                "enum": [
+                  "copy",
+                  "date",
+                  "time",
+                  "year",
+                  "month",
+                  "day",
+                  "iso_weekday",
+                  "interval_start",
+                  "interval_midpoint",
+                  "interval_end",
+                  null
+                ]
+              },
+              "timezone_name": { "type": ["string", "null"] }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": { "behavior": { "const": "derived_from_timestamp" } }
+                },
+                "then": {
+                  "required": ["derivation"],
+                  "properties": { "derivation": { "type": "string" } }
+                },
+                "else": {
+                  "properties": {
+                    "derivation": { "type": "null" },
+                    "timezone_name": { "type": "null" }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "allow_reorder": { "type": "boolean", "default": false },
+        "index_column": { "type": ["string", "null"] },
+        "index_start": { "type": "integer", "default": 1 },
+        "generated_flag_column": { "type": ["string", "null"] }
+      }
+    },
+    "aggregation": {
+      "anyOf": [
+        { "$ref": "#/$defs/aggregationRecipe" },
+        { "type": "null" }
+      ]
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["formats", "missing_policy"],
+      "properties": {
+        "formats": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["csv", "xlsx_plain", "xlsx_formatted"] }
+        },
+        "missing_policy": { "enum": ["true_null", "na", "minus_999", "custom"] },
+        "custom_missing_sentinel": { "type": ["string", "number", "null"] },
+        "style_profile": { "type": ["string", "null"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "missing_policy": { "const": "custom" } } },
+          "then": {
+            "required": ["custom_missing_sentinel"],
+            "properties": { "custom_missing_sentinel": { "not": { "type": "null" } } }
+          },
+          "else": { "properties": { "custom_missing_sentinel": { "type": "null" } } }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "mode": { "const": "average" } } },
+      "then": {
+        "required": ["aggregation"],
+        "properties": { "aggregation": { "$ref": "#/$defs/aggregationRecipe" } }
+      },
+      "else": { "properties": { "aggregation": { "type": "null" } } }
+    }
+  ]
+}

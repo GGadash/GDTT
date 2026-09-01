@@ -1,0 +1,84 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "data-transform-tool"
+version = "0.8.0"
+description = "GDTT — Data Transform Tool by Gadash (Akila DJ): offline-first data forging, transitions, and aggregations, mainly for air-quality-related data."
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Gadash (Akila DJ)" },
+  { name = "OpenAI Codex", email = "support@openai.com" },
+]
+dependencies = [
+  "charset-normalizer>=3.4,<4",
+  "openpyxl>=3.1,<4",
+  "platformdirs>=4.4,<5",
+  "pydantic>=2.12,<3",
+  "pyside6>=6.10,<6.12",
+  "tzdata>=2026.1",
+  "xlsxwriter>=3.2,<4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.18,<2",
+  "pytest>=9,<10",
+  "pytest-cov>=7,<8",
+  "pytest-qt>=4.5,<5",
+  "ruff>=0.14,<0.15",
+]
+performance = [
+  "duckdb>=1.4,<2",
+  "polars>=1.43,<2",
+  "pyarrow>=25,<26",
+]
+packaging = [
+  "pyinstaller>=6.22,<7",
+]
+
+[project.scripts]
+gdtt = "data_transform_tool.__main__:main"
+data-transform-tool = "data_transform_tool.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/data_transform_tool"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+qt_api = "pyside6"
+
+[tool.coverage.run]
+branch = true
+source = ["data_transform_tool"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+line-ending = "lf"
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+packages = ["data_transform_tool"]
+mypy_path = "src"
+exclude = ["tests"]
+
+[[tool.mypy.overrides]]
+module = ["PySide6.*", "openpyxl", "openpyxl.*"]
+ignore_missing_imports = true

@@ -1,0 +1,12 @@
+flowchart TD
+    UI[PySide6 UI] --> APP[Application workflows]
+    APP --> RECIPE[Validated recipe and execution plan]
+    RECIPE --> IO[IO and profiling]
+    RECIPE --> TRANSFORM[Transformation / datetime / timezone / gaps]
+    RECIPE --> AGG[Aggregation strategies]
+    IO --> VALIDATE[Validation]
+    TRANSFORM --> VALIDATE
+    AGG --> VALIDATE
+    VALIDATE --> EXPORT[Atomic CSV/XLSX export]
+    EXPORT --> VERIFY[Post-export verification]
+    VERIFY --> REPORT[Local report]

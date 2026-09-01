@@ -1,0 +1,39 @@
+name: Feature request
+description: Propose a focused workflow, transformation, aggregation, or UX improvement
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: What task is difficult today?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe behavior and safe input/output examples.
+    validations:
+      required: true
+  - type: textarea
+    id: rules
+    attributes:
+      label: Data rules and edge cases
+      description: Note null, timestamp, timezone, completeness, or compatibility constraints.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - File ingestion / profiling
+        - Reformat / transformation
+        - Date/time / timezone
+        - Gaps / validation
+        - Averaging / aggregation
+        - Export / verification
+        - User interface
+        - Packaging / documentation
+    validations:
+      required: true

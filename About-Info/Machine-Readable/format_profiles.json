@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    { "id": "iso_date", "group": "Recommended / ISO", "name": "ISO date", "pattern": "yyyy-MM-dd" },
+    { "id": "iso_minute", "group": "Recommended / ISO", "name": "ISO date and minute", "pattern": "yyyy-MM-dd HH:mm" },
+    { "id": "iso_second", "group": "Recommended / ISO", "name": "ISO date and second", "pattern": "yyyy-MM-dd HH:mm:ss" },
+    { "id": "iso_millisecond", "group": "Recommended / ISO", "name": "ISO timestamp with fractions", "pattern": "yyyy-MM-dd HH:mm:ss.SSS" },
+    { "id": "iso_offset", "group": "Recommended / ISO", "name": "ISO timestamp with offset", "pattern": "yyyy-MM-dd'T'HH:mm:ssXXX" },
+    { "id": "time_minute", "group": "Recommended / ISO", "name": "24-hour time and minute", "pattern": "HH:mm" },
+    { "id": "time_second", "group": "Recommended / ISO", "name": "24-hour time and second", "pattern": "HH:mm:ss" },
+    { "id": "dmy_slash_date", "group": "Regional", "name": "Day / month / year", "pattern": "dd/MM/yyyy" },
+    { "id": "mdy_slash_date", "group": "Regional", "name": "Month / day / year", "pattern": "MM/dd/yyyy" },
+    { "id": "mdy_slash_minute", "group": "Regional", "name": "Month / day / year and minute", "pattern": "MM/dd/yyyy HH:mm" },
+    { "id": "dmy_slash_minute", "group": "Regional", "name": "Day / month / year and minute", "pattern": "dd/MM/yyyy HH:mm" }
+  ]
+}

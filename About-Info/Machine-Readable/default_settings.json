@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "theme": "auto",
+  "output_missing_policy": "true_null",
+  "default_completeness_percent": 75,
+  "default_timezone_shortcuts": ["UTC", "Asia/Colombo"],
+  "default_day_start": "00:00",
+  "auto_overwrite_input": false
+}

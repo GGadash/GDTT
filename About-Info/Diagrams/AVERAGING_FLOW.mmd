@@ -1,0 +1,6 @@
+flowchart LR
+    Input[Timestamped observations] --> Boundary[Timezone-aware period boundaries]
+    Boundary --> Approach{Direct or incremental}
+    Approach --> Complete[Completeness checks]
+    Complete --> Strategy[Field aggregation strategies]
+    Strategy --> Output[Preview / export / verification]

@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Quality / Python 3.13 / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v9
+        with:
+          enable-cache: true
+          python-version: "3.13"
+
+      - name: Install locked development environment
+        run: uv sync --locked --extra dev
+
+      - name: Check formatting
+        run: uv run ruff format --check .
+
+      - name: Lint
+        run: uv run ruff check .
+
+      - name: Type check
+        run: uv run mypy
+
+      - name: Test
+        run: uv run pytest
+
+      - name: Audit prospective release source
+        run: uv run python scripts/audit_release_tree.py
+
+      - name: Exercise representative CSV, TSV, and XLSX workflows
+        run: uv run python scripts/run_representative_workflows.py --output-root "${{ runner.temp }}/dtt-representative"
+
+      - name: Upload representative workflow evidence
+        uses: actions/upload-artifact@v7
+        with:
+          name: representative-workflows-${{ matrix.os }}
+          if-no-files-found: error
+          retention-days: 14
+          path: ${{ runner.temp }}/dtt-representative/REPRESENTATIVE_WORKFLOWS.json

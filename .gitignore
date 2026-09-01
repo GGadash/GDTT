@@ -1,0 +1,40 @@
+# Python environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Build and packaging output
+build/
+dist/
+*.egg-info/
+packaging/output/
+packaging/temp/
+packaging/tools/
+
+# Runtime output
+logs/
+temp/
+*.log
+*.dmp
+*.crash
+data/private/
+data/input/
+data/output/
+
+# Local editor and operating-system files
+.idea/
+*.user
+*.suo
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Generated previews and exports
+preview-output/
+exports/
