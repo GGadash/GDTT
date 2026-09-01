@@ -36,8 +36,9 @@ longer apply the workflow-level 1 GB guard. A confirmed gap grid still blocks ab
 expected rows. Polars/PyArrow vectorization remains an optional future optimization behind
 semantic-parity tests, not a current correctness dependency.
 
-## KI-006 — Release publication path awaits its first explicit tag
+## KI-006 — Release publication path awaits a successful tag run
 
-The tag-triggered workflow is statically validated and ordinary Windows packaging has passed,
-but the publishing job cannot be exercised without creating a real GitHub tag and Release.
-Treat the first reviewed pre-release tag as the live end-to-end acceptance of that final job.
+The first `v0.8.0-rc.1` tag triggered correctly, but GitHub stopped the Windows package during
+runner setup because the mutable `astral-sh/setup-uv@v9` reference could not be resolved. The
+workflow now uses CI's verified immutable v9.0.0 commit. The existing tag is intentionally not
+rewritten; a newly authorized pre-release tag must exercise packaging and publication end to end.

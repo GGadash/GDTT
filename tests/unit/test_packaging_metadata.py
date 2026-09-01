@@ -65,6 +65,7 @@ def test_release_candidate_and_ci_contracts_are_versioned() -> None:
     assert "Publish tagged GitHub release" in windows
     assert "github.event_name == 'push'" in windows
     assert "actions/download-artifact@v7" in windows
+    assert "astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9" in windows
     assert "contents: write" in windows
     assert '"release", "create", $tag' in windows
     assert '"--verify-tag"' in windows

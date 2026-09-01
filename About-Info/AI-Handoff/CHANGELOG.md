@@ -10,6 +10,9 @@
   branch/manual builds never publish and reruns leave existing Release assets unchanged.
 - Made `SHA256SUMS.txt` self-contained for downloaded Release files while retaining and checking
   the unpacked executable hash in `BUILD_MANIFEST.json`.
+- The first `v0.8.0-rc.1` trigger exposed an unresolvable mutable setup-uv `@v9` reference in
+  the Windows packaging workflow. Replaced it with CI's verified immutable v9.0.0 commit; a new
+  pre-release tag is required because published Git tags are not rewritten.
 
 ## 2026-09-01 — GDTT identity and compatible multi-file workflows
 

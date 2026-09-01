@@ -45,6 +45,8 @@ semantic-style versioning while it matures.
 
 ### Fixed
 
+- Pinned the Windows packaging workflow to the same immutable setup-uv v9 commit as CI after the
+  mutable `@v9` reference failed resolution during the first release-tag run.
 - Corrected CI action references, pinned setup-uv to its documented v9.0.0 commit, and installed
   the Linux EGL runtime required to import PySide6 during headless tests.
 - Prevented unrelated private ICU DLLs on a developer PATH from contaminating frozen Qt builds.
