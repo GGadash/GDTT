@@ -40,6 +40,7 @@ semantic-style versioning while it matures.
 
 ### Fixed
 
+- Corrected the CI checkout action reference to the supported `actions/checkout@v6` release.
 - Prevented unrelated private ICU DLLs on a developer PATH from contaminating frozen Qt builds.
 
 ## [0.8.0] - 2026-08-30

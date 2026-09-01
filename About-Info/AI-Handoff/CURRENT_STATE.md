@@ -9,7 +9,7 @@ Last updated: 2026-09-01
   GDTT, owner/Codex credit remains in About and metadata, and persistent application chrome does
   not display creator text.
 - Product and Phase 0 architectural decisions are recorded.
-- Local Git repository is initialized on `main`; there are no commits or remote.
+- The Git repository is published at `GGadash/GDTT` with `main` tracking `origin/main`.
 - `uv` is installed and the project declares Python 3.13.
 - Phase 2 source inspection is implemented for CSV, TSV, delimited TXT, and selected XLSX
   worksheets using bounded-memory readers.
@@ -156,9 +156,9 @@ Last updated: 2026-09-01
 
 ## Unfinished
 
-- Combination C separate-computer distribution verification, code-signing selection, screenshots,
-  and public repository setup remain later work. The current artifacts are unsigned development
-  builds and have only been exercised on the build host.
+- Combination C separate-computer distribution verification, code-signing selection, and
+  screenshots remain later work. The current artifacts are unsigned development builds and have
+  only been exercised on the build host.
 - This build host cannot supply the clean disposable environment: Windows Sandbox is absent,
   `HypervisorPresent` is false, and CPU firmware virtualization reports disabled. Enable
   virtualization in firmware and install Windows Sandbox, or use another clean Windows VM/host.
@@ -170,4 +170,4 @@ separate clean Windows environment for rebuild/install/launch/uninstall/dependen
 including picker, drag/drop, compatible/incompatible batch, per-file verification, and
 continuation smoke tests. Then decide signing and finish release-readiness evidence. Local C-lite
 already passes; the exact artifact-only and full-rebuild instructions are in
-`About-Info/Human-Docs/RELEASE_ACCEPTANCE.md`. Do not publish to Git.
+`About-Info/Human-Docs/RELEASE_ACCEPTANCE.md`. Keep CI green on the published GitHub repository.

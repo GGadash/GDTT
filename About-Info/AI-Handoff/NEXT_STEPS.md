@@ -16,4 +16,5 @@
 5. Decide code signing only after the owner provides or selects a signing identity; unsigned
    development artifacts remain valid for testing.
 6. Review the generated local release-candidate artifacts and complete the clean-host evidence.
-7. Git publication remains owner-authorized later work; do not commit or publish automatically.
+7. The source is published at `GGadash/GDTT`; keep GitHub CI green and continue to require
+   explicit owner authorization for future commits, pushes, tags, and releases.
