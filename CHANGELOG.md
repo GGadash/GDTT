@@ -37,6 +37,8 @@ semantic-style versioning while it matures.
   release-candidate checklist, and one-command release-candidate build.
 - Finalized read-only Windows/Ubuntu CI and Windows packaging workflows with timeouts,
   concurrency control, representative-format evidence, source archive, and C-lite gates.
+- Conservative monthly Dependabot version checks for uv and GitHub Actions dependencies.
+- Repository sponsorship links for the GDTT Ko-fi page and its dedicated Ko-fi support offer.
 
 ### Fixed
 

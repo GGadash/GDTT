@@ -1,6 +1,6 @@
 # Current State
 
-Last updated: 2026-09-01
+Last updated: 2026-09-02
 
 ## What works
 
@@ -91,6 +91,11 @@ Last updated: 2026-09-01
   XLSX fallbacks are covered. The former workflow-level 1 GB estimate guard is removed.
 - An early Phase 10 CI workflow now runs the locked Python 3.13 development environment, Ruff
   formatting/lint, mypy, and pytest on Windows and Ubuntu without write credentials.
+- Dependabot version-update configuration checks uv and GitHub Actions dependencies monthly with
+  a three-pull-request limit per ecosystem; repository alerts/security updates remain GitHub
+  settings controlled by the owner.
+- GitHub repository sponsorship metadata links to the owner-supplied GDTT Ko-fi page and
+  dedicated Ko-fi support offer without storing payment or account credentials.
 - Phase 9 Combination B is complete on the build host. The shell uses canonical SVG/PNG/ICO
   artwork; PyInstaller 6.22 produces a versioned `onedir` bundle, portable ZIP, manifest, and
   SHA-256 checksums through hermetic Windows build and smoke-verification scripts.
