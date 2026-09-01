@@ -40,7 +40,8 @@ semantic-style versioning while it matures.
 
 ### Fixed
 
-- Corrected CI action references and pinned setup-uv to its documented v9.0.0 commit.
+- Corrected CI action references, pinned setup-uv to its documented v9.0.0 commit, and installed
+  the Linux EGL runtime required to import PySide6 during headless tests.
 - Prevented unrelated private ICU DLLs on a developer PATH from contaminating frozen Qt builds.
 
 ## [0.8.0] - 2026-08-30
