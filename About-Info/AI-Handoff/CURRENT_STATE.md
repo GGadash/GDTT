@@ -96,6 +96,9 @@ Last updated: 2026-09-02
   settings controlled by the owner.
 - GitHub repository sponsorship metadata links to the owner-supplied GDTT Ko-fi page and
   dedicated Ko-fi support offer without storing payment or account credentials.
+- The Windows workflow automatically publishes verified assets for an explicitly pushed `v*`
+  tag. Hyphenated tags become pre-releases; branch/manual builds do not publish; the write token
+  is isolated to the dependent release job; and existing releases remain unchanged on rerun.
 - Phase 9 Combination B is complete on the build host. The shell uses canonical SVG/PNG/ICO
   artwork; PyInstaller 6.22 produces a versioned `onedir` bundle, portable ZIP, manifest, and
   SHA-256 checksums through hermetic Windows build and smoke-verification scripts.
@@ -158,6 +161,8 @@ Last updated: 2026-09-02
   `lastModifiedBy=Gadash (Akila DJ)`. Operational datasets and private output remain excluded.
 - An audited source archive, portable verifier, C-lite JSON evidence, checksum list, and local
   release-candidate checklist are generated under ignored `packaging/output/`.
+- Public `SHA256SUMS.txt` entries now cover only flat downloadable Release files. The unpacked
+  executable remains hashed and verified through `BUILD_MANIFEST.json` before ZIP publication.
 
 ## Unfinished
 

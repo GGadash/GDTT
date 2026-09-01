@@ -301,6 +301,15 @@
       "documentation_reference": "About-Info/Human-Docs/RELEASE_ACCEPTANCE.md"
     },
     {
+      "id": "REL-002",
+      "description": "Publish verified Windows and source assets automatically only for an explicitly pushed semantic v-tag, with tag/manifest validation, downloadable checksums, pre-release classification, and job-scoped write permission.",
+      "module": ".github/workflows/build-windows.yml; scripts/build_windows.ps1",
+      "status": "implemented_awaiting_first_tag",
+      "test_reference": "tests/unit/test_packaging_metadata.py",
+      "implementation_symbol": null,
+      "documentation_reference": "About-Info/Git-GitHub/GITHUB_RELEASE_GUIDE.md"
+    },
+    {
       "id": "GIT-001",
       "description": "Use local Git safely without automatic commit or push.",
       "module": ".git; About-Info/Git-GitHub",

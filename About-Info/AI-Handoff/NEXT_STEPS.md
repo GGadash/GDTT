@@ -15,6 +15,8 @@
 4. Record Light/Dark release screenshots from the clean environment.
 5. Decide code signing only after the owner provides or selects a signing identity; unsigned
    development artifacts remain valid for testing.
-6. Review the generated local release-candidate artifacts and complete the clean-host evidence.
-7. The source is published at `GGadash/GDTT`; keep GitHub CI green and continue to require
+6. Review the generated release-candidate artifacts and complete the clean-host evidence.
+7. When the owner is ready for a public candidate, push an annotated pre-release tag such as
+   `v0.8.0-rc.1`; the Windows workflow will build, verify, and publish the GitHub Release.
+8. The source is published at `GGadash/GDTT`; keep GitHub CI green and continue to require
    explicit owner authorization for future commits, pushes, tags, and releases.

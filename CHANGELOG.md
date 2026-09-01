@@ -39,6 +39,9 @@ semantic-style versioning while it matures.
   concurrency control, representative-format evidence, source archive, and C-lite gates.
 - Conservative monthly Dependabot version checks for uv and GitHub Actions dependencies.
 - Repository sponsorship links for the GDTT Ko-fi page and its dedicated Ko-fi support offer.
+- Tag-triggered GitHub Release publishing with manifest/version validation, self-contained
+  downloadable checksums, pre-release detection, least-privilege write permissions, and
+  immutable-on-rerun behavior.
 
 ### Fixed
 

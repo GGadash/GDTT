@@ -92,10 +92,9 @@ try {
 
     $executableHash = (Get-FileHash -LiteralPath $executable -Algorithm SHA256).Hash.ToLowerInvariant()
     $archiveHash = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
-    $checksumLines = @(
-        "$archiveHash *$archiveName",
-        "$executableHash *GDTT/GDTT.exe"
-    )
+    # SHA256SUMS is a self-contained public-release checksum set. The unpacked executable
+    # remains integrity-recorded in BUILD_MANIFEST.json and is verified before archiving.
+    $checksumLines = @("$archiveHash *$archiveName")
     [IO.File]::WriteAllLines((Join-Path $outputRoot "SHA256SUMS.txt"), $checksumLines)
 
     $manifest = [ordered]@{

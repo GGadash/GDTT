@@ -68,3 +68,118 @@ jobs:
             packaging/output/RELEASE_CANDIDATE.md
             packaging/output/SHA256SUMS.txt
             packaging/output/VERIFY_CHECKSUMS.ps1
+
+  release:
+    name: Publish tagged GitHub release
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: package
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Download verified release candidate
+        uses: actions/download-artifact@v7
+        with:
+          name: GDTT-windows-x64
+          path: release-assets
+
+      - name: Validate tag and release assets
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          Set-StrictMode -Version Latest
+
+          $tag = $env:GITHUB_REF_NAME
+          $tagMatch = [regex]::Match(
+            $tag,
+            '^v(?<version>\d+\.\d+\.\d+)(?<suffix>-[0-9A-Za-z][0-9A-Za-z.-]*)?$'
+          )
+          if (-not $tagMatch.Success) {
+            throw "Release tags must use vMAJOR.MINOR.PATCH or a hyphenated pre-release suffix: $tag"
+          }
+
+          $assetRoot = [IO.Path]::GetFullPath("release-assets")
+          $manifestPath = Join-Path $assetRoot "BUILD_MANIFEST.json"
+          $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+          $tagVersion = $tagMatch.Groups["version"].Value
+          if ([string]$manifest.version -ne $tagVersion) {
+            throw "Tag version $tagVersion does not match built GDTT version $($manifest.version)."
+          }
+
+          $requiredNames = @(
+            [string]$manifest.archive.name,
+            [string]$manifest.installer.name,
+            [string]$manifest.sourceArchive.name,
+            "BUILD_MANIFEST.json",
+            "LOCAL_C_LITE.json",
+            "RELEASE_CANDIDATE.md",
+            "SHA256SUMS.txt",
+            "VERIFY_CHECKSUMS.ps1"
+          )
+          if (($requiredNames | Sort-Object -Unique).Count -ne $requiredNames.Count) {
+            throw "The release asset list contains duplicate names."
+          }
+          foreach ($name in $requiredNames) {
+            if ([IO.Path]::GetFileName($name) -ne $name) {
+              throw "Release asset names must be flat file names: $name"
+            }
+            $path = Join-Path $assetRoot $name
+            if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+              throw "Required release asset is missing: $name"
+            }
+          }
+
+          & (Join-Path $assetRoot "VERIFY_CHECKSUMS.ps1") -Directory $assetRoot
+
+      - name: Create GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          Set-StrictMode -Version Latest
+
+          $tag = $env:GITHUB_REF_NAME
+          & gh release view $tag --repo $env:GH_REPO *> $null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "Release $tag already exists; leaving its published assets unchanged."
+            exit 0
+          }
+
+          $manifest = Get-Content -LiteralPath "release-assets/BUILD_MANIFEST.json" -Raw | ConvertFrom-Json
+          $assetNames = @(
+            [string]$manifest.archive.name,
+            [string]$manifest.installer.name,
+            [string]$manifest.sourceArchive.name,
+            "BUILD_MANIFEST.json",
+            "LOCAL_C_LITE.json",
+            "RELEASE_CANDIDATE.md",
+            "SHA256SUMS.txt",
+            "VERIFY_CHECKSUMS.ps1"
+          )
+          $assets = @($assetNames | ForEach-Object { Join-Path "release-assets" $_ })
+          $notes = @"
+          Windows x64 assets were built and verified by GitHub Actions from the tagged commit.
+
+          Review the attached RELEASE_CANDIDATE.md for acceptance status and limitations. Verify
+          downloaded files with SHA256SUMS.txt and VERIFY_CHECKSUMS.ps1. The Windows executable
+          and installer are unsigned unless BUILD_MANIFEST.json states otherwise.
+          "@
+          $arguments = @(
+            "release", "create", $tag
+          ) + $assets + @(
+            "--repo", $env:GH_REPO,
+            "--verify-tag",
+            "--title", "GDTT $tag",
+            "--generate-notes",
+            "--notes", $notes
+          )
+          if ($tag.Contains("-")) {
+            $arguments += @("--prerelease", "--latest=false")
+          }
+          & gh @arguments
+          if ($LASTEXITCODE -ne 0) {
+            throw "GitHub Release creation failed for $tag."
+          }

@@ -52,7 +52,10 @@ Generated: $([DateTime]::UtcNow.ToString("o"))
 - [ ] Capture final Light and Dark release screenshots on that machine
 - [ ] Select a code-signing identity or explicitly approve an unsigned public release
 - [ ] Perform owner acceptance of the release-candidate artifacts
-- [ ] Configure Git remote, commit, push, tag, and publish only after owner authorization
+- [ ] Push a reviewed `v*` tag to authorize automatic GitHub Release publishing
+
+Hyphenated tags such as `v0.8.0-rc.1` publish as pre-releases. Stable tags such as `v0.8.0`
+publish as normal releases. A source push or manually dispatched package build never publishes.
 
 This is a locally isolated release candidate, not a final public release. Windows Sandbox was
 not used because it is unstable on the current host.

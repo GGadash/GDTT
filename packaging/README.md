@@ -64,3 +64,21 @@ Windows Sandbox is optional. Artifact-only and full source-rebuild instructions 
 physical or cloud Windows computer are in
 `About-Info/Human-Docs/RELEASE_ACCEPTANCE.md`; neither route requires hardware virtualization
 on the current computer.
+
+## Automatic GitHub Releases
+
+The Windows workflow publishes only for an explicitly pushed `v*` tag. It first completes the
+portable package, installer, source archive, and C-lite gates; downloads that exact verified
+Actions artifact into a separate least-privilege release job; validates the tag's base version
+against `BUILD_MANIFEST.json`; and verifies the self-contained release checksums before calling
+GitHub CLI.
+
+- `v0.8.0-rc.1` creates a pre-release and does not mark it Latest.
+- `v0.8.0` creates a normal release.
+- Branch pushes, pull requests, and manual workflow runs build temporary Actions artifacts but
+  never publish a Release.
+- An existing Release is left unchanged on a workflow rerun.
+
+The release job alone receives `contents: write`; the Windows build job and ordinary CI retain
+read-only repository permissions. Do not push a release tag until the owner has reviewed the
+candidate and explicitly accepted the applicable external/signing gates.

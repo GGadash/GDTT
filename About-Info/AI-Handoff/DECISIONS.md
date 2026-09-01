@@ -223,3 +223,16 @@
   other source outcomes.
 - **Decision:** A post-export action returns directly to source selection for another single file
   or compatible batch. It does not silently reuse hidden transformation rules.
+
+## D-023 — Explicit-tag automatic GitHub Release publishing
+
+- **Decision:** Only a pushed `v*` tag authorizes publication. Pull requests, branch pushes, and
+  manual workflow dispatches may produce temporary Actions artifacts but never a GitHub Release.
+- **Decision:** A dependent Ubuntu release job receives job-scoped `contents: write` only after
+  the read-only Windows package job passes. It downloads the exact Actions artifact, validates
+  the semantic tag base against the build manifest, verifies every downloadable checksum, and
+  publishes through GitHub CLI.
+- **Decision:** Hyphenated semantic tags publish as pre-releases and are not Latest. Stable tags
+  publish normally. Workflow reruns never replace assets on an existing release.
+- **Decision:** Public `SHA256SUMS.txt` covers the flat downloadable set; the unpacked executable
+  hash remains in `BUILD_MANIFEST.json` and is verified locally before the portable ZIP is made.

@@ -1,5 +1,16 @@
 # AI Handoff Changelog
 
+## 2026-09-02 — Automatic GitHub Release publishing
+
+- Added a tag-only dependent release job that downloads the verified Windows artifact and gives
+  `contents: write` only to the publication boundary.
+- Added strict semantic tag/build-manifest version matching, required flat-asset validation, and
+  downloaded checksum verification before GitHub CLI creates a Release.
+- Hyphenated `v*` tags create non-Latest pre-releases; stable tags create normal releases;
+  branch/manual builds never publish and reruns leave existing Release assets unchanged.
+- Made `SHA256SUMS.txt` self-contained for downloaded Release files while retaining and checking
+  the unpacked executable hash in `BUILD_MANIFEST.json`.
+
 ## 2026-09-01 — GDTT identity and compatible multi-file workflows
 
 - Standardized user-facing, package, executable, installer, archive, report, source-document, and

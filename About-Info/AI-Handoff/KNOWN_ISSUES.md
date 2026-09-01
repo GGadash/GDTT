@@ -35,3 +35,9 @@ Production Reformat/Averaging, writers, and verification now use batch/spill con
 longer apply the workflow-level 1 GB guard. A confirmed gap grid still blocks above 1,000,000
 expected rows. Polars/PyArrow vectorization remains an optional future optimization behind
 semantic-parity tests, not a current correctness dependency.
+
+## KI-006 — Release publication path awaits its first explicit tag
+
+The tag-triggered workflow is statically validated and ordinary Windows packaging has passed,
+but the publishing job cannot be exercised without creating a real GitHub tag and Release.
+Treat the first reviewed pre-release tag as the live end-to-end acceptance of that final job.

@@ -182,6 +182,10 @@ lifecycle, dependency inventory, reports, and checksums. A separate clean Window
 still precedes a final public release. See
 [`RELEASE_ACCEPTANCE.md`](About-Info/Human-Docs/RELEASE_ACCEPTANCE.md).
 
+Pushing an explicitly reviewed `v*` tag runs the Windows gates and automatically publishes the
+verified files to GitHub Releases. Hyphenated tags such as `v0.8.0-rc.1` become pre-releases;
+ordinary pushes and manual builds never publish.
+
 ## Repository map
 
 ```text
@@ -208,6 +212,5 @@ The project uses the license text in [`LICENSE`](LICENSE). It is created by Gada
 with OpenAI Codex as an AI-assisted development collaborator. Dependencies remain under
 their own licenses; see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
-No GitHub remote or project URL has been selected yet. Remote credentials will only be
-requested after the requested implementation is complete and the owner approves
-publication.
+Source, Actions results, and releases are hosted at
+[`GGadash/GDTT`](https://github.com/GGadash/GDTT).
