@@ -12,4 +12,4 @@
 | 7 | Averaging UI | Complete |
 | 8 | Export, report, templates, verification | Complete |
 | 9 | Performance and Windows packaging | In progress — A/B/D and local C-lite complete; separate clean-host C gate remains |
-| 10 | CI, GitHub, and release readiness | Local RC complete — finalized unpublished CI/build workflows; owner/Git release gates remain |
+| 10 | CI, GitHub, and release readiness | RC3 published — CI, packaging, checksums, and automatic pre-release path verified; clean-host/signing owner gates remain |

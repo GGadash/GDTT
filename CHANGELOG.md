@@ -45,6 +45,9 @@ semantic-style versioning while it matures.
 
 ### Fixed
 
+- Verified the corrected release path live with `v0.8.0-rc.3`: Windows packaging, installer,
+  source archive, C-lite, metadata finalization, checksum validation, artifact upload, and
+  non-draft GitHub pre-release publication all completed successfully.
 - Added the missing shared release-finalization step to tag builds so acceptance evidence and the
   portable checksum verifier are created before artifact upload and publication validation.
 - Pinned the Windows packaging workflow to the same immutable setup-uv v9 commit as CI after the

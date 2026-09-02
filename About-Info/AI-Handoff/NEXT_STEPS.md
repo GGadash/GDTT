@@ -16,8 +16,9 @@
 5. Decide code signing only after the owner provides or selects a signing identity; unsigned
    development artifacts remain valid for testing.
 6. Review the generated release-candidate artifacts and complete the clean-host evidence.
-7. RC1 exposed and corrected the setup-uv reference. RC2 passed the complete Windows build and
-   artifact upload, then exposed and corrected a missing shared release-finalization step. After
-   owner authorization, push `v0.8.0-rc.3` to exercise finalization and publication end to end.
+7. `v0.8.0-rc.3` completed CI, the Windows package/installer/source/C-lite gates, shared
+   finalization, artifact upload, and automatic GitHub pre-release publication. All eight
+   published assets were downloaded independently and their six content checksums passed the
+   included verifier. Preserve RC1 and RC2 as historical failure evidence; do not rewrite them.
 8. The source is published at `GGadash/GDTT`; keep GitHub CI green and continue to require
    explicit owner authorization for future commits, pushes, tags, and releases.

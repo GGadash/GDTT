@@ -35,11 +35,3 @@ Production Reformat/Averaging, writers, and verification now use batch/spill con
 longer apply the workflow-level 1 GB guard. A confirmed gap grid still blocks above 1,000,000
 expected rows. Polars/PyArrow vectorization remains an optional future optimization behind
 semantic-parity tests, not a current correctness dependency.
-
-## KI-006 — Release publication path awaits a successful tag run
-
-The first `v0.8.0-rc.1` tag exposed an unresolvable mutable setup-uv reference. RC2 then passed
-the entire Windows package, installer, source-archive, C-lite, and artifact-upload job, but its
-publication validator found that the workflow had not created `RELEASE_CANDIDATE.md` and
-`VERIFY_CHECKSUMS.ps1`. Both defects are fixed without rewriting either historical tag. A newly
-authorized pre-release tag must exercise finalization and publication end to end.

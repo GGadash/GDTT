@@ -18,6 +18,10 @@
   workflow had not called the checklist/verifier finalization logic.
 - Extracted that logic into `finalize_release_candidate.ps1`, invoked it from local and GitHub
   builds, and made it defensively remove nested non-downloadable checksum targets.
+- Pushed `v0.8.0-rc.3`; tag CI and the complete Windows build both passed, and the dependent
+  publication job created the non-draft GitHub pre-release with all eight required assets.
+- Independently downloaded the published assets and ran `VERIFY_CHECKSUMS.ps1`: all six content
+  entries passed, while all eight files were present, non-empty, uploaded, and digest-addressed.
 
 ## 2026-09-01 — GDTT identity and compatible multi-file workflows
 

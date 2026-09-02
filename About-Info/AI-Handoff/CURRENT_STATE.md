@@ -166,6 +166,10 @@ Last updated: 2026-09-02
 - Local and GitHub builds share one release finalizer that creates the acceptance checklist and
   portable verifier, updates the manifest/checksums, removes nested non-downloadable checksum
   targets, and verifies the complete flat asset set before upload.
+- The pushed `v0.8.0-rc.3` tag completed both GitHub workflows successfully. The Windows package
+  run published a non-draft pre-release with all eight expected assets; an independent download
+  of those assets passed the supplied verifier for all six content checksums, and the release
+  asset digests match the downloaded files.
 
 ## Unfinished
 
@@ -178,7 +182,8 @@ Last updated: 2026-09-02
 
 ## Exact next step
 
-Combinations A, B, and optional D are complete on the build host. Combination C is next: use a
+Combinations A, B, and optional D are complete on the build host, and the `v0.8.0-rc.3` GitHub
+pre-release is published and verified. Combination C is next: use a
 separate clean Windows environment for rebuild/install/launch/uninstall/dependency verification,
 including picker, drag/drop, compatible/incompatible batch, per-file verification, and
 continuation smoke tests. Then decide signing and finish release-readiness evidence. Local C-lite
