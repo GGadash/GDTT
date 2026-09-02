@@ -13,6 +13,11 @@
 - The first `v0.8.0-rc.1` trigger exposed an unresolvable mutable setup-uv `@v9` reference in
   the Windows packaging workflow. Replaced it with CI's verified immutable v9.0.0 commit; a new
   pre-release tag is required because published Git tags are not rewritten.
+- The `v0.8.0-rc.2` Windows build then passed portable packaging, installer, source archive,
+  C-lite, and Actions artifact upload. Publication validation correctly stopped because the
+  workflow had not called the checklist/verifier finalization logic.
+- Extracted that logic into `finalize_release_candidate.ps1`, invoked it from local and GitHub
+  builds, and made it defensively remove nested non-downloadable checksum targets.
 
 ## 2026-09-01 — GDTT identity and compatible multi-file workflows
 

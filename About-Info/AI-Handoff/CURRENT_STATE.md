@@ -163,6 +163,9 @@ Last updated: 2026-09-02
   release-candidate checklist are generated under ignored `packaging/output/`.
 - Public `SHA256SUMS.txt` entries now cover only flat downloadable Release files. The unpacked
   executable remains hashed and verified through `BUILD_MANIFEST.json` before ZIP publication.
+- Local and GitHub builds share one release finalizer that creates the acceptance checklist and
+  portable verifier, updates the manifest/checksums, removes nested non-downloadable checksum
+  targets, and verifies the complete flat asset set before upload.
 
 ## Unfinished
 

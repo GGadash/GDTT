@@ -33,6 +33,10 @@ silent temporary install, installed-app offscreen smoke, registration readback, 
 and cleanup check. Combination A is integrated in the current artifacts. They remain development
 artifacts until Combination C passes on a separate clean Windows environment.
 
+The shared `finalize_release_candidate.ps1` step creates the checklist and portable verifier,
+updates the manifest, removes non-downloadable nested checksum targets, and verifies the final
+flat asset set. Both the one-command local build and the tag-triggered GitHub workflow call it.
+
 The PyInstaller step removes non-system PATH directories exposing a private `icuuc.dll` while it
 freezes the app, then restores PATH. This prevents unrelated developer tools from shadowing the
 Windows ICU implementation used by Qt.

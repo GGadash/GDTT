@@ -52,6 +52,7 @@ def test_release_candidate_and_ci_contracts_are_versioned() -> None:
         "scripts/build_source_archive.ps1",
         "scripts/verify_c_lite.ps1",
         "scripts/verify_artifact_checksums.ps1",
+        "scripts/finalize_release_candidate.ps1",
         "scripts/build_release_candidate.ps1",
     )
     assert all(Path(path).is_file() for path in expected_scripts)
@@ -62,6 +63,7 @@ def test_release_candidate_and_ci_contracts_are_versioned() -> None:
     assert "run_representative_workflows.py" in ci
     assert "build_source_archive.ps1" in windows
     assert "verify_c_lite.ps1" in windows
+    assert "finalize_release_candidate.ps1" in windows
     assert "Publish tagged GitHub release" in windows
     assert "github.event_name == 'push'" in windows
     assert "actions/download-artifact@v7" in windows
@@ -76,3 +78,8 @@ def test_release_candidate_and_ci_contracts_are_versioned() -> None:
     build_script = Path("scripts/build_windows.ps1").read_text(encoding="utf-8")
     assert '"$executableHash *GDTT/GDTT.exe"' not in build_script
     assert "sha256 = $executableHash" in build_script
+
+    finalizer = Path("scripts/finalize_release_candidate.ps1").read_text(encoding="utf-8")
+    assert "RELEASE_CANDIDATE.md" in finalizer
+    assert "VERIFY_CHECKSUMS.ps1" in finalizer
+    assert ".*[/\\\\]" in finalizer

@@ -16,8 +16,8 @@
 5. Decide code signing only after the owner provides or selects a signing identity; unsigned
    development artifacts remain valid for testing.
 6. Review the generated release-candidate artifacts and complete the clean-host evidence.
-7. The `v0.8.0-rc.1` tag exposed and led to correction of an unresolvable mutable setup-uv
-   reference before packaging began. After owner authorization, push `v0.8.0-rc.2` to exercise
-   the corrected Windows build, verification, and GitHub Release publication.
+7. RC1 exposed and corrected the setup-uv reference. RC2 passed the complete Windows build and
+   artifact upload, then exposed and corrected a missing shared release-finalization step. After
+   owner authorization, push `v0.8.0-rc.3` to exercise finalization and publication end to end.
 8. The source is published at `GGadash/GDTT`; keep GitHub CI green and continue to require
    explicit owner authorization for future commits, pushes, tags, and releases.

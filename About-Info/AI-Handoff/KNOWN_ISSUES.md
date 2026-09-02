@@ -38,7 +38,8 @@ semantic-parity tests, not a current correctness dependency.
 
 ## KI-006 — Release publication path awaits a successful tag run
 
-The first `v0.8.0-rc.1` tag triggered correctly, but GitHub stopped the Windows package during
-runner setup because the mutable `astral-sh/setup-uv@v9` reference could not be resolved. The
-workflow now uses CI's verified immutable v9.0.0 commit. The existing tag is intentionally not
-rewritten; a newly authorized pre-release tag must exercise packaging and publication end to end.
+The first `v0.8.0-rc.1` tag exposed an unresolvable mutable setup-uv reference. RC2 then passed
+the entire Windows package, installer, source-archive, C-lite, and artifact-upload job, but its
+publication validator found that the workflow had not created `RELEASE_CANDIDATE.md` and
+`VERIFY_CHECKSUMS.ps1`. Both defects are fixed without rewriting either historical tag. A newly
+authorized pre-release tag must exercise finalization and publication end to end.

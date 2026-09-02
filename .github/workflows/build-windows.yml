@@ -53,6 +53,10 @@ jobs:
         shell: pwsh
         run: ./scripts/verify_c_lite.ps1
 
+      - name: Finalize release metadata and checksums
+        shell: pwsh
+        run: ./scripts/finalize_release_candidate.ps1
+
       - name: Upload verified release candidate
         uses: actions/upload-artifact@v7
         with:
