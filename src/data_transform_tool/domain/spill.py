@@ -13,10 +13,13 @@ import weakref
 from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from data_transform_tool.domain.batches import DEFAULT_BATCH_SIZE, DataBatch
 from data_transform_tool.domain.table import DataRow, DataTable
-from data_transform_tool.io.cancellation import CancellationToken
+
+if TYPE_CHECKING:
+    from data_transform_tool.io.cancellation import CancellationToken
 
 
 @dataclass(frozen=True)

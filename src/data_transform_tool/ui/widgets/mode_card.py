@@ -35,7 +35,7 @@ class ModeCard(QFrame):
         super().__init__()
         self.setProperty("role", "modeCard")
         self.setProperty("featured", featured)
-        self.setMinimumHeight(248)
+        self.setMinimumHeight(224)
         self.setAccessibleName(title)
 
         shadow = QGraphicsDropShadowEffect(self)
@@ -45,8 +45,8 @@ class ModeCard(QFrame):
         self.setGraphicsEffect(shadow)
 
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(24, 24, 24, 24)
-        layout.setSpacing(14)
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setSpacing(10)
 
         icon_row = QHBoxLayout()
         icon = QLabel(short_label)
@@ -59,6 +59,7 @@ class ModeCard(QFrame):
 
         title_label = QLabel(title)
         title_label.setProperty("role", "cardTitle")
+        title_label.setWordWrap(True)
         layout.addWidget(title_label)
 
         description_label = QLabel(description)

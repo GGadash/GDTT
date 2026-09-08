@@ -1,5 +1,23 @@
 # AI Handoff Changelog
 
+## 2026-09-08 — 0.9.0 Split & Join
+
+- Final source checks: 162 tests, 107-file strict typing, Ruff, and the 238-file hygiene audit
+  passed. Native light/dark and compact previews were inspected. Hidden calendar settings do
+  not apply validation rules to unrelated field operations.
+- Local 0.9.0 portable/installer/source artifacts and C-lite acceptance passed. The executable
+  exercises all four new actions in its smoke contract. Unsigned/clean-host limitations remain.
+
+- Added a separate four-action workflow for field groups, timestamp parameter joins,
+  chronological concatenation and period splitting/regrouping, with background workers.
+- Kept Reformat/Averaging processing intact; changed their timezone help text and Home layout.
+  Added independent configuration, documentation and operation-specific automatic output names.
+- Focused tests exposed and resolved an annotation import cycle, Qt string-enum conversion,
+  and Windows SQLite handle cleanup on aborted joins.
+- Added synthetic checks for all four operations to the executable's smoke contract.
+- Updated version to 0.9.0 with locked dependencies. Owner subsequently authorized a source
+  commit/push after local build completion; no new release tag has been requested.
+
 ## 2026-09-02 — Automatic GitHub Release publishing
 
 - Added a tag-only dependent release job that downloads the verified Windows artifact and gives

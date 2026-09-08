@@ -6,7 +6,8 @@ Copyright (c) 2026 Akila DJ +. AI-assisted development: OpenAI Codex.
 from __future__ import annotations
 
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QGridLayout, QLabel, QVBoxLayout, QWidget
+from PySide6.QtGui import QResizeEvent
+from PySide6.QtWidgets import QGridLayout, QLabel, QScrollArea, QVBoxLayout, QWidget
 
 from data_transform_tool.ui.widgets.mode_card import ModeCard
 
@@ -16,11 +17,19 @@ class HomeView(QWidget):
 
     reformat_requested = Signal()
     averaging_requested = Signal()
+    split_join_requested = Signal()
 
     def __init__(self) -> None:
         super().__init__()
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(48, 38, 48, 38)
+        outer = QVBoxLayout(self)
+        outer.setContentsMargins(0, 0, 0, 0)
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        content = QWidget()
+        layout = QVBoxLayout(content)
+        layout.setContentsMargins(30, 24, 30, 24)
+        scroll.setWidget(content)
+        outer.addWidget(scroll)
         layout.setSpacing(12)
 
         eyebrow = QLabel("PRIVATE DATA WORKSPACE  •  LOCAL  •  VERIFIABLE")
@@ -40,7 +49,7 @@ class HomeView(QWidget):
         subtitle.setWordWrap(True)
         subtitle.setMaximumWidth(900)
         layout.addWidget(subtitle)
-        layout.addSpacing(22)
+        layout.addSpacing(10)
 
         section_title = QLabel("Choose a workflow")
         section_title.setProperty("role", "sectionTitle")
@@ -75,20 +84,20 @@ class HomeView(QWidget):
         averaging.activated.connect(self.averaging_requested)
         cards.addWidget(averaging, 0, 1)
 
-        future = ModeCard(
-            short_label="+",
-            title="Future processing modes",
+        splitter = ModeCard(
+            short_label="S/J",
+            title="Split / Join",
             description=(
-                "The architecture reserves room for additional verification and environmental "
-                "data workflows without crowding the current experience."
+                "Split parameters or calendar periods; join fields by timestamp or combine "
+                "time-series files with explicit timezone boundaries and verified outputs."
             ),
-            button_text="Planned",
-            enabled=False,
+            button_text="Start splitting / joining",
         )
-        cards.addWidget(future, 0, 2)
-        cards.setColumnStretch(0, 1)
-        cards.setColumnStretch(1, 1)
-        cards.setColumnStretch(2, 1)
+        splitter.activated.connect(self.split_join_requested)
+        self._cards = (reformat, averaging, splitter)
+        self._card_layout = cards
+        self._card_columns = 0
+        self._reflow_cards()
         layout.addLayout(cards)
         layout.addStretch()
 
@@ -99,3 +108,18 @@ class HomeView(QWidget):
         privacy.setProperty("role", "muted")
         privacy.setWordWrap(True)
         layout.addWidget(privacy)
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        super().resizeEvent(event)
+        self._reflow_cards()
+
+    def _reflow_cards(self) -> None:
+        columns = max(1, min(3, (self.width() - 60) // 320))
+        if columns == self._card_columns:
+            return
+        self._card_columns = columns
+        for index, card in enumerate(self._cards):
+            self._card_layout.removeWidget(card)
+            self._card_layout.addWidget(card, index // columns, index % columns)
+        for column in range(3):
+            self._card_layout.setColumnStretch(column, 1 if column < columns else 0)

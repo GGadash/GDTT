@@ -1,6 +1,26 @@
 # Current State
 
-Last updated: 2026-09-02
+Last updated: 2026-09-08
+
+## 0.9.0 local development update
+
+- Added the independent `split_join/` engine and `app/split_join_workflow.py`, exposed through
+  `ui/views/split_join_view.py`. Four actions support parameter groups, exact timestamp matching,
+  chronological concatenation and configurable timezone-aware calendar/season splitting.
+- Per-source formats, worksheets, timestamp fields and zones can differ. Existing readers,
+  spill storage, writers and reopen verification are reused; existing recipe schemas remain intact.
+- Home cards adapt to width and show three working workflows. UTC/Colombo/custom choices are
+  clarified. All new behavior is documented in `About-Info/Human-Docs/SPLIT_JOIN.md`.
+- All 162 tests passed, including 26 focused cases and a worker-driven UI prepare/export cycle.
+  Ruff formatting/lint, strict mypy (107 source files), and the 238-file source audit passed.
+  Native light/dark and compact-layout previews were inspected.
+- Local 0.9.0 portable EXE/ZIP, current-user NSIS EXE installer, and audited source ZIP passed.
+  Packaged smoke exercises all four Split & Join actions. Installer install/launch/registration/
+  uninstall and fresh-extraction C-lite checks passed, including CSV/TSV/XLSX acceptance.
+  Generated manifests, reports, and checksums are under ignored `packaging/output/`.
+  These artifacts are unsigned; a separate clean Windows computer is still an external gate.
+- The owner now authorizes a source commit/push after the local builds are complete and a
+  completion message is displayed. No new release tag has been requested.
 
 ## What works
 

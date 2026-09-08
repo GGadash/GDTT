@@ -303,7 +303,16 @@ class AveragingConfigurationView(QWidget):
         self.reporting_timezone_combo = QComboBox()
         self.reporting_timezone_combo.setEditable(True)
         self.reporting_timezone_combo.addItems(timezone_choices)
+        for control in (self.timezone_combo, self.reporting_timezone_combo):
+            control.setToolTip(
+                "UTC; Asia/Colombo = UTC+05:30 (+5.5 hours). Type a custom IANA timezone here."
+            )
         form.addRow("Reporting boundary zone", self.reporting_timezone_combo)
+        zone_help = QLabel(
+            "UTC · Asia/Colombo (UTC+05:30 / +5.5 hours) · Custom: type an IANA zone"
+        )
+        zone_help.setWordWrap(True)
+        form.addRow(zone_help)
         self.reporting_timezone_confirm_check = QCheckBox("Confirmed")
         form.addRow("Reporting-zone decision", self.reporting_timezone_confirm_check)
         self.interval_combo = QComboBox()

@@ -8,6 +8,7 @@ from __future__ import annotations
 from typing import cast
 
 from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QCloseEvent
 from PySide6.QtWidgets import (
     QApplication,
     QComboBox,
@@ -40,6 +41,7 @@ from data_transform_tool.ui.views.configuration_view import ReformatConfiguratio
 from data_transform_tool.ui.views.export_view import ExportView
 from data_transform_tool.ui.views.home_view import HomeView
 from data_transform_tool.ui.views.inspection_view import FileInspectionView
+from data_transform_tool.ui.views.split_join_view import SplitJoinView
 
 
 class MainWindow(QMainWindow):
@@ -67,6 +69,14 @@ class MainWindow(QMainWindow):
         self.configuration_view = ReformatConfigurationView()
         self.averaging_view = AveragingConfigurationView()
         self.export_view = ExportView()
+        self.split_join_view = SplitJoinView()
+        self.home_view.split_join_requested.connect(
+            lambda: self.stack.setCurrentWidget(self.split_join_view)
+        )
+        self.split_join_view.back_requested.connect(
+            lambda: self.stack.setCurrentWidget(self.home_view)
+        )
+        self.stack.addWidget(self.split_join_view)
         self._reformat_inspection: FileInspection | None = None
         self._averaging_inspection: FileInspection | None = None
         self._reformat_inspections: tuple[FileInspection, ...] = ()
@@ -78,6 +88,7 @@ class MainWindow(QMainWindow):
             lambda: self.stack.setCurrentWidget(self.averaging_inspection_view)
         )
         self.stack.addWidget(self.home_view)
+        self.stack.setCurrentWidget(self.home_view)
         self.inspection_view.back_requested.connect(
             lambda: self.stack.setCurrentWidget(self.home_view)
         )
@@ -163,7 +174,7 @@ class MainWindow(QMainWindow):
         footer.setProperty("role", "footer")
         layout = QHBoxLayout(footer)
         layout.setContentsMargins(30, 10, 30, 10)
-        left = QLabel(f"Version {__version__} • Phase 8 verified export workspace")
+        left = QLabel(f"Version {__version__} • Verified data workspace")
         left.setProperty("role", "muted")
         layout.addWidget(left)
         layout.addStretch()
@@ -174,6 +185,17 @@ class MainWindow(QMainWindow):
 
     def _show_about(self) -> None:
         AboutDialog(self).exec()
+
+    def closeEvent(self, event: QCloseEvent) -> None:
+        if self.split_join_view.busy:
+            self.split_join_view.token.cancel()
+            self.split_join_view.status.setText(
+                "Cancelling the active operation. Close again after it stops."
+            )
+            event.ignore()
+            return
+        self.split_join_view._invalidate()
+        super().closeEvent(event)
 
     def _on_theme_selected(self) -> None:
         selected = cast(ThemePreference, self.theme_selector.currentData())

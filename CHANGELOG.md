@@ -5,6 +5,34 @@ semantic-style versioning while it matures.
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-09-08
+
+### Added
+
+- Automatic Split & Join output names with source/group/date details, collision-safe ordinals,
+  operation suffixes and exact filename previews for CSV and both Excel styles.
+- Separate Data Splitter & Joiner: individual/named parameter groups with shared metadata,
+  timestamp-based outer/inner/left field joins, chronological time-series joining, and
+  year/month/week/quarter/custom-season/day splitting or regrouping.
+- Per-source worksheet/header/encoding/delimiter, timestamp format, field selection and timezone;
+  independent boundary/output zone with UTC, Colombo, IANA and fixed-offset choices.
+- Configurable local period start time, week start, month/quarter start day, quarter/year month,
+  annual date and named seasonal boundaries; exact instant matching and explicit overlap policies.
+- Disk-backed full-source preparation, per-output samples/counts, cancellable background work,
+  atomic publication of a new run folder, CSV/plain/formatted Excel verification and JSON evidence.
+- Synthetic coverage for the new temporal and join contracts; all four paths also run in the
+  packaged executable smoke test. New behavior does not alter version-1 Reformat/Averaging recipes.
+
+### Changed
+
+- Home cards adapt to window size and replace the placeholder with Split / Join. No AQI or
+  other future module placeholder is shown. Existing timezone controls now explain Colombo's
+  UTC+05:30 / +5.5-hour offset and custom IANA input.
+- Moved the spill store's annotation-only cancellation import behind TYPE_CHECKING to remove
+  an import cycle exposed by the new workflow's standalone entry point.
+
+## Earlier unreleased work (included in 0.8.0 RC3)
+
 ### Added
 
 - GDTT product identity across UI, About metadata, executable, installer, archives, reports,

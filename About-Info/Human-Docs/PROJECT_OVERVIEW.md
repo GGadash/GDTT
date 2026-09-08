@@ -9,10 +9,14 @@ values, and expected sampling grids; calculate completeness-aware aggregates; ex
 and XLSX; and reopen outputs for verification. Every material inference is visible and
 overridable. Source datasets are never overwritten by default or uploaded.
 
-The product is being delivered in specification-defined phases. Version 0.8.0 provides working
+The product is being delivered in specification-defined phases. Version 0.9.0 provides working
 source inspection; reversible Reformat and Averaging configuration/proposed-preview workspaces;
 spill-backed full-file execution; CSV and plain/formatted XLSX output; reports and versioned
 local templates; streamed post-export reopen verification; and build-host-verified portable and
 installer artifacts. Single-file and compatible multi-file inputs can be browsed or dropped;
 batch files are schema-checked against the first reference file and exported with independent
 verification evidence. Separate clean-Windows release validation remains in Phase 9.
+
+The separate Data Splitter & Joiner supports field groups, exact timestamp parameter joins,
+chronological file joining, and calendar/season splitting. It has per-source formats/timezones,
+explicit boundary times/zones, preview, background cancellation, and verified new-folder exports.

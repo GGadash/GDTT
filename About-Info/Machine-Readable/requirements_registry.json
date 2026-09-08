@@ -310,6 +310,42 @@
       "documentation_reference": "About-Info/Git-GitHub/GITHUB_RELEASE_GUIDE.md"
     },
     {
+      "id": "SJ-001",
+      "description": "Split parameters into individual or named groups with timestamp and shared metadata; join parameters by exact timestamp with outer/inner/left matching and explicit duplicate handling.",
+      "module": "split_join/engine.py; split_join/models.py",
+      "status": "implemented_local",
+      "test_reference": "tests/unit/test_split_join.py",
+      "implementation_symbol": "create_outputs",
+      "documentation_reference": "About-Info/Human-Docs/SPLIT_JOIN.md"
+    },
+    {
+      "id": "SJ-002",
+      "description": "Split or join and regroup time-series data by configurable year/month/week/quarter/season/day boundaries using per-source timezones, a boundary timezone, and local start time.",
+      "module": "split_join/temporal.py; split_join/engine.py",
+      "status": "implemented_local",
+      "test_reference": "tests/unit/test_split_join.py",
+      "implementation_symbol": "SplitPeriods",
+      "documentation_reference": "About-Info/Human-Docs/SPLIT_JOIN.md"
+    },
+    {
+      "id": "SJ-003",
+      "description": "Expose a separate adaptive Home entry and Split & Join view with browse/drop input, per-file format decisions, bounded previews, cancellation, automatic descriptive filenames, verified multi-file export and reports.",
+      "module": "ui/views/split_join_view.py; app/split_join_workflow.py; split_join/naming.py",
+      "status": "implemented_local",
+      "test_reference": "tests/integration/test_split_join_view.py; tests/unit/test_split_join.py",
+      "implementation_symbol": "SplitJoinView",
+      "documentation_reference": "About-Info/Human-Docs/SPLIT_JOIN.md"
+    },
+    {
+      "id": "SJ-004",
+      "description": "Build versioned Windows portable and EXE installer artifacts whose executable smoke contract exercises all four Split & Join operations.",
+      "module": "app/split_join_smoke.py; __main__.py; scripts/build_release_candidate.ps1",
+      "status": "implemented_local_build_verified",
+      "test_reference": "tests/unit/test_split_join.py; packaged --smoke-test",
+      "implementation_symbol": "run_split_join_smoke",
+      "documentation_reference": "About-Info/Human-Docs/SPLIT_JOIN.md"
+    },
+    {
       "id": "GIT-001",
       "description": "Use local Git safely without automatic commit or push.",
       "module": ".git; About-Info/Git-GitHub",

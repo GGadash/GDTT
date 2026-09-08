@@ -1,8 +1,9 @@
 # Known Issues
 
-## KI-001 — Future modes remain placeholders
+## KI-001 — Future modes remain outside the current scope
 
-Merge/Join, Split, and Reshape/Pivot remain future-mode cards. Reformat and Averaging now include
+Reshape/Pivot and AQI are not implemented and have no reserved Home cards. Version 0.9.0 adds
+the separate Data Splitter & Joiner. Reformat and Averaging include
 working single/multi-file picker and drag/drop inspection, compatibility blocking, configuration,
 bounded reference preview, batch/spill full-file review, per-source export/report/reopen
 verification, templates, and a Process more similar files continuation path.

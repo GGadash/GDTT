@@ -4,7 +4,7 @@
 desktop application for data forging, transitions, and aggregations—mainly for
 air-quality-related and other environmental time-series data.
 
-> Development status: **0.8.0 local release candidate / Phase 9 in progress**. Reformat and Averaging now
+> Development status: **0.9.0 local build / Split & Join added**. Reformat and Averaging now
 > continue from bounded previews into spill-backed full-file execution, CSV/XLSX output, processing
 > reports, local templates, and post-export reopen verification. The measured large-file backend
 > and CI checkpoint is complete; verified Windows portable and current-user installer builds now
@@ -42,7 +42,9 @@ The current desktop interface contains:
 - visible post-export Passed / Passed with Warnings / Failed evidence for every data output;
 - deterministic per-source batch output names, reports, reopen verification, isolated failure
   results, and a **Process more similar files** continuation action;
-- reserved space for future processing modes;
+- a separate **Data Splitter & Joiner** for fields, named parameter groups, timestamp joins,
+  chronological concatenation, and calendar/season splitting with explicit timezone boundaries;
+- adaptive Home cards that wrap as modules are added, with no unused module placeholders;
 - Dark, Light, Auto, and System themes, with Auto as the clean-install default;
 - explicit offline/privacy and development-status information.
 
@@ -50,6 +52,9 @@ The Phase 2 inspection view reports file structure, inferred column types and co
 potential missing markers, likely timestamps and intervals, empty columns, processing
 strategy, and bounded first/middle/last previews. Consequential detections remain visible
 and overridable.
+
+See the [Split & Join guide](About-Info/Human-Docs/SPLIT_JOIN.md) for the four operations,
+timezone/format choices, custom period starts, duplicate policies, and export verification.
 
 ## Transformation engine
 

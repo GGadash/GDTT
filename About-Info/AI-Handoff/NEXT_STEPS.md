@@ -1,5 +1,14 @@
 # Next Steps
 
+## Current owner request: 0.9.0 Split & Join
+
+Local 0.9.0 tests, layout checks, portable/installer verification, automatic output names, and
+C-lite acceptance are complete. Display a completion message, then commit and push the source, as
+authorized on 2026-09-08. This supersedes the earlier local-only instruction. Do not invent a
+stable release tag. See `Human-Docs/SPLIT_JOIN.md` for owner testing of the new workflow.
+
+## Existing external acceptance gates
+
 1. Combination A, Combination B, and optional Combination D are complete on this Windows build
    host.
 2. Local Combination C-lite is complete. Combination C's remaining external gate is to use a

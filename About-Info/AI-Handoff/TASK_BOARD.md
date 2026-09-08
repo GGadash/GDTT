@@ -1,5 +1,9 @@
 # Task Board
 
+Version 0.9.0 adds the separate Split & Join module under SJ-001 through SJ-004. All 162 tests,
+native layout checks, portable/installer builds, and local C-lite acceptance passed. Source
+commit/push is owner-authorized after displaying completion; no new release tag is authorized.
+
 | Phase | Scope | Status |
 |---|---|---|
 | 0 | Architecture and technology decision | Complete |

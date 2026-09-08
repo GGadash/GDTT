@@ -339,6 +339,12 @@ class ReformatConfigurationView(QWidget):
         for zone in ("UTC", "Asia/Colombo", "Asia/Kolkata", "Europe/London", "America/New_York"):
             self.target_timezone_combo.addItem(zone, zone)
         form.addRow("Target timezone", self.target_timezone_combo)
+        zone_help = QLabel(
+            "UTC · Asia/Colombo (UTC+05:30 / +5.5 hours) · Custom IANA zone; "
+            "manual source offset is also available."
+        )
+        zone_help.setWordWrap(True)
+        form.addRow(zone_help)
         self.gap_behavior_combo = QComboBox()
         for label, gap_value in (
             ("Null", GapBehaviorChoice.NULL),

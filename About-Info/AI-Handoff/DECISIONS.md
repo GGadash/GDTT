@@ -1,5 +1,23 @@
 # Decisions
 
+## D-024 — Separate Split & Join module (2026-09-08)
+
+- Reuse readers, private spill storage, established period definitions, writers and verification.
+  Keep new configuration independent of version-1 transformation recipes.
+- Match exact instants including microseconds; honor embedded offsets, localize naive timestamps
+  in each source's zone, and export ISO text with offsets in the boundary/output zone.
+- Calendar periods include the start and exclude the end. Seasonal boundaries recur annually;
+  ambiguous/nonexistent DST source times or boundaries block. Monthly/quarterly day starts use
+  1-28; annual starts accept any valid recurring non-leap calendar date.
+- Joins stop on duplicate keys by default; first/last policies follow source-file then row order.
+  Time joins may keep all; field joins use outer/inner/left matching and source-number prefixes.
+- Export into a new run folder after every file passes verification. Automatic names include
+  source/group/date information, stable ordinals and operation-specific suffixes. No aggregation,
+  gap filling, interpolation, source overwriting, or hidden rule persistence occurs.
+- Complete the local 0.9.0 builds first, report completion, then commit/push as authorized by the
+  owner on 2026-09-08. This supersedes the earlier no-push instruction. Use focused checks during
+  development and one final full-suite pass before packaging.
+
 ## D-001 — Product identity
 
 - **Decision:** The canonical short product name is **GDTT**. The formal descriptive identity is

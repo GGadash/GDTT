@@ -47,6 +47,7 @@ def main(arguments: Sequence[str] | None = None) -> int:
     from data_transform_tool import __version__
     from data_transform_tool.app.bootstrap import build_application
     from data_transform_tool.app.metadata import PRODUCT_NAME
+    from data_transform_tool.app.split_join_smoke import run_split_join_smoke
 
     _trace(trace_stream, "imports-complete")
     qt_arguments = [argument for argument in resolved if argument != "--smoke-test"]
@@ -61,8 +62,15 @@ def main(arguments: Sequence[str] | None = None) -> int:
             window.windowTitle() == PRODUCT_NAME,
             window.home_view is not None,
             window.export_view is not None,
+            window.split_join_view is not None,
         )
     )
+    try:
+        run_split_join_smoke()
+        _trace(trace_stream, "split-join-smoke=passed")
+    except Exception as error:
+        _trace(trace_stream, f"split-join-smoke=failed: {type(error).__name__}: {error}")
+        passed = False
     window.close()
     app.processEvents()
     _trace(trace_stream, f"smoke-result={0 if passed else 2}")
