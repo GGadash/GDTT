@@ -1,5 +1,11 @@
 # AI Handoff Changelog
 
+## 2026-09-08 — 0.9.0-rc.1 published and independently verified
+
+- Annotated tag `v0.9.0-rc.1` targets `dd9ebc6`. Build/release run `34179163485` and both CI runs
+  succeeded. All eight Release assets downloaded; six content checksums and eight GitHub asset
+  digests matched. No binary assets entered Git history. Separate clean-Windows/signing remain.
+
 ## 2026-09-08 — 0.9.0 binary publication authorized
 
 - The owner requested binaries on GitHub, including necessary release tags. Use the existing

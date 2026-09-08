@@ -7,6 +7,9 @@ semantic-style versioning while it matures.
 
 ## [0.9.0] - 2026-09-08
 
+Published as `v0.9.0-rc.1` with verified Windows portable ZIP, current-user EXE installer,
+source ZIP, acceptance evidence, and checksums. Unsigned; separate clean-host acceptance remains.
+
 ### Added
 
 - Automatic Split & Join output names with source/group/date details, collision-safe ordinals,

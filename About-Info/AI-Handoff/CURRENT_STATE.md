@@ -19,9 +19,10 @@ Last updated: 2026-09-08
   uninstall and fresh-extraction C-lite checks passed, including CSV/TSV/XLSX acceptance.
   Generated manifests, reports, and checksums are under ignored `packaging/output/`.
   These artifacts are unsigned; a separate clean Windows computer is still an external gate.
-- Source commit `a454040` was pushed to `main`; Windows/Linux CI passed. The owner subsequently
-  authorized binary publication and necessary release tags. Publish `v0.9.0-rc.1` through the
-  existing verified workflow as a pre-release, retaining the unsigned/clean-host limitations.
+- `v0.9.0-rc.1` at `dd9ebc6` is published as a non-draft GitHub pre-release. Windows/Linux CI
+  and Windows build/release run `34179163485` passed. All eight published assets were independently
+  downloaded: six content checksums and all eight GitHub asset digests matched. The unsigned/
+  separate-clean-host limitations remain; no stable release or tag replacement was performed.
 
 ## What works
 

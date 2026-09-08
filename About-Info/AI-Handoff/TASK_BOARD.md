@@ -2,7 +2,7 @@
 
 Version 0.9.0 adds the separate Split & Join module under SJ-001 through SJ-004. All 162 tests,
 native layout checks, portable/installer builds, and local C-lite acceptance passed. Source
-was pushed with green CI. The owner subsequently authorized binary publication as `v0.9.0-rc.1`.
+and `v0.9.0-rc.1` binaries are published with green CI/release workflows and verified downloads.
 
 | Phase | Scope | Status |
 |---|---|---|

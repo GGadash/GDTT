@@ -3,9 +3,9 @@
 ## Current owner request: 0.9.0 Split & Join
 
 Local 0.9.0 tests, layout checks, portable/installer verification, automatic output names, and
-C-lite acceptance are complete. Source is pushed and Windows/Linux CI passed. The owner now
-authorizes binary publication: push the annotated `v0.9.0-rc.1` tag, await automated verification
-and publication, then independently download and verify all eight Release assets. Keep this a
+C-lite acceptance are complete. `v0.9.0-rc.1` is published with all eight assets; Windows/Linux CI,
+the Windows release workflow, six downloaded content checksums, and eight asset digests passed.
+Next, test the downloaded portable/installer builds on a separate Windows computer. Keep this a
 pre-release until the external acceptance gates below are completed.
 
 ## Existing external acceptance gates
