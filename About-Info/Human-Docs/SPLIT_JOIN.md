@@ -81,8 +81,8 @@ to output representation; existing source values are preserved.
 
 Version 0.9.0 portable EXE/ZIP, current-user EXE installer, and audited source ZIP were built
 and verified locally. All 162 automated tests and local C-lite acceptance passed. The owner
-authorized a subsequent source commit/push; a new GitHub release tag is not part of this
-instruction, so pushing source alone does not publish new binary downloads.
+authorized source publication and subsequently requested binary publication. The `v0.9.0-rc.1`
+pre-release uses the existing tagged build/verification workflow to publish downloadable assets.
 The Windows executable smoke test includes synthetic split-time, split-field, join-time, and
 join-field operations with CSV and Excel export/reopen verification. The usual separate clean
 Windows acceptance and code-signing decisions remain external gates.

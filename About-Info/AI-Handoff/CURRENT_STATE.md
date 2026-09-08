@@ -19,8 +19,9 @@ Last updated: 2026-09-08
   uninstall and fresh-extraction C-lite checks passed, including CSV/TSV/XLSX acceptance.
   Generated manifests, reports, and checksums are under ignored `packaging/output/`.
   These artifacts are unsigned; a separate clean Windows computer is still an external gate.
-- The owner now authorizes a source commit/push after the local builds are complete and a
-  completion message is displayed. No new release tag has been requested.
+- Source commit `a454040` was pushed to `main`; Windows/Linux CI passed. The owner subsequently
+  authorized binary publication and necessary release tags. Publish `v0.9.0-rc.1` through the
+  existing verified workflow as a pre-release, retaining the unsigned/clean-host limitations.
 
 ## What works
 

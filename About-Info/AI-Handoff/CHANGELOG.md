@@ -1,5 +1,10 @@
 # AI Handoff Changelog
 
+## 2026-09-08 — 0.9.0 binary publication authorized
+
+- The owner requested binaries on GitHub, including necessary release tags. Use the existing
+  verified publishing workflow with `v0.9.0-rc.1`; retain the separate clean-host/signing gates.
+
 ## 2026-09-08 — 0.9.0 Split & Join
 
 - Final source checks: 162 tests, 107-file strict typing, Ruff, and the 238-file hygiene audit

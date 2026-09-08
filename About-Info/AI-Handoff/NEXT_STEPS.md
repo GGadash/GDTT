@@ -3,9 +3,10 @@
 ## Current owner request: 0.9.0 Split & Join
 
 Local 0.9.0 tests, layout checks, portable/installer verification, automatic output names, and
-C-lite acceptance are complete. Display a completion message, then commit and push the source, as
-authorized on 2026-09-08. This supersedes the earlier local-only instruction. Do not invent a
-stable release tag. See `Human-Docs/SPLIT_JOIN.md` for owner testing of the new workflow.
+C-lite acceptance are complete. Source is pushed and Windows/Linux CI passed. The owner now
+authorizes binary publication: push the annotated `v0.9.0-rc.1` tag, await automated verification
+and publication, then independently download and verify all eight Release assets. Keep this a
+pre-release until the external acceptance gates below are completed.
 
 ## Existing external acceptance gates
 
