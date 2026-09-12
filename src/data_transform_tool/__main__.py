@@ -72,6 +72,21 @@ def main(arguments: Sequence[str] | None = None) -> int:
         _trace(trace_stream, f"split-join-smoke=failed: {type(error).__name__}: {error}")
         passed = False
     window.close()
+    try:
+        from decimal import Decimal
+
+        from data_transform_tool.datetime.custom_formats import FieldFormat
+
+        numeric = FieldFormat("number", "0.00", ",")
+        assert numeric.number("1,2345", parsing=True) == Decimal("1.2345")
+        assert numeric.display(Decimal("1.2345"), csv=True) == "1,23"
+        assert FieldFormat("number", "0.00", preserve=True).number(Decimal("1.2345")) == Decimal(
+            "1.2345"
+        )
+        _trace(trace_stream, "custom-format-smoke=passed")
+    except Exception as error:
+        _trace(trace_stream, f"custom-format-smoke=failed: {type(error).__name__}: {error}")
+        passed = False
     app.processEvents()
     _trace(trace_stream, f"smoke-result={0 if passed else 2}")
     faulthandler.cancel_dump_traceback_later()

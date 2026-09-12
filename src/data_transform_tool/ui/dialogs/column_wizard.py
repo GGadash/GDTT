@@ -6,7 +6,6 @@ Copyright (c) 2026 Akila DJ +. AI-assisted development: OpenAI Codex.
 from __future__ import annotations
 
 from dataclasses import replace
-from typing import cast
 
 from PySide6.QtWidgets import (
     QCheckBox,
@@ -17,6 +16,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QLineEdit,
     QPushButton,
+    QScrollArea,
     QVBoxLayout,
     QWidget,
 )
@@ -26,8 +26,8 @@ from data_transform_tool.app.reformat_configuration import (
     TransformChoice,
 )
 from data_transform_tool.app.reformat_preview import proposed_column_samples
-from data_transform_tool.datetime.profiles import DateTimeProfileRegistry
 from data_transform_tool.io.models import FileInspection, SemanticType
+from data_transform_tool.ui.widgets.field_controls import ProfileCombo
 
 
 class SequentialColumnWizard(QDialog):
@@ -67,12 +67,19 @@ class SequentialColumnWizard(QDialog):
         for item in SemanticType:
             self.output_type_combo.addItem(item.value, item)
         form.addRow("Output type", self.output_type_combo)
-        self.input_profile_combo = QComboBox()
-        self.output_profile_combo = QComboBox()
-        _populate_profiles(self.input_profile_combo, "Auto / unchanged")
-        _populate_profiles(self.output_profile_combo, "As source")
+        self.input_profile_combo = ProfileCombo(input_profile=True)
+        self.output_profile_combo = ProfileCombo()
         form.addRow("Input profile", self.input_profile_combo)
+        self.input_decimal = QComboBox()
+        self.input_decimal.addItems([".", ","])
+        form.addRow("Input decimal separator", self.input_decimal)
         form.addRow("Output format", self.output_profile_combo)
+        self.output_decimal = QComboBox()
+        self.output_decimal.addItems([".", ","])
+        self.output_decimal.setToolTip("Preview/CSV separator; Excel uses regional settings.")
+        form.addRow("Output decimal separator", self.output_decimal)
+        self.preserve_precision = QCheckBox("Keep precision; format Excel display only")
+        form.addRow("Numeric export", self.preserve_precision)
         self.transform_combo = QComboBox()
         for label, value in (
             ("Keep as is", TransformChoice.KEEP),
@@ -82,7 +89,14 @@ class SequentialColumnWizard(QDialog):
         ):
             self.transform_combo.addItem(label, value)
         form.addRow("Transformation", self.transform_combo)
-        root.addLayout(form)
+        form.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
+        form_widget = QWidget()
+        form_widget.setLayout(form)
+        form_scroll = QScrollArea()
+        form_scroll.setWidgetResizable(True)
+        form_scroll.setWidget(form_widget)
+        form_scroll.setMinimumHeight(180)
+        root.addWidget(form_scroll, 2)
 
         root.addWidget(QLabel("Live samples"))
         self.samples_label = QLabel()
@@ -111,6 +125,18 @@ class SequentialColumnWizard(QDialog):
         actions.addWidget(self.finish_button)
         root.addLayout(actions)
         self._load_current()
+        self.output_type_combo.activated.connect(self._type_changed)
+
+    def _type_changed(self) -> None:
+        kind = str(self.output_type_combo.currentData())
+        numeric = kind in {SemanticType.INTEGER, SemanticType.DECIMAL}
+        self.output_profile_combo.load(None, kind)
+        self.output_decimal.setCurrentText(".")
+        self.preserve_precision.setChecked(False)
+        self.output_decimal.setEnabled(numeric)
+        self.preserve_precision.setEnabled(numeric)
+        self.transform_combo.setCurrentIndex(0)
+        self.transform_combo.setEnabled(numeric)
 
     def _save_current(self) -> bool:
         output_name = self.output_name_edit.text().strip()
@@ -118,13 +144,22 @@ class SequentialColumnWizard(QDialog):
             self.status_label.setText("Output name cannot be blank.")
             return False
         column = self.result_draft.columns[self._index]
+        self.input_profile_combo.decimal = self.input_decimal.currentText()
+        self.output_profile_combo.decimal = self.output_decimal.currentText()
+        self.output_profile_combo.preserve = self.preserve_precision.isChecked()
+        try:
+            input_profile = self.input_profile_combo.profile()
+            output_profile = self.output_profile_combo.profile()
+        except ValueError as error:
+            self.status_label.setText(str(error))
+            return False
         updated = replace(
             column,
             export=self.export_check.isChecked(),
             output_name=output_name,
             output_type=SemanticType(str(self.output_type_combo.currentData())),
-            input_profile=cast(str | None, self.input_profile_combo.currentData()),
-            output_profile=cast(str | None, self.output_profile_combo.currentData()),
+            input_profile=input_profile,
+            output_profile=output_profile,
             transform=TransformChoice(str(self.transform_combo.currentData())),
         )
         self.result_draft = self.result_draft.update_column(updated)
@@ -141,12 +176,14 @@ class SequentialColumnWizard(QDialog):
         self.export_check.setChecked(column.export)
         self.output_name_edit.setText(column.output_name)
         self.output_type_combo.setCurrentIndex(self.output_type_combo.findData(column.output_type))
-        self.input_profile_combo.setCurrentIndex(
-            max(self.input_profile_combo.findData(column.input_profile), 0)
-        )
-        self.output_profile_combo.setCurrentIndex(
-            max(self.output_profile_combo.findData(column.output_profile), 0)
-        )
+        self.input_profile_combo.load(column.input_profile, column.output_type.value)
+        self.output_profile_combo.load(column.output_profile, column.output_type.value)
+        self.input_decimal.setCurrentText(self.input_profile_combo.decimal)
+        self.output_decimal.setCurrentText(self.output_profile_combo.decimal)
+        self.preserve_precision.setChecked(self.output_profile_combo.preserve)
+        self.output_decimal.setEnabled(column.is_numeric)
+        self.preserve_precision.setEnabled(column.is_numeric)
+        self.transform_combo.setEnabled(column.is_numeric)
         self.transform_combo.setCurrentIndex(self.transform_combo.findData(column.transform))
         samples = proposed_column_samples(self._inspection, self.result_draft, column.source_name)
         self.samples_label.setText("\n".join(samples) or "No non-null samples are available.")
@@ -166,12 +203,3 @@ class SequentialColumnWizard(QDialog):
     def _finish(self) -> None:
         if self._save_current():
             self.accept()
-
-
-def _populate_profiles(combo: QComboBox, default_label: str) -> None:
-    combo.addItem(default_label, None)
-    for profile in DateTimeProfileRegistry.default().all():
-        combo.addItem(
-            f"{profile.group}  •  {profile.name}  ({profile.display_pattern})",
-            profile.profile_id,
-        )

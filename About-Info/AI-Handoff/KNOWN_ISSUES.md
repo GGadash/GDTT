@@ -1,5 +1,13 @@
 # Known Issues
 
+## KI-010 — Custom masks and regional Excel display
+
+0.10.0 supports the practical subset documented in Human-Docs/FORMATTING_AND_APPEARANCE.md,
+not the complete Excel formatting language. Excel numeric separators follow Excel/OS regional
+settings and its native numeric precision limit; CSV/preview separators follow explicit GDTT
+choices. New custom-profile strings require GDTT 0.10.0. Actual per-monitor DPI/150% owner review
+and unsigned/separate-clean-host acceptance remain external gates.
+
 ## KI-001 — Future modes remain outside the current scope
 
 Reshape/Pivot and AQI are not implemented and have no reserved Home cards. Version 0.9.0 adds

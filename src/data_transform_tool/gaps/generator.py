@@ -6,7 +6,6 @@ Copyright (c) 2026 Akila DJ +. AI-assisted development: OpenAI Codex.
 from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from data_transform_tool.domain.table import CellValue, DataRow, DataTable
 from data_transform_tool.gaps.analyzer import analyze_timestamps
@@ -18,6 +17,7 @@ from data_transform_tool.gaps.models import (
     MetadataBehavior,
     TimestampDerivation,
 )
+from data_transform_tool.timezone.zones import resolve_zone
 from data_transform_tool.transformation.base import TransformationError
 
 
@@ -201,8 +201,8 @@ def _in_timezone(timestamp: datetime, timezone_name: str | None) -> datetime:
             "A timezone-derived gap field requires timezone-aware primary timestamps."
         )
     try:
-        return timestamp.astimezone(ZoneInfo(timezone_name))
-    except ZoneInfoNotFoundError as error:
+        return timestamp.astimezone(resolve_zone(timezone_name))
+    except ValueError as error:
         raise TransformationError(f"Unknown timezone: {timezone_name}.") from error
 
 

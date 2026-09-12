@@ -32,7 +32,7 @@ class HomeView(QWidget):
         outer.addWidget(scroll)
         layout.setSpacing(12)
 
-        eyebrow = QLabel("PRIVATE DATA WORKSPACE  •  LOCAL  •  VERIFIABLE")
+        eyebrow = QLabel("ENVIRONMENTAL DATA WORKSPACE")
         eyebrow.setProperty("role", "eyebrow")
         layout.addWidget(eyebrow)
 
@@ -43,7 +43,7 @@ class HomeView(QWidget):
 
         subtitle = QLabel(
             "Data forging, transitions, and aggregations—mainly for air-quality-related "
-            "data—with visible decisions, clear previews, and local-only processing."
+            "data—with visible decisions, clear previews, and verified exports."
         )
         subtitle.setProperty("role", "subtitle")
         subtitle.setWordWrap(True)

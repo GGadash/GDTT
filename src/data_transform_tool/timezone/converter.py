@@ -6,11 +6,12 @@ Copyright (c) 2026 Akila DJ +. AI-assisted development: OpenAI Codex.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import UTC, datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta, timezone, tzinfo
 from enum import StrEnum
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError, available_timezones
+from zoneinfo import ZoneInfoNotFoundError, available_timezones
 
 from data_transform_tool.domain.table import CellValue, DataTable
+from data_transform_tool.timezone.zones import resolve_zone
 from data_transform_tool.transformation.base import (
     OperationResult,
     TransformationError,
@@ -173,11 +174,8 @@ def list_iana_timezones(query: str = "") -> tuple[str, ...]:
     )
 
 
-def _zone(name: str) -> ZoneInfo:
-    try:
-        return ZoneInfo(name)
-    except ZoneInfoNotFoundError as error:
-        raise ValueError(f"Unknown IANA timezone '{name}'.") from error
+def _zone(name: str) -> tzinfo:
+    return resolve_zone(name)
 
 
 def _localize_iana(

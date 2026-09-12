@@ -63,6 +63,7 @@ class ExportPlan:
     write_recipe: bool = True
     write_error_report: bool = True
     write_summary: bool = True
+    number_profiles: tuple[tuple[str, str], ...] = ()
 
     def __post_init__(self) -> None:
         if not self.base_name.strip():

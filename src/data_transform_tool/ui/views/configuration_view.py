@@ -50,7 +50,6 @@ from data_transform_tool.app.reformat_preview import (
     proposed_column_samples,
 )
 from data_transform_tool.datetime.models import TimestampRole
-from data_transform_tool.datetime.profiles import DateTimeProfileRegistry
 from data_transform_tool.io.models import FileInspection, SemanticType
 from data_transform_tool.transformation.recipe import OutputMissingPolicy
 from data_transform_tool.ui.dialogs.column_wizard import SequentialColumnWizard
@@ -59,6 +58,7 @@ from data_transform_tool.ui.models import (
     MappingTableModel,
     ProposedPreviewTableModel,
 )
+from data_transform_tool.ui.widgets.field_controls import ProfileCombo, bulk_buttons, fill_zones
 from data_transform_tool.validation.numeric import InvalidNumericPolicy
 from data_transform_tool.validation.rows import RemoveNullMode
 
@@ -182,6 +182,8 @@ class ReformatConfigurationView(QWidget):
 
     def _create_workspace(self) -> QSplitter:
         splitter = QSplitter(Qt.Orientation.Horizontal)
+        self.workspace_splitter = splitter
+        splitter.setChildrenCollapsible(False)
         self.main_tabs = QTabWidget()
         self.main_tabs.addTab(self._create_mapping_panel(), "Field mapping")
         self.main_tabs.addTab(self._create_preview_panel(), "Proposed output preview")
@@ -210,8 +212,9 @@ class ReformatConfigurationView(QWidget):
         )
         self.mapping_model.edit_requested.connect(self._on_mapping_edit)
 
-        tables = QHBoxLayout()
-        tables.setSpacing(0)
+        tables = QSplitter(Qt.Orientation.Horizontal)
+        self.mapping_splitter = tables
+        tables.setChildrenCollapsible(False)
         self.frozen_mapping_table = self._mapping_table()
         self.mapping_table = self._mapping_table()
         for table in (self.frozen_mapping_table, self.mapping_table):
@@ -221,7 +224,7 @@ class ReformatConfigurationView(QWidget):
         for column in range(len(MappingTableModel.HEADERS)):
             self.frozen_mapping_table.setColumnHidden(column, column > 2)
             self.mapping_table.setColumnHidden(column, column <= 2)
-        self.frozen_mapping_table.setMaximumWidth(400)
+        self.frozen_mapping_table.setMinimumWidth(140)
         self.mapping_table.verticalHeader().hide()
         self.frozen_mapping_table.verticalScrollBar().valueChanged.connect(
             self.mapping_table.verticalScrollBar().setValue
@@ -230,13 +233,16 @@ class ReformatConfigurationView(QWidget):
             self.frozen_mapping_table.verticalScrollBar().setValue
         )
         tables.addWidget(self.frozen_mapping_table)
-        tables.addWidget(self.mapping_table, 1)
-        layout.addLayout(tables, 1)
+        tables.addWidget(self.mapping_table)
+        tables.setSizes([300, 600])
+        layout.addWidget(tables, 1)
         return panel
 
     def _mapping_table(self) -> QTableView:
         table = QTableView()
         table.setAlternatingRowColors(True)
+        table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        table.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         table.setSortingEnabled(True)
         table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
@@ -263,9 +269,9 @@ class ReformatConfigurationView(QWidget):
     def _create_editor_scroll(self) -> QScrollArea:
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        scroll.setMinimumWidth(440)
-        scroll.setMaximumWidth(560)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll.setMinimumWidth(280)
         content = QWidget()
         layout = QVBoxLayout(content)
         self.editor_tabs = QTabWidget()
@@ -279,6 +285,8 @@ class ReformatConfigurationView(QWidget):
             combo.setMinimumContentsLength(12)
             combo.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         layout.addWidget(self.editor_tabs)
+        for form in content.findChildren(QFormLayout):
+            form.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
         scroll.setWidget(content)
         return scroll
 
@@ -296,11 +304,9 @@ class ReformatConfigurationView(QWidget):
         self.export_check = QCheckBox("Include in output")
         form.addRow("Export", self.export_check)
         self.output_name_edit = QLineEdit()
-        form.addRow("Output name", self.output_name_edit)
         self.output_type_combo = QComboBox()
         for item in SemanticType:
             self.output_type_combo.addItem(item.value, item)
-        form.addRow("Output type", self.output_type_combo)
         self.transform_combo = QComboBox()
         for label, transform_value in (
             ("Keep as is", TransformChoice.KEEP),
@@ -309,13 +315,38 @@ class ReformatConfigurationView(QWidget):
             ("ppb → ppm", TransformChoice.PPB_TO_PPM),
         ):
             self.transform_combo.addItem(label, transform_value)
-        form.addRow("Transformation", self.transform_combo)
-        self.input_profile_combo = QComboBox()
-        self.output_profile_combo = QComboBox()
-        _populate_profiles(self.input_profile_combo, "Auto / unchanged")
-        _populate_profiles(self.output_profile_combo, "As source")
+        self.input_profile_combo = ProfileCombo(input_profile=True)
+        self.output_profile_combo = ProfileCombo()
+        self.input_profile_combo.load(None, "text")
+        self.output_profile_combo.load(None, "text")
+        form.addRow(QLabel("Input · interpreting source values"))
         form.addRow("Input profile", self.input_profile_combo)
+        self.input_decimal = QComboBox()
+        self.input_decimal.addItems([".", ","])
+        self.input_decimal.setToolTip(
+            "Decimal separator in source numbers. Select a grouped profile for thousands "
+            "separators; no automatic locale guessing."
+        )
+        form.addRow("Input decimal separator", self.input_decimal)
+        form.addRow(QLabel("Output · formatting exported values"))
+        form.addRow("Output name", self.output_name_edit)
+        form.addRow("Output type", self.output_type_combo)
+        form.addRow("Transformation", self.transform_combo)
         form.addRow("Output format", self.output_profile_combo)
+        self.output_decimal = QComboBox()
+        self.output_decimal.addItems([".", ","])
+        self.output_decimal.setToolTip(
+            "Separator for preview and CSV. Numeric Excel cells follow Excel/OS regional settings."
+        )
+        form.addRow("Output decimal separator", self.output_decimal)
+        self.preserve_precision = QCheckBox("Keep full numeric precision")
+        self.preserve_precision.setToolTip(
+            "Off: round exported values to the mask. On: retain full CSV/Excel values; "
+            "Excel displays the selected precision. Excel's native numeric precision limit "
+            "still applies."
+        )
+        form.addRow("Numeric export", self.preserve_precision)
+        form.addRow(QLabel("Time zones and gap-row values"))
         self.timestamp_role_combo = QComboBox()
         for role in TimestampRole:
             self.timestamp_role_combo.addItem(role.value.title(), role)
@@ -324,7 +355,7 @@ class ReformatConfigurationView(QWidget):
         for label, timezone_value in (
             ("No conversion", TimezoneSourceMode.NONE),
             ("Embedded offset", TimezoneSourceMode.EMBEDDED),
-            ("Fixed IANA zone", TimezoneSourceMode.FIXED_IANA),
+            ("Fixed zone / offset", TimezoneSourceMode.FIXED_IANA),
             ("IANA zone from field", TimezoneSourceMode.IANA_COLUMN),
             ("Manual UTC offset", TimezoneSourceMode.MANUAL_OFFSET),
         ):
@@ -338,6 +369,11 @@ class ReformatConfigurationView(QWidget):
         self.target_timezone_combo.addItem("No target conversion", "")
         for zone in ("UTC", "Asia/Colombo", "Asia/Kolkata", "Europe/London", "America/New_York"):
             self.target_timezone_combo.addItem(zone, zone)
+        fill_zones(self.target_timezone_combo)
+        self.target_timezone_combo.setEditText("")
+        target_editor = self.target_timezone_combo.lineEdit()
+        assert target_editor is not None
+        target_editor.setPlaceholderText("No conversion")
         form.addRow("Target timezone", self.target_timezone_combo)
         zone_help = QLabel(
             "UTC · Asia/Colombo (UTC+05:30 / +5.5 hours) · Custom IANA zone; "
@@ -365,6 +401,12 @@ class ReformatConfigurationView(QWidget):
         for check in (self.derive_start_check, self.derive_mid_check, self.derive_end_check):
             derived.addWidget(check)
         layout.addLayout(derived)
+        layout.addLayout(
+            bulk_buttons(
+                (self.derive_start_check, self.derive_mid_check, self.derive_end_check),
+                self._commit_column_controls,
+            )
+        )
         layout.addWidget(QLabel("Live samples"))
         self.live_samples_label = QLabel()
         self.live_samples_label.setWordWrap(True)
@@ -450,6 +492,7 @@ class ReformatConfigurationView(QWidget):
         self.missing_marker_list = QListWidget()
         self.missing_marker_list.setMaximumHeight(104)
         layout.addWidget(self.missing_marker_list)
+        layout.addLayout(bulk_buttons(self.missing_marker_list, self._commit_global_controls))
         self._connect_global_controls()
         return group
 
@@ -485,6 +528,13 @@ class ReformatConfigurationView(QWidget):
         return row
 
     def _connect_column_controls(self) -> None:
+        self.input_decimal.currentIndexChanged.connect(self._commit_column_controls)
+        self.output_decimal.currentIndexChanged.connect(self._commit_column_controls)
+        self.preserve_precision.toggled.connect(self._commit_column_controls)
+        for profile_control in (self.input_profile_combo, self.output_profile_combo):
+            editor = profile_control.lineEdit()
+            assert editor is not None
+            editor.editingFinished.connect(self._commit_column_controls)
         self.export_check.toggled.connect(self._commit_column_controls)
         self.output_name_edit.editingFinished.connect(self._commit_column_controls)
         combos = (
@@ -533,14 +583,30 @@ class ReformatConfigurationView(QWidget):
         if self._refreshing or self._session is None or self._selected_source is None:
             return
         current = self._session.current.column(self._selected_source)
+        self.input_profile_combo.decimal = self.input_decimal.currentText()
+        self.output_profile_combo.decimal = self.output_decimal.currentText()
+        self.output_profile_combo.preserve = self.preserve_precision.isChecked()
+        try:
+            input_profile = self.input_profile_combo.profile()
+            output_profile = self.output_profile_combo.profile()
+        except ValueError as error:
+            self.status_label.setText(str(error))
+            return
+        output_type = SemanticType(str(self.output_type_combo.currentData()))
+        transform = TransformChoice(str(self.transform_combo.currentData()))
+        if output_type != current.output_type:
+            numeric = output_type in {SemanticType.INTEGER, SemanticType.DECIMAL}
+            output_profile = None
+            if not numeric:
+                transform = TransformChoice.KEEP
         updated = replace(
             current,
             export=self.export_check.isChecked(),
             output_name=self.output_name_edit.text().strip() or current.output_name,
-            output_type=SemanticType(str(self.output_type_combo.currentData())),
-            input_profile=cast(str | None, self.input_profile_combo.currentData()),
-            output_profile=cast(str | None, self.output_profile_combo.currentData()),
-            transform=TransformChoice(str(self.transform_combo.currentData())),
+            output_type=output_type,
+            input_profile=input_profile,
+            output_profile=output_profile,
+            transform=transform,
             timestamp_role=TimestampRole(str(self.timestamp_role_combo.currentData())),
             timezone_source_mode=TimezoneSourceMode(str(self.timezone_mode_combo.currentData())),
             timezone_source_value=self.timezone_source_combo.currentText().strip() or None,
@@ -668,11 +734,24 @@ class ReformatConfigurationView(QWidget):
         self.output_name_edit.setText(column.output_name)
         self.output_type_combo.setCurrentIndex(self.output_type_combo.findData(column.output_type))
         self.transform_combo.setCurrentIndex(self.transform_combo.findData(column.transform))
-        self.input_profile_combo.setCurrentIndex(
-            max(self.input_profile_combo.findData(column.input_profile), 0)
-        )
-        self.output_profile_combo.setCurrentIndex(
-            max(self.output_profile_combo.findData(column.output_profile), 0)
+        self.input_profile_combo.load(column.input_profile, column.output_type.value)
+        self.output_profile_combo.load(column.output_profile, column.output_type.value)
+        self.input_decimal.setCurrentText(self.input_profile_combo.decimal)
+        self.output_decimal.setCurrentText(self.output_profile_combo.decimal)
+        self.preserve_precision.setChecked(self.output_profile_combo.preserve)
+        for control in (self.output_decimal, self.preserve_precision):
+            control.setEnabled(column.is_numeric)
+        self.transform_combo.clear()
+        self.transform_combo.addItem("Keep as is", TransformChoice.KEEP)
+        if column.is_numeric:
+            for label, transform in (
+                ("Round to 2 decimals", TransformChoice.ROUND_2),
+                ("ppm → ppb", TransformChoice.PPM_TO_PPB),
+                ("ppb → ppm", TransformChoice.PPB_TO_PPM),
+            ):
+                self.transform_combo.addItem(label, transform)
+        self.transform_combo.setCurrentIndex(
+            max(0, self.transform_combo.findData(column.transform))
         )
         self.timestamp_role_combo.setCurrentIndex(
             self.timestamp_role_combo.findData(column.timestamp_role)
@@ -680,9 +759,11 @@ class ReformatConfigurationView(QWidget):
         self.timezone_mode_combo.setCurrentIndex(
             self.timezone_mode_combo.findData(column.timezone_source_mode)
         )
-        self.timezone_source_combo.clear()
-        for value in ("UTC", "Asia/Colombo", "+05:30", *self._inspection.column_names):
-            self.timezone_source_combo.addItem(value)
+        if column.timezone_source_mode is TimezoneSourceMode.IANA_COLUMN:
+            self.timezone_source_combo.clear()
+            self.timezone_source_combo.addItems(list(self._inspection.column_names))
+        else:
+            fill_zones(self.timezone_source_combo)
         self.timezone_source_combo.setCurrentText(column.timezone_source_value or "")
         self.target_timezone_combo.setCurrentText(column.target_timezone or "")
         self.derive_start_check.setChecked(column.derive_start)
@@ -791,12 +872,3 @@ class ReformatConfigurationView(QWidget):
         recipe = build_transformation_recipe(self._session.current)
         self.configuration_ready.emit(recipe)
         self.status_label.setText("Configuration is valid. Preparing the complete-file review.")
-
-
-def _populate_profiles(combo: QComboBox, default_label: str) -> None:
-    combo.addItem(default_label, None)
-    for profile in DateTimeProfileRegistry.default().all():
-        combo.addItem(
-            f"{profile.group}  •  {profile.name}  ({profile.display_pattern})",
-            profile.profile_id,
-        )

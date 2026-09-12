@@ -32,7 +32,7 @@ from data_transform_tool.app.template_application import (
 )
 from data_transform_tool.io.models import FileInspection
 from data_transform_tool.resources import application_icon
-from data_transform_tool.settings.models import AppSettings, ThemePreference
+from data_transform_tool.settings.models import AppSettings, ColorPreference, ThemePreference
 from data_transform_tool.transformation.recipe import TransformationRecipe
 from data_transform_tool.ui.dialogs.about_dialog import AboutDialog
 from data_transform_tool.ui.theme import apply_theme
@@ -48,9 +48,12 @@ class MainWindow(QMainWindow):
     """Host global controls and the active workflow view."""
 
     theme_changed = Signal(str)
+    appearance_changed = Signal(str, int)
 
     def __init__(self, *, settings: AppSettings) -> None:
         super().__init__()
+        self._color_theme = settings.color_theme
+        self._font_size = settings.font_size
         self.setWindowTitle(PRODUCT_NAME)
         self.resize(settings.window_width, settings.window_height)
         self.setMinimumSize(900, 620)
@@ -145,10 +148,6 @@ class MainWindow(QMainWindow):
         layout.addLayout(names)
         layout.addStretch()
 
-        offline = QLabel("● Offline processing")
-        offline.setProperty("role", "badge")
-        layout.addWidget(offline)
-
         about_button = QPushButton("About")
         about_button.setProperty("role", "ghost")
         about_button.clicked.connect(self._show_about)
@@ -167,7 +166,33 @@ class MainWindow(QMainWindow):
         self.theme_selector.setCurrentIndex(max(selected_index, 0))
         self.theme_selector.currentIndexChanged.connect(self._on_theme_selected)
         layout.addWidget(self.theme_selector)
+        self.color_selector = QComboBox()
+        self.color_selector.setAccessibleName("Theme color")
+        self.color_selector.setToolTip(
+            "Color palette. System mode keeps your operating system palette."
+        )
+        for name in ("Teal", "Blue", "Graphite", "Violet", "Spectrum"):
+            self.color_selector.addItem(name, name.lower())
+        self.color_selector.setCurrentIndex(self.color_selector.findData(self._color_theme))
+        self.color_selector.currentIndexChanged.connect(self._appearance_selected)
+        layout.addWidget(self.color_selector)
+        for label, delta in (("A-", -1), ("A+", 1)):
+            button = QPushButton(label)
+            button.setProperty("role", "compact")
+            button.setAccessibleName("Decrease font size" if delta < 0 else "Increase font size")
+            button.setToolTip("Adjust interface and data font sizes (10-20 px base).")
+            button.clicked.connect(lambda checked=False, step=delta: self._resize_fonts(step))
+            layout.addWidget(button)
         return header
+
+    def _resize_fonts(self, delta: int) -> None:
+        self._font_size = min(20, max(10, self._font_size + delta))
+        self._appearance_selected()
+
+    def _appearance_selected(self) -> None:
+        self._color_theme = cast(ColorPreference, self.color_selector.currentData())
+        self._on_theme_selected()
+        self.appearance_changed.emit(self._color_theme, self._font_size)
 
     def _create_footer(self) -> QFrame:
         footer = QFrame()
@@ -178,8 +203,8 @@ class MainWindow(QMainWindow):
         left.setProperty("role", "muted")
         layout.addWidget(left)
         layout.addStretch()
-        privacy = QLabel("Private by design • No dataset upload")
-        privacy.setProperty("role", "muted")
+        privacy = QLabel("Processed locally • No cloud upload")
+        privacy.setProperty("role", "footnote")
         layout.addWidget(privacy)
         return footer
 
@@ -201,7 +226,9 @@ class MainWindow(QMainWindow):
         selected = cast(ThemePreference, self.theme_selector.currentData())
         application = QApplication.instance()
         if application is not None:
-            apply_theme(cast(QApplication, application), selected)
+            apply_theme(
+                cast(QApplication, application), selected, self._color_theme, self._font_size
+            )
         self.theme_changed.emit(selected)
 
     def _show_phase_message(self, mode: str, target_phase: str) -> None:

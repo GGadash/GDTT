@@ -64,8 +64,8 @@ jobs:
           if-no-files-found: error
           retention-days: 14
           path: |
-            packaging/output/GDTT-*-windows-x64.zip
-            packaging/output/GDTT-*-windows-x64-setup.exe
+            packaging/output/GDTT-*-windows-x64-Portable.zip
+            packaging/output/GDTT-*-windows-x64-installer.exe
             packaging/output/GDTT-*-source.zip
             packaging/output/BUILD_MANIFEST.json
             packaging/output/LOCAL_C_LITE.json
@@ -109,6 +109,10 @@ jobs:
           $tagVersion = $tagMatch.Groups["version"].Value
           if ([string]$manifest.version -ne $tagVersion) {
             throw "Tag version $tagVersion does not match built GDTT version $($manifest.version)."
+          }
+          if ($manifest.archive.name -cne "GDTT-$tagVersion-windows-x64-Portable.zip" -or
+              $manifest.installer.name -cne "GDTT-$tagVersion-windows-x64-installer.exe") {
+            throw "Release filenames must explicitly identify Portable and installer artifacts."
           }
 
           $requiredNames = @(

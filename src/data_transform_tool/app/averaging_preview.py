@@ -9,7 +9,6 @@ from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
 from typing import cast
-from zoneinfo import ZoneInfo
 
 from data_transform_tool.aggregation import (
     AggregationResult,
@@ -25,6 +24,7 @@ from data_transform_tool.datetime.parser import DateTimeParser
 from data_transform_tool.domain.errors import AppError
 from data_transform_tool.domain.table import CellValue, DataTable
 from data_transform_tool.io.models import FileInspection
+from data_transform_tool.timezone.zones import resolve_zone
 from data_transform_tool.transformation.nulls import NormalizeConfirmedNulls
 from data_transform_tool.transformation.numeric import to_decimal
 from data_transform_tool.transformation.recipe import OutputMissingPolicy
@@ -104,7 +104,7 @@ def prepare_averaging_source(table: DataTable, draft: AveragingDraft) -> DataTab
     if timestamp_name is None:
         raise ValueError("Choose a timestamp field before previewing.")
     parser = DateTimeParser()
-    zone = ZoneInfo(draft.source_timezone)
+    zone = resolve_zone(draft.source_timezone)
     timestamps: list[CellValue] = []
     for row_number, value in enumerate(table.column_values(timestamp_name), start=1):
         if value is None:

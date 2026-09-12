@@ -9,7 +9,6 @@ from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta
 from enum import StrEnum
 from typing import TYPE_CHECKING
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from data_transform_tool.domain.errors import AppError
 from data_transform_tool.domain.table import DataTable
@@ -210,8 +209,10 @@ class AggregationConfig:
         if not self.reporting_timezone.strip():
             raise ValueError("A reporting timezone is required.")
         try:
-            ZoneInfo(self.reporting_timezone)
-        except ZoneInfoNotFoundError as error:
+            from data_transform_tool.timezone.zones import resolve_zone
+
+            resolve_zone(self.reporting_timezone)
+        except ValueError as error:
             raise ValueError(f"Unknown reporting timezone '{self.reporting_timezone}'.") from error
         if not self.fields:
             raise ValueError("At least one field must be configured for aggregation.")

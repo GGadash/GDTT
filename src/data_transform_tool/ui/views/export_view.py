@@ -46,6 +46,7 @@ from data_transform_tool.transformation.recipe import (
     TransformationRecipe,
 )
 from data_transform_tool.ui.models import SimplePreviewTableModel
+from data_transform_tool.ui.widgets.field_controls import bulk_buttons
 from data_transform_tool.ui.workers.export_worker import (
     BatchExecutionWorker,
     ExecutionWorker,
@@ -211,6 +212,12 @@ class ExportView(QWidget):
         format_row.addWidget(self.formatted_check)
         format_row.addStretch()
         form.addRow("Data outputs", format_row)
+        form.addRow(
+            bulk_buttons(
+                (self.csv_check, self.plain_check, self.formatted_check),
+                self._update_option_visibility,
+            )
+        )
 
         self.missing_combo = QComboBox()
         self.missing_combo.addItem("True blank / null", OutputMissingPolicy.TRUE_NULL.value)
@@ -252,6 +259,7 @@ class ExportView(QWidget):
         style_flags.addWidget(self.freeze_check)
         style_flags.addStretch()
         style_form.addRow("Worksheet", style_flags)
+        style_form.addRow(bulk_buttons((self.filter_check, self.freeze_check)))
         layout.addWidget(self.style_card)
 
         sidecars = QFrame()
@@ -274,6 +282,11 @@ class ExportView(QWidget):
         ):
             sidecar_row.addWidget(control)
         sidecar_form.addRow("Evidence sidecars", sidecar_row)
+        sidecar_form.addRow(
+            bulk_buttons(
+                (self.info_check, self.recipe_check, self.summary_check, self.errors_check)
+            )
+        )
         layout.addWidget(sidecars)
 
         template_row = QHBoxLayout()

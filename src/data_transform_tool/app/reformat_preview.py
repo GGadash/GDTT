@@ -15,10 +15,10 @@ from data_transform_tool.app.reformat_configuration import (
     TimezoneSourceMode,
     TransformChoice,
 )
+from data_transform_tool.datetime.custom_formats import apply_profile, decode
 from data_transform_tool.datetime.models import TimestampSemantics
 from data_transform_tool.datetime.operations import (
     DeriveIntervalFields,
-    FormatDateTimeColumn,
     ParseDateTimeColumn,
 )
 from data_transform_tool.domain.errors import AppError
@@ -75,6 +75,15 @@ def build_proposed_preview(
         transformed, diagnostics = _apply_preview_operations(source, draft)
         headers, selected_rows = _select_and_rename(transformed, draft)
         output_rows = _apply_output_missing_policy(selected_rows, draft)
+        displayed = [list(row) for row in output_rows]
+        for index, column in enumerate(draft.exported_columns):
+            spec = decode(column.output_profile)
+            if spec is not None and spec.kind == "number":
+                for row_index, row in enumerate(selected_rows):
+                    value = row[index]
+                    if value is not None and not isinstance(value, (str, bool)):
+                        displayed[row_index][index] = spec.display(value)
+        output_rows = tuple(tuple(row) for row in displayed)
         return ProposedPreview(headers, output_rows, preview.start_row, diagnostics)
     except (AppError, ArithmeticError, ValueError) as error:
         headers, output_rows = _raw_selected_preview(source, draft)
@@ -180,6 +189,28 @@ def _apply_preview_operations(
         current = result.table
         diagnostics.extend(result.diagnostics)
 
+    for column in draft.columns:
+        if decode(column.input_profile) is not None and column.input_profile is not None:
+            result = apply_profile(
+                current,
+                column.source_name,
+                column.input_profile,
+                _operation_invalid_policy(draft.invalid_numeric_policy),
+                parsing=True,
+            )
+            if draft.invalid_numeric_policy is InvalidNumericPolicy.PRESERVE_SOURCE:
+                before = current.column_values(column.source_name)
+                after = result.table.column_values(column.source_name)
+                preserved = tuple(
+                    original if original is not None and converted is None else None
+                    for original, converted in zip(before, after, strict=True)
+                )
+                current = result.table
+                if any(value is not None for value in preserved):
+                    current = current.add_column(f"{column.source_name}_source", preserved)
+            else:
+                current = result.table
+            diagnostics.extend(result.diagnostics)
     numeric_sources = tuple(column.source_name for column in draft.measurement_columns)
     if numeric_sources:
         resolution = resolve_invalid_numeric(
@@ -221,7 +252,7 @@ def _apply_column(
     current = table
     diagnostics: list[Diagnostic] = []
     policy = _operation_invalid_policy(invalid_numeric_policy)
-    if column.input_profile is not None:
+    if column.input_profile is not None and decode(column.input_profile) is None:
         result = ParseDateTimeColumn(
             column.source_name,
             column.input_profile,
@@ -272,11 +303,9 @@ def _apply_column(
         diagnostics.extend(result.diagnostics)
 
     if format_output and column.output_profile is not None:
-        result = FormatDateTimeColumn(
-            column.source_name,
-            column.output_profile,
-            invalid_policy=policy,
-        ).apply(current)
+        result = apply_profile(
+            current, column.source_name, column.output_profile, policy, parsing=False
+        )
         current = result.table
         diagnostics.extend(result.diagnostics)
     return current, tuple(diagnostics)
@@ -291,11 +320,9 @@ def _apply_output_formats(
     for column in draft.columns:
         if column.output_profile is None:
             continue
-        result = FormatDateTimeColumn(
-            column.source_name,
-            column.output_profile,
-            invalid_policy=policy,
-        ).apply(current)
+        result = apply_profile(
+            current, column.source_name, column.output_profile, policy, parsing=False
+        )
         current = result.table
         diagnostics.extend(result.diagnostics)
     return current, tuple(diagnostics)

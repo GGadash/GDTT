@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "product": "GDTT — Data Transform Tool by Gadash (Akila DJ)",
-  "updated": "2026-09-01",
+  "updated": "2026-09-12",
   "requirements": [
     {
       "id": "CODEX-001",
@@ -344,6 +344,150 @@
       "test_reference": "tests/unit/test_split_join.py; packaged --smoke-test",
       "implementation_symbol": "run_split_join_smoke",
       "documentation_reference": "About-Info/Human-Docs/SPLIT_JOIN.md"
+    },
+    {
+      "id": "PEND-001",
+      "description": "About copyright updated to Copyright (c) 2026 Gadash +.",
+      "module": "ui/dialogs/about_dialog.py",
+      "status": "implemented_local",
+      "test_reference": "tests/integration/test_desktop_shell.py",
+      "implementation_symbol": "AboutDialog",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-002",
+      "description": "Clear small local-processing footer.",
+      "module": "ui/main_window.py",
+      "status": "implemented_local",
+      "test_reference": "tests/integration/test_desktop_shell.py",
+      "implementation_symbol": "MainWindow",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-003",
+      "description": "Scoped select/deselect-all controls for checkbox groups without bulk safety confirmation.",
+      "module": "ui/widgets/field_controls.py",
+      "status": "implemented_local",
+      "test_reference": "tests/integration/test_format_appearance.py",
+      "implementation_symbol": "bulk_buttons",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-004",
+      "description": "Resizable frozen/mapping pane divider with both scrollbars.",
+      "module": "ui/views/configuration_view.py",
+      "status": "implemented_local",
+      "test_reference": "tests/integration/test_format_appearance.py",
+      "implementation_symbol": "ReformatConfigurationView",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-005",
+      "description": "Output profiles and transforms follow semantic output type.",
+      "module": "ui/widgets/field_controls.py",
+      "status": "implemented_local",
+      "test_reference": "tests/integration/test_format_appearance.py",
+      "implementation_symbol": "ProfileCombo",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-006",
+      "description": "Custom input/output numeric, temporal, text and Boolean profiles; round exports by default with optional full-precision Excel display formatting.",
+      "module": "datetime/custom_formats.py",
+      "status": "implemented_local",
+      "test_reference": "tests/unit/test_custom_formats.py",
+      "implementation_symbol": "FieldFormat",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-007",
+      "description": "Editable UTC/Colombo/custom priority, half-hour offsets and IANA zones.",
+      "module": "timezone/zones.py; ui/widgets/field_controls.py",
+      "status": "implemented_local",
+      "test_reference": "tests/unit/test_custom_formats.py; tests/integration/test_format_appearance.py",
+      "implementation_symbol": "resolve_zone; fill_zones",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-008",
+      "description": "Separate concise Input/Output groups and tooltips.",
+      "module": "ui/views/configuration_view.py",
+      "status": "implemented_local",
+      "test_reference": "tests/integration/test_format_appearance.py",
+      "implementation_symbol": "ReformatConfigurationView",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-009",
+      "description": "Resizable and scrolling field editor with wrapping at narrow widths.",
+      "module": "ui/views/configuration_view.py",
+      "status": "implemented_local",
+      "test_reference": "tests/integration/test_format_appearance.py",
+      "implementation_symbol": "ReformatConfigurationView",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-010",
+      "description": "Small monospaced table fonts without bundled fonts.",
+      "module": "ui/theme.py",
+      "status": "implemented_local",
+      "test_reference": "native preview-output/v010 screenshots",
+      "implementation_symbol": "apply_theme",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-011",
+      "description": "Persisted compact font-size controls near theme selection.",
+      "module": "settings/models.py; ui/main_window.py",
+      "status": "implemented_local",
+      "test_reference": "tests/unit/test_settings.py",
+      "implementation_symbol": "AppSettings; MainWindow",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-012",
+      "description": "Teal/Blue/Graphite/Violet/Spectrum palettes with light/dark text contrast.",
+      "module": "ui/theme.py",
+      "status": "implemented_local",
+      "test_reference": "tests/integration/test_format_appearance.py",
+      "implementation_symbol": "theme_colors",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-013",
+      "description": "Consistent resting Home cards and hover highlight.",
+      "module": "ui/theme.py; ui/widgets/mode_card.py",
+      "status": "implemented_local",
+      "test_reference": "native preview-output/v010 screenshots",
+      "implementation_symbol": "ModeCard",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-014",
+      "description": "Single clear Prepare preview label in Split and Join.",
+      "module": "ui/views/split_join_view.py",
+      "status": "implemented_local",
+      "test_reference": "tests/integration/test_split_join_view.py",
+      "implementation_symbol": "SplitJoinView",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-015",
+      "description": "Subtle local-use messaging instead of prominent repeated offline claims.",
+      "module": "ui/main_window.py; ui/views/home_view.py",
+      "status": "implemented_local",
+      "test_reference": "native preview-output/v010 screenshots",
+      "implementation_symbol": "MainWindow; HomeView",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-016",
+      "description": "Independent explicit dot/comma input/output numeric decimal separators and grouped/custom masks.",
+      "module": "datetime/custom_formats.py; export/writers.py",
+      "status": "implemented_local",
+      "test_reference": "tests/unit/test_custom_formats.py",
+      "implementation_symbol": "FieldFormat; csv_output_row",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
     },
     {
       "id": "GIT-001",

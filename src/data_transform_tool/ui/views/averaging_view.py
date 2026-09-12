@@ -8,7 +8,7 @@ from __future__ import annotations
 from dataclasses import replace
 from datetime import datetime, time, timedelta
 from typing import cast
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+from zoneinfo import ZoneInfoNotFoundError
 
 from PySide6.QtCore import QDate, QDateTime, QModelIndex, Qt, QTime, Signal
 from PySide6.QtWidgets import (
@@ -65,8 +65,10 @@ from data_transform_tool.app.averaging_preview import (
     build_averaging_preview,
 )
 from data_transform_tool.io.models import FileInspection
+from data_transform_tool.timezone.zones import resolve_zone
 from data_transform_tool.transformation.recipe import OutputMissingPolicy
 from data_transform_tool.ui.models import AveragingFieldTableModel, SimplePreviewTableModel
+from data_transform_tool.ui.widgets.field_controls import bulk_buttons, fill_zones
 
 
 class AveragingConfigurationView(QWidget):
@@ -304,6 +306,7 @@ class AveragingConfigurationView(QWidget):
         self.reporting_timezone_combo.setEditable(True)
         self.reporting_timezone_combo.addItems(timezone_choices)
         for control in (self.timezone_combo, self.reporting_timezone_combo):
+            fill_zones(control)
             control.setToolTip(
                 "UTC; Asia/Colombo = UTC+05:30 (+5.5 hours). Type a custom IANA timezone here."
             )
@@ -544,6 +547,7 @@ class AveragingConfigurationView(QWidget):
         self.missing_marker_list = QListWidget()
         self.missing_marker_list.setMaximumHeight(90)
         layout.addWidget(self.missing_marker_list)
+        layout.addLayout(bulk_buttons(self.missing_marker_list, self._commit_missing_controls))
         self.missing_markers_reviewed_check = QCheckBox(
             "Marker decisions reviewed — checked values become null"
         )
@@ -839,7 +843,7 @@ class AveragingConfigurationView(QWidget):
             return
         try:
             anchor = cast(datetime, self.anchor_edit.dateTime().toPython()).replace(
-                tzinfo=ZoneInfo(self._session.current.reporting_timezone)
+                tzinfo=resolve_zone(self._session.current.reporting_timezone)
             )
             period = period_from_choice(
                 str(self.period_combo.currentData()),

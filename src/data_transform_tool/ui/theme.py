@@ -5,13 +5,14 @@ Copyright (c) 2026 Akila DJ +. AI-assisted development: OpenAI Codex.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import re
+from dataclasses import dataclass, replace
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPalette
 from PySide6.QtWidgets import QApplication
 
-from data_transform_tool.settings.models import ThemePreference
+from data_transform_tool.settings.models import ColorPreference, ThemePreference
 
 
 @dataclass(frozen=True)
@@ -69,16 +70,48 @@ def effective_theme(app: QApplication, preference: ThemePreference) -> str:
     return "dark" if color_scheme == Qt.ColorScheme.Dark else "light"
 
 
-def apply_theme(app: QApplication, preference: ThemePreference) -> None:
+def theme_colors(dark: bool, color: ColorPreference = "teal") -> ThemeColors:
+    base = DARK if dark else LIGHT
+    if color == "teal":
+        return base
+    tones = {
+        "blue": ("#175DA6", "#91C4FF", "#F3F6FC", "#101923", "#E7EFFA", "#202E40"),
+        "graphite": ("#505966", "#C3CCD8", "#F5F5F6", "#191B1F", "#ECEEF1", "#2C3037"),
+        "violet": ("#7041AA", "#D1ACFF", "#F8F4FC", "#1C1724", "#F0E9F8", "#30253E"),
+        "spectrum": ("#175DA6", "#91C4FF", "#F5F4FA", "#181B26", "#ECEAF7", "#292D40"),
+    }
+    light_accent, dark_accent, canvas_l, canvas_d, surface_l, surface_d = tones[color]
+    primary = dark_accent if dark else light_accent
+    return replace(
+        base,
+        canvas=canvas_d if dark else canvas_l,
+        surface="#20232B" if dark else "#FFFFFF",
+        surface_alt=surface_d if dark else surface_l,
+        border="#515B6D" if dark else "#BBC4D0",
+        text="#F1F4FA" if dark else "#172536",
+        muted="#BBC5D5" if dark else "#526074",
+        primary=primary,
+        primary_hover=primary,
+        primary_text="#131A25" if dark else "#FFFFFF",
+        accent=("#D5AEFF" if dark else "#7540AA") if color == "spectrum" else primary,
+    )
+
+
+def apply_theme(
+    app: QApplication,
+    preference: ThemePreference,
+    color: ColorPreference = "teal",
+    font_size: int = 14,
+) -> None:
     """Apply semantic colors to widgets and native Qt controls."""
     resolved_theme = effective_theme(app, preference)
     if resolved_theme == "system":
         app.setPalette(app.style().standardPalette())
         colors = _system_colors(app.palette())
-        app.setStyleSheet(_style_sheet(colors))
+        app.setStyleSheet(_scaled_styles(colors, font_size))
         return
 
-    colors = DARK if resolved_theme == "dark" else LIGHT
+    colors = theme_colors(resolved_theme == "dark", color)
     palette = QPalette()
     palette.setColor(QPalette.ColorRole.Window, QColor(colors.canvas))
     palette.setColor(QPalette.ColorRole.WindowText, QColor(colors.text))
@@ -90,7 +123,14 @@ def apply_theme(app: QApplication, preference: ThemePreference) -> None:
     palette.setColor(QPalette.ColorRole.Highlight, QColor(colors.primary))
     palette.setColor(QPalette.ColorRole.HighlightedText, QColor(colors.primary_text))
     app.setPalette(palette)
-    app.setStyleSheet(_style_sheet(colors))
+    app.setStyleSheet(_scaled_styles(colors, font_size))
+
+
+def _scaled_styles(colors: ThemeColors, font_size: int) -> str:
+    css = _style_sheet(colors)
+    return re.sub(
+        r"font-size: (\d+)px", lambda m: f"font-size: {round(int(m[1]) * font_size / 14)}px", css
+    )
 
 
 def _system_colors(palette: QPalette) -> ThemeColors:
@@ -138,7 +178,7 @@ def _style_sheet(c: ThemeColors) -> str:
     QFrame[role="modeCard"] {{
         background: {c.surface}; border: 1px solid {c.border}; border-radius: 20px;
     }}
-    QFrame[role="modeCard"][featured="true"] {{ border: 2px solid {c.primary}; }}
+    QFrame[role="modeCard"]:hover {{ border-color: {c.primary}; }}
     QLabel[role="cardIcon"] {{
         color: {c.primary}; background: {c.surface_alt}; border-radius: 18px;
         font-size: 16px; font-weight: 800; padding: 9px;
@@ -184,6 +224,8 @@ def _style_sheet(c: ThemeColors) -> str:
         color: {c.primary}; font-weight: 700; border-bottom: 2px solid {c.primary};
     }}
     QTableView {{
+        font-family: "Consolas", "Cascadia Mono", "DejaVu Sans Mono", monospace;
+        font-size: 12px;
         background: {c.surface}; alternate-background-color: {c.surface_alt}; color: {c.text};
         border: 1px solid {c.border}; border-radius: 10px; gridline-color: {c.border};
         selection-background-color: {c.primary}; selection-color: {c.primary_text};
@@ -203,7 +245,10 @@ def _style_sheet(c: ThemeColors) -> str:
     }}
     QCheckBox::indicator:checked {{ background: {c.primary}; border-color: {c.primary}; }}
     QScrollArea {{ background: transparent; border: none; }}
-    QSplitter::handle {{ background: {c.border}; width: 1px; }}
+    QSplitter::handle {{ background: {c.border}; width: 6px; height: 6px; }}
+    QSplitter::handle:hover {{ background: {c.accent}; }}
+    QPushButton[role="compact"] {{ padding: 4px 7px; min-width: 18px; }}
+    QLabel[role="footnote"] {{ color: {c.muted}; font-size: 11px; }}
     QHeaderView::section {{
         background: {c.surface_alt}; color: {c.text}; border: none;
         border-bottom: 1px solid {c.border}; padding: 8px; font-weight: 700;

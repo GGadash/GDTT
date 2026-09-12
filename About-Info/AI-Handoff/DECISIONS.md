@@ -1,5 +1,27 @@
 # Decisions
 
+## D-025 — Explicit RC1 publication and artifact retention (2026-09-12)
+
+- Owner authorized committing and pushing 0.10.0 with a release tag and binary assets. Use the
+  unused `v0.10.0-rc.1` tag, because unsigned/separate-clean-host limitations are still disclosed.
+- Names are `GDTT-<version>-windows-x64-Portable.zip` and
+  `GDTT-<version>-windows-x64-installer.exe`; source ZIP and evidence names stay unchanged.
+  Build scripts, upload filters and tag validation use the same exact naming contract.
+- Retain previous releases unchanged; archive prior local builds/evidence under ignored exports.
+  Important source/specifications and working environments/tools remain in place. Publish source
+  through Git and binaries through GitHub Releases, not via forced Git-add of ignored output.
+
+## D-024 — 0.10.0 explicit formatting and appearance
+
+- Owner approved PEND-001 through PEND-016. Output numeric masks round stored exported values
+  by default; optional preserve mode retains numeric precision and applies an Excel display mask.
+  Input parsing never rounds. Independent dot/comma choices are recipe data, not global settings.
+- Custom masks use a documented bounded subset, encoded into existing profile strings. No recipe
+  schema migration, dependency upgrade, or replacement of existing null/timestamp behavior.
+- Reuse shared field/zone/bulk-selection controls and existing Qt palettes. Appearance settings
+  persist; safety confirmations/overwrite are never included in bulk selection.
+- Local 0.10.0 verification/build is authorized; Git publication and shutdown are not.
+
 ## D-024 — Separate Split & Join module (2026-09-08)
 
 - Reuse readers, private spill storage, established period definitions, writers and verification.

@@ -55,7 +55,7 @@ try {
     }
     $fileVersion = ($versionParts[0..3] -join ".")
     $bundle = [IO.Path]::GetFullPath((Join-Path $resolvedOutput "GDTT"))
-    $installerName = "GDTT-$version-windows-x64-setup.exe"
+    $installerName = "GDTT-$version-windows-x64-installer.exe"
     $installer = Join-Path $resolvedOutput $installerName
     if (Test-Path -LiteralPath $installer) {
         Remove-Item -LiteralPath $installer -Force
@@ -79,7 +79,7 @@ try {
 
     $checksumsPath = Join-Path $resolvedOutput "SHA256SUMS.txt"
     $checksumLines = @(
-        Get-Content -LiteralPath $checksumsPath | Where-Object { $_ -notmatch '-setup\.exe$' }
+        Get-Content -LiteralPath $checksumsPath | Where-Object { $_ -notmatch '-(setup|installer)\.exe$' }
         "$installerHash *$installerName"
     )
     [IO.File]::WriteAllLines($checksumsPath, $checksumLines)

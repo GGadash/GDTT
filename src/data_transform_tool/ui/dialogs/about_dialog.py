@@ -22,7 +22,6 @@ from PySide6.QtWidgets import (
 from data_transform_tool import __version__
 from data_transform_tool.app.metadata import (
     COMPONENT_CITATIONS,
-    COPYRIGHT_NOTICE,
     DEVELOPMENT_CREDIT,
     LICENSE_TEXT,
     PRODUCT_DESCRIPTION,
@@ -67,7 +66,7 @@ class AboutDialog(QDialog):
         layout.addWidget(description)
         layout.addSpacing(12)
         details = QLabel(
-            f"Version {__version__}\n\n{COPYRIGHT_NOTICE}\n{DEVELOPMENT_CREDIT}\n\n"
+            f"Version {__version__}\n\nCopyright (c) 2026 Gadash +\n{DEVELOPMENT_CREDIT}\n\n"
             "Datasets are processed locally. No account or cloud upload is required."
         )
         details.setWordWrap(True)

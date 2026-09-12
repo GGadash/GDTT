@@ -6,15 +6,18 @@ Copyright (c) 2026 Akila DJ +. AI-assisted development: OpenAI Codex.
 from __future__ import annotations
 
 from collections.abc import Callable
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
+from typing import cast
 
 from data_transform_tool import __version__
 from data_transform_tool.aggregation.batch_engine import execute_averaging_batches
 from data_transform_tool.app.averaging_configuration import AveragingDraft
 from data_transform_tool.app.reformat_configuration import ReformatDraft
+from data_transform_tool.datetime.custom_formats import decode
 from data_transform_tool.domain.batches import TabularData
 from data_transform_tool.domain.errors import AppError
 from data_transform_tool.domain.spill import SpillWorkspace
+from data_transform_tool.domain.table import CellValue
 from data_transform_tool.export.models import ExportPlan, ExportResult, VerificationStatus
 from data_transform_tool.export.naming import (
     data_output_path,
@@ -196,7 +199,7 @@ def prepare_export(
         input_table,
         output,
         _preview_slices(input_table),
-        _preview_slices(output),
+        _formatted_preview_slices(output, draft),
         suggest_base_name(inspection.path, output, recipe.mode),
         evidence,
         workspace,
@@ -210,6 +213,17 @@ def execute_export(
     progress: ProgressCallback | None = None,
 ) -> ExportResult:
     """Write, reopen, verify, report, and preserve failures as explicit evidence."""
+    if isinstance(prepared.draft, ReformatDraft):
+        plan = replace(
+            plan,
+            number_profiles=tuple(
+                (column.output_name, column.output_profile)
+                for column in prepared.draft.exported_columns
+                if column.output_profile is not None
+                and (spec := decode(column.output_profile)) is not None
+                and spec.kind == "number"
+            ),
+        )
     export_recipe = recipe_for_export(prepared.recipe, plan)
     _preflight_targets(plan)
     if progress is not None:
@@ -276,6 +290,31 @@ def execute_export(
         evidence.warnings,
         evidence.errors,
     )
+
+
+def _formatted_preview_slices(table: TabularData, draft: WorkflowDraft) -> tuple[PreviewSlice, ...]:
+    slices = _preview_slices(table)
+    if not isinstance(draft, ReformatDraft):
+        return slices
+    profiles = {
+        column.output_name: decode(column.output_profile) for column in draft.exported_columns
+    }
+    displayed = []
+    for preview in slices:
+        rows = tuple(
+            tuple(
+                spec.display(cast(CellValue, value))
+                if value is not None
+                and not isinstance(value, (str, bool))
+                and (spec := profiles.get(name)) is not None
+                and spec.kind == "number"
+                else value
+                for name, value in zip(table.columns, row, strict=True)
+            )
+            for row in preview.rows
+        )
+        displayed.append(replace(preview, rows=rows))
+    return tuple(displayed)
 
 
 def _preview_slices(table: TabularData, size: int = 5) -> tuple[PreviewSlice, ...]:

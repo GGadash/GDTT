@@ -59,6 +59,7 @@ from data_transform_tool.split_join.models import (
 )
 from data_transform_tool.timezone.converter import list_iana_timezones
 from data_transform_tool.transformation.recipe import OutputFormat, OutputMissingPolicy
+from data_transform_tool.ui.widgets.field_controls import bulk_buttons, fill_zones
 from data_transform_tool.ui.workers.split_join_worker import SplitJoinWorker
 
 
@@ -74,6 +75,7 @@ def zone_combo() -> QComboBox:
         "UTC; Asia/Colombo = UTC+05:30 (+5.5 hours). Type any IANA zone or ±HH:MM offset."
     )
     combo.setAccessibleName("Timezone: select or type a custom IANA zone or UTC offset")
+    fill_zones(combo)
     return combo
 
 
@@ -157,6 +159,7 @@ class SourceEditor(QWidget):
         self.fields = QListWidget()
         self.fields.setMaximumHeight(140)
         layout.addWidget(self.fields)
+        layout.addLayout(bulk_buttons(self.fields, self.changed.emit))
         self.details = QLabel("Inspect the file to review its columns and detected structure.")
         self.details.setWordWrap(True)
         layout.addWidget(self.details)
@@ -275,7 +278,8 @@ class SplitJoinView(QWidget):
         self.back.clicked.connect(self.back_requested)
         actions.addWidget(self.back)
         actions.addStretch()
-        self.prepare_button = QPushButton("Prepare & preview")
+        self.prepare_button = QPushButton("Prepare preview")
+        self.prepare_button.setToolTip("Validate sources and prepare the Split / Join preview.")
         self.prepare_button.setProperty("role", "primary")
         self.prepare_button.clicked.connect(self._prepare)
         actions.addWidget(self.prepare_button)
@@ -425,6 +429,7 @@ class SplitJoinView(QWidget):
             QLabel("Optional shared metadata in every field split (timestamp is automatic)")
         )
         group_layout.addWidget(self.shared)
+        group_layout.addLayout(bulk_buttons(self.shared, self._invalidate))
         grid.addWidget(self.group_box, 2, 0, 1, 2)
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -489,6 +494,7 @@ class SplitJoinView(QWidget):
             formats.addWidget(check)
             check.toggled.connect(self._planned_filenames)
         form.addRow("Output formats", formats)
+        form.addRow(bulk_buttons((self.csv, self.xlsx, self.styled), self._planned_filenames))
         self.null_policy = QComboBox()
         for label, value in [
             ("True null", OutputMissingPolicy.TRUE_NULL),

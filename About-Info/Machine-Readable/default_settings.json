@@ -1,6 +1,8 @@
 {
   "schema_version": 1,
   "theme": "auto",
+  "color_theme": "teal",
+  "font_size": 14,
   "output_missing_policy": "true_null",
   "default_completeness_percent": 75,
   "default_timezone_shortcuts": ["UTC", "Asia/Colombo"],

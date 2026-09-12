@@ -1,5 +1,15 @@
 # Windows Packaging
 
+Current release-candidate names (0.10.0):
+
+- `GDTT-0.10.0-windows-x64-Portable.zip`
+- `GDTT-0.10.0-windows-x64-installer.exe`
+- `GDTT-0.10.0-source.zip`
+
+Build scripts, GitHub upload filters and release validation enforce these labels. Existing
+historical releases keep their original names. See `About-Info/Human-Docs/ARTIFACT_RETENTION.md`
+for local retention and the separation between Git source and release downloads.
+
 Combination B provides a maintained PyInstaller `onedir` specification, canonical application
 icon, generated Windows version metadata, local build/verification scripts, SHA-256 checksums,
 and a Windows build workflow. Combination D wraps the verified bundle in a current-user NSIS

@@ -24,6 +24,11 @@ class DateTimeProfileRegistry:
         return cls(DEFAULT_PROFILES)
 
     def get(self, profile_id: str) -> DateTimeFormatProfile:
+        from data_transform_tool.datetime.custom_formats import decode, temporal_profile
+
+        custom = decode(profile_id)
+        if custom is not None:
+            return temporal_profile(custom)
         try:
             return self._profiles[profile_id]
         except KeyError as error:

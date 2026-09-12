@@ -86,7 +86,7 @@ try {
         throw "PyInstaller did not create the expected executable: $executable"
     }
 
-    $archiveName = "GDTT-$version-windows-x64.zip"
+    $archiveName = "GDTT-$version-windows-x64-Portable.zip"
     $archive = Join-Path $outputRoot $archiveName
     Compress-Archive -LiteralPath $bundle -DestinationPath $archive -CompressionLevel Optimal
 

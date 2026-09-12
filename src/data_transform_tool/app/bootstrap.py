@@ -45,10 +45,15 @@ def build_application(arguments: Sequence[str] | None = None) -> tuple[QApplicat
     settings_repository = SettingsRepository.default()
     settings = settings_repository.load()
     configure_logging()
-    apply_theme(app, settings.theme)
+    apply_theme(app, settings.theme, settings.color_theme, settings.font_size)
 
     window = MainWindow(settings=settings)
     window.theme_changed.connect(lambda theme: _persist_theme(settings_repository, theme))
+    window.appearance_changed.connect(
+        lambda color, size: settings_repository.save(
+            settings_repository.load().model_copy(update={"color_theme": color, "font_size": size})
+        )
+    )
     return app, window
 
 

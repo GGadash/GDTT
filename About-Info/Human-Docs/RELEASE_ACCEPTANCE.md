@@ -1,6 +1,6 @@
 # Release Acceptance
 
-GDTT 0.8.0 has passed the local Combination C-lite gate. C-lite deliberately
+GDTT 0.10.0 has passed the local Combination C-lite gate. C-lite deliberately
 uses a fresh portable extraction, a minimal runtime PATH, no inherited Python environment,
 disposable settings/log directories, synthetic workflows, and a complete installer lifecycle.
 It is strong build-host evidence, but it is not the same as a separate clean Windows computer.
@@ -20,8 +20,8 @@ powershell -ExecutionPolicy Bypass -File .\VERIFY_CHECKSUMS.ps1 -Directory .
 
 3. Confirm that all checksums pass. Do not continue if any file is missing or has a different
    SHA-256.
-4. Extract `GDTT-0.8.0-windows-x64.zip` into a new folder whose path contains a
-   space. Launch `GDTT.exe`, open About, and confirm product version 0.8.0,
+4. Extract `GDTT-0.10.0-windows-x64-Portable.zip` into a new folder whose path contains a
+   space. Launch `GDTT.exe`, open About, and confirm product version 0.10.0,
    license text, OpenAI Codex credit, and dependency versions.
 5. Exercise Reformat with a small synthetic CSV selected through the file picker. Confirm the
    timestamp and interval, leave gap filling enabled, select True Null, export CSV plus
@@ -34,7 +34,7 @@ powershell -ExecutionPolicy Bypass -File .\VERIFY_CHECKSUMS.ps1 -Directory .
 8. Add one file with a changed ordered schema or text delimiter. Confirm that GDTT explains the
    incompatibility and blocks configuration. After a successful export, use **Process more
    similar files** and confirm that the matching workflow returns to file selection.
-9. Run `GDTT-0.8.0-windows-x64-setup.exe`. Confirm the license page, current-user
+9. Run `GDTT-0.10.0-windows-x64-installer.exe`. Confirm the license page, current-user
    installation, Start Menu entry, application launch, and About information. Uninstall it and
    confirm the application and Start Menu entry are removed.
 10. Capture Light and Dark screenshots and record Windows edition/version/build. Note any

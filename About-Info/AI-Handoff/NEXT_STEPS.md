@@ -1,5 +1,24 @@
 # Next Steps
 
+## Current owner instruction — publication (2026-09-12)
+
+Commit and push reviewed 0.10.0 sources, create/push the unused `v0.10.0-rc.1` tag, and confirm
+Windows/Linux CI plus the tagged Windows build/release workflow finish successfully. Verify all
+eight published assets and downloaded checksums; keep the release a pre-release and do not alter
+historical tags/assets. Portable ZIP and installer EXE filenames must identify their purpose.
+Archive old local residue recoverably and keep datasets, tools, environments and generated
+artifacts out of Git. This supersedes the earlier local-only restriction below; no shutdown.
+
+## Current owner instruction — 0.10.0 update (2026-09-10)
+
+PEND-001 through PEND-016 are implemented locally as 0.10.0. Numeric questions were answered:
+round export values by default, optional Excel display-only precision, and independent dot/comma
+input/output separators. Local tests, portable/installer and C-lite acceptance passed. Review
+the generated `packaging/output/RELEASE_CANDIDATE.md` and `LOCAL_C_LITE.json` for final evidence.
+Owner review of actual monitor scaling and separate clean-host/unsigned-artifact acceptance
+remain external. Test the local 0.10.0 build, then authorize publication separately if satisfied.
+Publication was subsequently authorized on 2026-09-12; no shutdown is requested.
+
 ## Current owner request: 0.9.0 Split & Join
 
 Local 0.9.0 tests, layout checks, portable/installer verification, automatic output names, and

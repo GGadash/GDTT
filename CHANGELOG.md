@@ -5,6 +5,26 @@ semantic-style versioning while it matures.
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-09-11
+
+Prepared for `v0.10.0-rc.1`; unsigned release candidate. No dependency upgrades or existing
+recipe-schema changes. Portable ZIP names now contain `Portable`; installer EXE names contain
+`installer`, consistently enforced by the build and publishing workflow. Historical local
+builds and superseded evidence are retained under an ignored archive instead of deleted.
+
+- Type-aware field formats in both editors, including custom numeric, date/time, text and Boolean
+  masks; common `0.00` and `#,##0.00` presets and independent input/output decimal separators.
+- Output masks round exported numbers by default. Optional full-precision mode keeps CSV/Excel
+  values while formatting the Excel display; bounded previews and reopen checks honor the choice.
+- Resizable mapping divider and selected-field pane, horizontal/vertical scrolling, separated
+  Input/Output controls, scoped Select all/Deselect all actions and concise tooltips.
+- Teal, Blue, Graphite, Violet and Spectrum palettes, compact font-size controls, small monospaced
+  data tables, consistent hoverable Home cards, corrected Split & Join preview-button text, and
+  subtle local-processing wording. About copyright now displays `Copyright (c) 2026 Gadash +`.
+- Shared editable UTC/Colombo/custom timezone choices, half-hour offsets and full IANA list;
+  fixed offsets are supported in the existing conversion/reporting boundary paths.
+- See `About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md` for supported masks and Excel limits.
+
 ## [0.9.0] - 2026-09-08
 
 Published as `v0.9.0-rc.1` with verified Windows portable ZIP, current-user EXE installer,

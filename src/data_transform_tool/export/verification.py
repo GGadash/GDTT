@@ -15,6 +15,7 @@ from typing import Any
 
 from openpyxl import load_workbook
 
+from data_transform_tool.datetime.custom_formats import decode
 from data_transform_tool.domain.batches import TabularData, iter_rows
 from data_transform_tool.domain.table import CellValue
 from data_transform_tool.export.models import (
@@ -25,7 +26,7 @@ from data_transform_tool.export.models import (
     VerificationStatus,
 )
 from data_transform_tool.export.naming import data_output_path
-from data_transform_tool.export.writers import output_row
+from data_transform_tool.export.writers import csv_output_row, output_row
 from data_transform_tool.io.cancellation import (
     CancellationToken,
     InspectionCancelled,
@@ -127,11 +128,17 @@ def _verify_xlsx(
     workbook = load_workbook(path, read_only=True, data_only=True)
     try:
         worksheet = workbook["Data"]
-        rows = worksheet.iter_rows(values_only=True)
-        header_values = next(rows, ())
+        rows = worksheet.iter_rows(values_only=False)
+        header_values = tuple(cell.value for cell in next(rows, ()))
         header = tuple(str(value) if value is not None else "" for value in header_values)
         expected_rows = (output_row(row, plan) for row in iter_rows(expected))
         values_match = True
+        formats_match = True
+        expected_formats = {
+            name: spec.pattern
+            for name, profile in plan.number_profiles
+            if (spec := decode(profile)) is not None
+        }
         row_count = 0
         first_row: tuple[Any, ...] | None = None
         last_row: tuple[Any, ...] | None = None
@@ -143,7 +150,14 @@ def _verify_xlsx(
             except StopIteration:
                 values_match = False
                 continue
-            actual_row: tuple[Any, ...] = tuple(actual)
+            actual_row: tuple[Any, ...] = tuple(cell.value for cell in actual)
+            for name, cell in zip(header, actual, strict=False):
+                if (
+                    name in expected_formats
+                    and isinstance(cell.value, (int, float))
+                    and not isinstance(cell.value, bool)
+                ):
+                    formats_match = formats_match and cell.number_format == expected_formats[name]
             if first_row is None:
                 first_row = actual_row
             last_row = actual_row
@@ -168,6 +182,14 @@ def _verify_xlsx(
         checks.append(_timestamp_check(header, first_row, last_row))
         if output_format is OutputFormat.XLSX_FORMATTED:
             checks.extend(_xlsx_layout_checks(path, plan))
+        if expected_formats:
+            checks.append(
+                VerificationCheck(
+                    "Column number formats",
+                    formats_match,
+                    "Numeric cells retain the selected Excel display masks.",
+                )
+            )
         return checks
     finally:
         workbook.close()
@@ -300,7 +322,9 @@ def _expected_csv_digest(
     for index, row in enumerate(iter_rows(expected), start=1):
         if index % 10_000 == 0:
             _cancel(cancellation)
-        digest.update((serialize_delimited_row(output_row(row, plan)) + "\n").encode())
+        digest.update(
+            (serialize_delimited_row(csv_output_row(row, plan, expected.columns)) + "\n").encode()
+        )
     _cancel(cancellation)
     return digest.digest()
 

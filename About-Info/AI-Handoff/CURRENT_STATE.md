@@ -1,6 +1,39 @@
 # Current State
 
-Last updated: 2026-09-08
+Last updated: 2026-09-12
+
+## 0.10.0 RC1 publication instruction
+
+Owner explicitly authorized commit, tag and GitHub publication on 2026-09-12. Target tag:
+`v0.10.0-rc.1`, retaining pre-release status because signing/separate-clean-host gates remain.
+The maintained build and GitHub upload contract now produces `GDTT-0.10.0-windows-x64-Portable.zip`
+and `GDTT-0.10.0-windows-x64-installer.exe`. Local binary contents were retained with unchanged
+hashes; source/archive evidence is refreshed for the publishing change. GitHub Actions rebuilds
+from the tagged source and publishes all eight release assets after acceptance passes.
+Older local builds, superseded logs and packaging intermediates are preserved under
+`exports/archive/2026-09-12-pre-release/`; see Human-Docs/ARTIFACT_RETENTION.md.
+No history rewriting, old release deletion, dependency upgrades, or shutdown is authorized.
+
+## 0.10.0 local formatting/appearance update
+
+PEND-001 through PEND-016 are implemented; see `FORMATTING_AND_APPEARANCE.md` in Human-Docs.
+The new version adds explicit type-aware custom profiles, independent numeric decimal separators,
+rounded export values by default when a mask is chosen, optional precision-preserving Excel
+display formatting, shared zone choices, resizable mapping/editor panels and scoped selection.
+Appearance controls add five palettes and font sizing; data tables are monospaced, Home cards
+have consistent styling, local-processing text is subtle, About copyright and preview-button
+text are corrected. Existing recipes and dependencies remain unchanged; custom masks are inert
+profile strings. Native layouts and ten palette contrast combinations were checked.
+All 191 tests pass; Ruff formatting/lint and strict mypy (110 source files) pass. Source audit:
+246 prospective files, zero errors. Final 0.10.0 portable EXE/ZIP and current-user EXE installer
+passed packaged smoke (including custom numeric formats), metadata/hash checks and the temporary
+install/launch/registration/uninstall lifecycle. Fresh-extraction C-lite passed, including
+CSV/TSV/XLSX workflows, isolated settings/logs and bundled dependency metadata.
+Artifacts, manifest, checksums and the remaining external acceptance checklist are in
+`packaging/output/`. The prior 0.9.0 build is preserved in
+`exports/archive/2026-09-12-pre-release/GDTT-0.9.0-build-before-0.10.0/`. The source archive is refreshed after these handoff
+notes; C-lite and checksum finalization must match that final archive. Artifacts remain unsigned.
+The original local-only restriction was superseded by the 2026-09-12 publication instruction above.
 
 ## 0.9.0 local development update
 

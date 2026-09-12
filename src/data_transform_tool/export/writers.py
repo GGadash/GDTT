@@ -9,6 +9,7 @@ import os
 import tempfile
 from collections.abc import Callable
 from contextlib import suppress
+from dataclasses import replace
 from datetime import date, datetime, time, timedelta
 from decimal import Decimal
 from pathlib import Path
@@ -16,6 +17,7 @@ from typing import Any
 
 import xlsxwriter  # type: ignore[import-untyped]
 
+from data_transform_tool.datetime.custom_formats import decode
 from data_transform_tool.domain.batches import TabularData, iter_rows
 from data_transform_tool.domain.errors import AppError
 from data_transform_tool.domain.table import CellValue, DataRow
@@ -77,6 +79,18 @@ def output_row(row: DataRow, plan: ExportPlan) -> DataRow:
     return tuple(output_value(value, plan) for value in row)
 
 
+def csv_output_row(row: DataRow, plan: ExportPlan, columns: tuple[str, ...]) -> DataRow:
+    profiles = dict(plan.number_profiles)
+    return tuple(
+        spec.display(value, csv=True)
+        if value is not None
+        and not isinstance(value, (bool, str))
+        and (spec := decode(profiles.get(name))) is not None
+        else output_value(value, plan)
+        for name, value in zip(columns, row, strict=True)
+    )
+
+
 def _write_csv_atomic(
     target: Path,
     table: TabularData,
@@ -90,7 +104,9 @@ def _write_csv_atomic(
             for index, row in enumerate(iter_rows(table)):
                 if index % 10_000 == 0:
                     cancellation.raise_if_cancelled()
-                stream.write(serialize_delimited_row(output_row(row, plan)) + "\n")
+                stream.write(
+                    serialize_delimited_row(csv_output_row(row, plan, table.columns)) + "\n"
+                )
         cancellation.raise_if_cancelled()
         os.replace(temporary, target)
     except Exception:
@@ -120,6 +136,17 @@ def _write_xlsx_atomic(
         )
         worksheet = workbook.add_worksheet("Data")
         formats = _xlsx_formats(workbook, plan.xlsx_style) if formatted else {}
+        column_formats = {}
+        for name, profile in plan.number_profiles:
+            spec = decode(profile)
+            if spec is None:
+                continue
+            specific = (
+                _xlsx_formats(workbook, replace(plan.xlsx_style, numeric_format=spec.pattern))
+                if formatted
+                else {"numeric": workbook.add_format({"num_format": spec.pattern})}
+            )
+            column_formats[name] = specific
         header_format = formats.get("header")
         for column, name in enumerate(table.columns):
             worksheet.write(0, column, name, header_format)
@@ -133,7 +160,7 @@ def _write_xlsx_atomic(
                     row_index,
                     column_index,
                     value,
-                    formats,
+                    column_formats.get(table.columns[column_index], formats),
                     alternate=formatted and row_index % 2 == 0,
                 )
         if formatted:

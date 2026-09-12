@@ -4,16 +4,27 @@
 desktop application for data forging, transitions, and aggregations—mainly for
 air-quality-related and other environmental time-series data.
 
-> Development status: **0.9.0-rc.1 pre-release / Split & Join added**. Reformat and Averaging now
+> Development status: **0.10.0-rc.1 / formatting and appearance release candidate**.
+> Reformat and Averaging now
 > continue from bounded previews into spill-backed full-file execution, CSV/XLSX output, processing
 > reports, local templates, and post-export reopen verification. The measured large-file backend
 > and CI checkpoint is complete; verified Windows portable and current-user installer builds now
 > exist. Combination A batch/spill execution and local Combination C-lite release acceptance are
 > complete; the separate clean-machine confirmation remains.
 
-Download the [Windows portable ZIP and installer EXE](https://github.com/GGadash/GDTT/releases/tag/v0.9.0-rc.1)
+See the [0.10.0 formatting and appearance guide](About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md).
+
+Download the [Windows portable ZIP and installer EXE](https://github.com/GGadash/GDTT/releases/tag/v0.10.0-rc.1)
 from the release's **Assets** section. Extract the portable ZIP before running `GDTT/GDTT.exe`.
 These are unsigned release-candidate builds; verification files are included with the downloads.
+
+- Portable (no installation): `GDTT-0.10.0-windows-x64-Portable.zip`
+- Installer: `GDTT-0.10.0-windows-x64-installer.exe`
+- Source: `GDTT-0.10.0-source.zip`
+
+Binaries are GitHub Release assets, not files committed to the source repository. Historical
+local builds and evidence are kept outside Git; see the
+[artifact retention guide](About-Info/Human-Docs/ARTIFACT_RETENTION.md).
 
 ## Why it exists
 

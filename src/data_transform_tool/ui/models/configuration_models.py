@@ -22,6 +22,7 @@ from data_transform_tool.app.reformat_configuration import (
     TransformChoice,
 )
 from data_transform_tool.app.reformat_preview import ProposedPreview
+from data_transform_tool.datetime.custom_formats import profile_label
 from data_transform_tool.io.models import SemanticType
 
 _ROOT_INDEX = QModelIndex()
@@ -83,11 +84,11 @@ class MappingTableModel(QAbstractTableModel):
             column.source_name,
             _status(column),
             f"{column.detected_type.value} · {column.confidence:.0%}",
-            column.input_profile or "Auto / unchanged",
+            profile_label(column.input_profile, "Auto / unchanged"),
             f"{column.missing_percent:.2f}%",
             column.output_name,
             column.output_type.value,
-            column.output_profile or "As source",
+            profile_label(column.output_profile, "As source"),
             _transformation_label(column),
             column.gap_behavior.value.replace("_", " ").title(),
         )

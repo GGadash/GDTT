@@ -5,8 +5,7 @@ Copyright (c) 2026 Akila DJ +. AI-assisted development: OpenAI Codex.
 
 from __future__ import annotations
 
-from datetime import UTC, date, datetime, time, timedelta
-from zoneinfo import ZoneInfo
+from datetime import UTC, date, datetime, time, timedelta, tzinfo
 
 from data_transform_tool.aggregation.models import (
     AggregationError,
@@ -14,6 +13,7 @@ from data_transform_tool.aggregation.models import (
     PeriodKind,
     PeriodSpec,
 )
+from data_transform_tool.timezone.zones import resolve_zone
 
 
 class Periodizer:
@@ -21,7 +21,7 @@ class Periodizer:
 
     def __init__(self, spec: PeriodSpec, reporting_timezone: str) -> None:
         self.spec = spec
-        self.zone = ZoneInfo(reporting_timezone)
+        self.zone = resolve_zone(reporting_timezone)
 
     def period_for(self, value: datetime) -> PeriodBounds:
         if value.utcoffset() is None:
@@ -256,7 +256,7 @@ def _reporting_date(local: datetime, day_start: time) -> date:
     return local.date() if local_time >= day_start else local.date() - timedelta(days=1)
 
 
-def _localize_boundary(naive: datetime, zone: ZoneInfo) -> datetime:
+def _localize_boundary(naive: datetime, zone: tzinfo) -> datetime:
     if naive.tzinfo is not None:
         return naive.astimezone(zone)
     candidates = _valid_local_candidates(naive, zone)
@@ -268,10 +268,10 @@ def _localize_boundary(naive: datetime, zone: ZoneInfo) -> datetime:
         candidates = _valid_local_candidates(probe, zone)
         if candidates:
             return min(candidates, key=_instant)
-    raise AggregationError(f"Could not resolve local reporting boundary {naive!s} in {zone.key}.")
+    raise AggregationError(f"Could not resolve local reporting boundary {naive!s} in {zone!s}.")
 
 
-def _valid_local_candidates(naive: datetime, zone: ZoneInfo) -> tuple[datetime, ...]:
+def _valid_local_candidates(naive: datetime, zone: tzinfo) -> tuple[datetime, ...]:
     candidates: dict[datetime, datetime] = {}
     for fold in (0, 1):
         candidate = naive.replace(tzinfo=zone, fold=fold)

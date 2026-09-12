@@ -7,7 +7,9 @@ from data_transform_tool.settings.repository import SettingsRepository
 
 def test_settings_round_trip(tmp_path: Path) -> None:
     repository = SettingsRepository(tmp_path / "settings.json")
-    expected = AppSettings(theme="dark", window_width=1300, window_height=800)
+    expected = AppSettings(
+        theme="dark", color_theme="blue", font_size=16, window_width=1300, window_height=800
+    )
 
     repository.save(expected)
 

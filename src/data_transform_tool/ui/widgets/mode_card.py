@@ -35,6 +35,7 @@ class ModeCard(QFrame):
         super().__init__()
         self.setProperty("role", "modeCard")
         self.setProperty("featured", featured)
+        self.setAttribute(Qt.WidgetAttribute.WA_Hover)
         self.setMinimumHeight(224)
         self.setAccessibleName(title)
 
@@ -70,7 +71,7 @@ class ModeCard(QFrame):
 
         self.action_button = QPushButton(button_text)
         self.action_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.action_button.setProperty("role", "primary" if featured else "secondary")
+        self.action_button.setProperty("role", "secondary")
         self.action_button.setEnabled(enabled)
         self.action_button.clicked.connect(self.activated)
         layout.addWidget(self.action_button)

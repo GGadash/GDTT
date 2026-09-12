@@ -23,7 +23,7 @@ def test_application_icons_and_offscreen_smoke_contract_exist() -> None:
 
 def test_windows_version_resource_uses_canonical_product_metadata() -> None:
     generator = _version_generator()
-    assert generator["version_tuple"](__version__) == (0, 9, 0, 0)
+    assert generator["version_tuple"](__version__) == (0, 10, 0, 0)
     resource = generator["version_resource"](__version__)
     assert "GDTT" in resource
     assert "Gadash (Akila DJ)" in resource
@@ -78,6 +78,13 @@ def test_release_candidate_and_ci_contracts_are_versioned() -> None:
     build_script = Path("scripts/build_windows.ps1").read_text(encoding="utf-8")
     assert '"$executableHash *GDTT/GDTT.exe"' not in build_script
     assert "sha256 = $executableHash" in build_script
+    assert '"GDTT-$version-windows-x64-Portable.zip"' in build_script
+    installer_build = Path("scripts/build_installer.ps1").read_text(encoding="utf-8")
+    assert '"GDTT-$version-windows-x64-installer.exe"' in installer_build
+    assert "packaging/output/GDTT-*-windows-x64-Portable.zip" in windows
+    assert "packaging/output/GDTT-*-windows-x64-installer.exe" in windows
+    assert '"GDTT-$tagVersion-windows-x64-Portable.zip"' in windows
+    assert '"GDTT-$tagVersion-windows-x64-installer.exe"' in windows
 
     finalizer = Path("scripts/finalize_release_candidate.ps1").read_text(encoding="utf-8")
     assert "RELEASE_CANDIDATE.md" in finalizer
