@@ -2,7 +2,16 @@
 
 Last updated: 2026-09-12
 
-## 0.10.0 RC1 publication instruction
+## 0.10.0 RC1 publication verified
+
+`v0.10.0-rc.1` at `4789a834ee850cc3c0425fc69a2a61ac94491efe` is published as a non-draft
+GitHub pre-release: https://github.com/GGadash/GDTT/releases/tag/v0.10.0-rc.1.
+Branch CI `34686804998`, tagged Windows/Linux CI `34686807181`, and Windows build/release
+`34686807041` all succeeded. All eight published assets were independently downloaded to
+`exports/github-v0.10.0-rc.1/`; six release checksums and all eight GitHub asset digests match.
+The published manifest's binary/source hashes match its C-lite acceptance report. These release
+assets remain bound to the tagged commit; the later documentation-only commit records verification
+and does not replace the tag or rebuild its immutable downloads.
 
 Owner explicitly authorized commit, tag and GitHub publication on 2026-09-12. Target tag:
 `v0.10.0-rc.1`, retaining pre-release status because signing/separate-clean-host gates remain.
@@ -178,7 +187,7 @@ The original local-only restriction was superseded by the 2026-09-12 publication
 - Privacy-conscious rotating logs and central user-facing error levels exist.
 - Synthetic unit, regression, and desktop integration tests cover Phases 2 through 8.
 
-## Verification status
+## Historical 0.8.0 verification snapshot
 
 - `uv.lock` resolves GDTT 0.8.0 under Python 3.13.15 with PySide6 6.10.3,
   XlsxWriter 3.2.9, and the optional PyInstaller 6.22.2 packaging environment.

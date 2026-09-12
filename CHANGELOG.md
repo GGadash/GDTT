@@ -7,7 +7,7 @@ semantic-style versioning while it matures.
 
 ## [0.10.0] - 2026-09-11
 
-Prepared for `v0.10.0-rc.1`; unsigned release candidate. No dependency upgrades or existing
+Published as `v0.10.0-rc.1`; unsigned release candidate. No dependency upgrades or existing
 recipe-schema changes. Portable ZIP names now contain `Portable`; installer EXE names contain
 `installer`, consistently enforced by the build and publishing workflow. Historical local
 builds and superseded evidence are retained under an ignored archive instead of deleted.

@@ -2,12 +2,12 @@
 
 ## Current owner instruction — publication (2026-09-12)
 
-Commit and push reviewed 0.10.0 sources, create/push the unused `v0.10.0-rc.1` tag, and confirm
-Windows/Linux CI plus the tagged Windows build/release workflow finish successfully. Verify all
-eight published assets and downloaded checksums; keep the release a pre-release and do not alter
-historical tags/assets. Portable ZIP and installer EXE filenames must identify their purpose.
-Archive old local residue recoverably and keep datasets, tools, environments and generated
-artifacts out of Git. This supersedes the earlier local-only restriction below; no shutdown.
+Complete: source commit `4789a83` and tag `v0.10.0-rc.1` are pushed; Windows/Linux CI and Windows
+build/release all passed. Eight correctly named assets are published and independently verified
+(six checksum entries plus eight GitHub digests). Older local builds/evidence are preserved in
+`exports/archive/2026-09-12-pre-release/`; generated artifacts and private data remain outside Git.
+Next: owner review at actual monitor DPI/scaling, separate clean-Windows acceptance, and a signing
+decision before promotion to stable. Keep existing historical tags/assets unchanged. No shutdown.
 
 ## Current owner instruction — 0.10.0 update (2026-09-10)
 
