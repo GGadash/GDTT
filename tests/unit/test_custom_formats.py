@@ -40,6 +40,45 @@ def test_input_locale_never_rounds(mask, separator, source, expected):
     assert FieldFormat("number", mask, separator).number(source, parsing=True) == Decimal(expected)
 
 
+def test_iso_compact_offset_to_utc_preview_recipe_and_full_exports(tmp_path):
+    path = tmp_path / "iso.csv"
+    path.write_text("When,Value\n20260101T010203+0530,1.23\n", encoding="utf-8")
+    inspection = FileInspector.default().inspect(path)
+    draft = replace(create_reformat_draft(inspection), gap_fill_enabled=False)
+    draft = draft.update_column(
+        replace(
+            draft.column("When"),
+            output_type=SemanticType.DATETIME,
+            input_profile="iso_basic_offset",
+            output_profile="iso_utc",
+        )
+    )
+    preview = build_proposed_preview(inspection, draft)
+    assert preview.error is None
+    expected = "2025-12-31T19:32:03Z"
+    assert preview.rows[0][0] == expected
+    recipe = build_transformation_recipe(draft)
+    restored = apply_reformat_template(create_reformat_draft(inspection), recipe)
+    assert restored.column("When").input_profile == "iso_basic_offset"
+    assert restored.column("When").output_profile == "iso_utc"
+    prepared = prepare_export(inspection, draft, recipe, CancellationToken())
+    try:
+        result = execute_export(
+            prepared, ExportPlan(tmp_path, "result", tuple(OutputFormat)), CancellationToken()
+        )
+        assert all(v.status is not VerificationStatus.FAILED for v in result.verifications)
+        assert all(check.passed for v in result.verifications for check in v.checks)
+        assert expected in (tmp_path / "result.csv").read_text(encoding="utf-8-sig")
+        for name in ("result_P.xlsx", "result_F.xlsx"):
+            workbook = load_workbook(tmp_path / name)
+            try:
+                assert workbook.active["A2"].value == expected
+            finally:
+                workbook.close()
+    finally:
+        prepared.close()
+
+
 @pytest.mark.parametrize("source", ["1.2345", "1,2,3", "1 234,56"])
 def test_input_separator_does_not_guess(source):
     with pytest.raises(ValueError):

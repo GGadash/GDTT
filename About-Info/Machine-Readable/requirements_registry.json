@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "product": "GDTT — Data Transform Tool by Gadash (Akila DJ)",
-  "updated": "2026-09-12",
+  "updated": "2026-09-15",
   "requirements": [
     {
       "id": "CODEX-001",
@@ -487,6 +487,15 @@
       "status": "implemented_local",
       "test_reference": "tests/unit/test_custom_formats.py",
       "implementation_symbol": "FieldFormat; csv_output_row",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-017",
+      "description": "Type-scoped input/output profiles with prominent Custom and common extended ISO formats before compact UTC, offset, minute and second forms; timezone-safe Z output.",
+      "module": "datetime/profiles.py; datetime/parser.py; ui/widgets/field_controls.py",
+      "status": "implemented",
+      "test_reference": "tests/unit/test_datetime_transformations.py; tests/unit/test_custom_formats.py; tests/integration/test_format_appearance.py",
+      "implementation_symbol": "DateTimeProfileRegistry; DateTimeParser; ProfileCombo",
       "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
     },
     {

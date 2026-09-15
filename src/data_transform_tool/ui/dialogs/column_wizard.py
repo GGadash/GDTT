@@ -130,6 +130,8 @@ class SequentialColumnWizard(QDialog):
     def _type_changed(self) -> None:
         kind = str(self.output_type_combo.currentData())
         numeric = kind in {SemanticType.INTEGER, SemanticType.DECIMAL}
+        self.input_profile_combo.load(None, kind)
+        self.input_decimal.setCurrentText(".")
         self.output_profile_combo.load(None, kind)
         self.output_decimal.setCurrentText(".")
         self.preserve_precision.setChecked(False)

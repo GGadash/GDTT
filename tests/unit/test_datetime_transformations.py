@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import json
-from datetime import date, datetime, time, timedelta
+from datetime import UTC, date, datetime, time, timedelta, timezone
 from pathlib import Path
 
 import pytest
 
+from data_transform_tool.datetime.custom_formats import FieldFormat
 from data_transform_tool.datetime.models import (
     IntervalEndMode,
     TimestampRole,
@@ -35,7 +36,85 @@ def test_iso_regional_and_millisecond_profiles_are_explicit() -> None:
     parsed = parser.parse("2025-08-20 08:15:30.123456", "iso_millisecond")
     assert parsed == datetime(2025, 8, 20, 8, 15, 30, 123456)
     assert parser.format(parsed, "iso_millisecond") == "2025-08-20 08:15:30.123"
-    assert DateTimeProfileRegistry.default().groups() == ("Recommended / ISO", "Regional")
+    assert DateTimeProfileRegistry.default().groups() == (
+        "Recommended / ISO",
+        "Regional",
+        "Compact / ISO",
+    )
+
+
+@pytest.mark.parametrize(
+    ("profile", "text"),
+    [
+        ("iso_utc", "2026-09-15T01:02:03Z"),
+        ("iso_basic_utc", "20260915T010203Z"),
+        ("iso_offset", "2026-09-15T01:02:03+05:30"),
+        ("iso_basic_offset", "20260915T010203+0530"),
+        ("iso_t_minute", "2026-09-15T01:02"),
+        ("iso_basic_minute", "20260915T0102"),
+        ("iso_t_second", "2026-09-15T01:02:03"),
+        ("iso_basic_second", "20260915T010203"),
+    ],
+)
+def test_iso_presets_parse_format_and_preserve_nulls(profile, text):
+    parser = DateTimeParser()
+    value = parser.parse(text, profile)
+    assert isinstance(value, datetime)
+    assert (value.year, value.month, value.day, value.hour, value.minute) == (2026, 9, 15, 1, 2)
+    assert value.second == (0 if "minute" in profile else 3)
+    assert value.utcoffset() == (
+        timedelta(0)
+        if "utc" in profile
+        else timedelta(hours=5, minutes=30)
+        if "offset" in profile
+        else None
+    )
+    assert parser.format(value, profile) == text
+    source = DataTable(("When",), ((text,), (None,)))
+    parsed = ParseDateTimeColumn("When", profile).apply(source).table
+    assert FormatDateTimeColumn("When", profile).apply(parsed).table == source
+    assert parser.parse_unambiguous(text) == value
+    pattern = parser.registry.get(profile).display_pattern
+    custom = FieldFormat("datetime", pattern).encode()
+    assert parser.parse(text, custom) == value
+    assert parser.format(value, custom) == text
+
+
+@pytest.mark.parametrize("profile", ["iso_utc", "iso_basic_utc"])
+def test_z_output_converts_instant_not_wall_clock_and_requires_source_zone(profile):
+    parser = DateTimeParser()
+    local = datetime(2026, 1, 1, 1, 2, 3, tzinfo=timezone(timedelta(hours=5, minutes=30)))
+    expected = datetime(2025, 12, 31, 19, 32, 3, tzinfo=UTC)
+    assert parser.parse(local, profile) == expected
+    assert parser.parse(parser.format(local, profile), profile) == expected
+    with pytest.raises(ValueError, match="source timezone"):
+        parser.format(local.replace(tzinfo=None), profile)
+    with pytest.raises(ValueError, match="source timezone"):
+        parser.parse(local.replace(tzinfo=None), profile)
+
+
+@pytest.mark.parametrize(
+    ("profile", "text"),
+    [
+        ("iso_basic_second", "20260915T0102"),
+        ("iso_basic_minute", "20260915T010203"),
+        ("iso_basic_utc", "20260915T0102Z"),
+        ("iso_basic_utc", "20260915T010203+0530"),
+        ("iso_utc", "2026-09-15T01:02:03+05:30"),
+        ("iso_basic_offset", "20260915T010203"),
+        ("iso_t_second", "2026-09-15T01:02"),
+        ("iso_t_minute", "2026-09-15T01:02:03"),
+    ],
+)
+def test_iso_presets_reject_wrong_shape_instead_of_guessing(profile, text):
+    with pytest.raises(ValueError, match="does not match"):
+        DateTimeParser().parse(text, profile)
+
+
+@pytest.mark.parametrize("profile", ["iso_offset", "iso_basic_offset"])
+def test_offset_output_never_silently_omits_unknown_offset(profile):
+    with pytest.raises(ValueError, match="source timezone"):
+        DateTimeParser().format(datetime(2026, 9, 15), profile)
 
 
 def test_runtime_profiles_match_machine_readable_registry() -> None:

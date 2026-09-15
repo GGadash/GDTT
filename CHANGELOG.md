@@ -5,6 +5,19 @@ semantic-style versioning while it matures.
 
 ## [Unreleased]
 
+## [0.10.1] - 2026-09-15
+
+Release target: `v0.10.1-rc.1` (unsigned pre-release).
+
+- Added extended/compact ISO UTC, numeric-offset, minute and second datetime presets in input
+  and output; common extended forms appear above compact forms and Custom sits near the top.
+- Both field-editor and wizard lists now follow the selected type, excluding date/time presets
+  from numeric/text lists. Explicit type changes reset profiles; saved recipe profiles remain intact.
+- UTC Z output converts known instants to UTC; unknown-zone UTC/offset output blocks with guidance.
+  Compact inputs have strict shape checks so missing seconds are not silently reinterpreted.
+- Added ISO preview, recipe, CSV/plain/styled-XLSX export, null, UI and packaged smoke regressions.
+- Kept Portable/installer asset naming and recoverable local archives; no dependency upgrades.
+
 ## [0.10.0] - 2026-09-11
 
 Published as `v0.10.0-rc.1`; unsigned release candidate. No dependency upgrades or existing

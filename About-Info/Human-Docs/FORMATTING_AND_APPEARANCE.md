@@ -1,4 +1,4 @@
-# GDTT 0.10.0: formatting and appearance
+# GDTT 0.10.1: formatting and appearance
 
 GDTT — Data Transform Tool by Gadash (Akila DJ). Implemented with existing Python, PySide6,
 XlsxWriter/openpyxl and Decimal components, with AI-assisted development using OpenAI Codex.
@@ -8,10 +8,42 @@ No new dependency or bundled font was added; existing third-party notices remain
 
 Select a field in Reformat / Transform. Drag either divider to enlarge the mapping columns or
 Selected field editor. Both directions can scroll; short windows may require vertical scrolling.
-The sequential wizard offers the same profiles. Input profiles cover every supported type;
-output presets follow the chosen output type. Changing type resets its output format to As source
-and removes incompatible numeric transforms. Existing recipes/defaults do not acquire rounding
+The sequential wizard offers the same profiles. Both input and output preset lists follow the
+chosen field type; numeric/text lists do not include temporal presets. Custom is directly below
+Auto / unchanged or As source, and opens an editable mask field. Changing type resets both profiles
+to Auto / unchanged and As source, and removes incompatible numeric transforms.
+Existing recipes/defaults do not acquire rounding
 automatically: choose a numeric output mask when rounding is wanted.
+
+### ISO date/time presets (0.10.1)
+
+Select DateTime for the following input and output choices. Common extended forms appear first;
+compact forms are lower in the list. Date-only and Time-only fields retain their own relevant
+presets. Hover a preset for its descriptive name. Existing profile IDs/output defaults are retained.
+
+| Meaning | Extended example | Compact example |
+| --- | --- | --- |
+| UTC datetime | 2026-09-15T01:02:03Z | 20260915T010203Z |
+| Datetime with UTC offset | 2026-09-15T01:02:03+05:30 | 20260915T010203+0530 |
+| Date with hour/minute | 2026-09-15T01:02 | 20260915T0102 |
+| Date with full time | 2026-09-15T01:02:03 | 20260915T010203 |
+
+Masks use GDTT's existing notation: yyyy = year, MM = month, dd = day, HH = 24-hour,
+mm = minute, ss = second; quoted T/Z are shown explicitly. XX denotes compact offset,
+XXX denotes colon-separated offset. Exact new ISO masks also work when typed into Custom.
+UTC presets read Z as UTC and convert known source instants to UTC on output, including date
+rollover. Offset output preserves the value's current timezone offset. UTC/offset output blocks
+when the source timezone is unknown; for naive local inputs select the matching no-zone input
+profile, configure the source timezone (for example Asia/Colombo), and a target timezone before
+export. Do not merely append Z to local wall-clock times. No-zone/minute presets intentionally
+omit timezone/seconds; they are explicit formatting choices, not lossless timestamp containers.
+
+Saved older recipes retain their explicit profiles when opened, including a previously selected
+cross-type input profile; it is not offered among new presets. Explicitly changing field type
+resets profiles for review. New ISO profile IDs require GDTT 0.10.1 or newer. No recipe schema or
+dependency changes are needed.
+
+### Numeric input and output
 
 - **Input profile** describes how existing values are read; it does not round input numbers.
 - **Output format** describes the export. `0.00` is the first/common numeric preset: 1.2345 -> 1.23.

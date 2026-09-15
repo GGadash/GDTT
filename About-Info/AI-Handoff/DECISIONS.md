@@ -1,5 +1,16 @@
 # Decisions
 
+## D-026 — ISO presets and type-scoped profiles (2026-09-15)
+
+- Implement PEND-017 as patch version 0.10.1; owner authorizes cleanup, commit/push and publication
+  of source/binaries with a new tag. Use v0.10.1-rc.1; preserve old tags/releases unchanged.
+- Both input/output selectors follow selected type. Custom stays second, common extended ISO
+  forms precede compact forms. Existing IDs retain output behavior; new presets use new IDs.
+- Z input means UTC; Z output converts known instants, never assumes a naive datetime is UTC.
+  Unknown-zone UTC/offset output blocks. Exact new ISO custom masks use the same semantics.
+- Explicit type changes reset profiles for review; loading saved recipes does not rewrite rules.
+  Keep recipe schemas, dependencies, aggregation and Split & Join behavior unchanged.
+
 ## D-025 — Explicit RC1 publication and artifact retention (2026-09-12)
 
 - Owner authorized committing and pushing 0.10.0 with a release tag and binary assets. Use the

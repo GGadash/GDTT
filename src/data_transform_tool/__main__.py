@@ -84,6 +84,13 @@ def main(arguments: Sequence[str] | None = None) -> int:
             "1.2345"
         )
         _trace(trace_stream, "custom-format-smoke=passed")
+        from data_transform_tool.datetime.parser import DateTimeParser
+
+        parser = DateTimeParser()
+        value = parser.parse("20260915T010203+0530", "iso_basic_offset")
+        assert parser.format(value, "iso_utc") == "2026-09-14T19:32:03Z"
+        assert parser.format(value, "iso_basic_utc") == "20260914T193203Z"
+        _trace(trace_stream, "iso-format-smoke=passed")
     except Exception as error:
         _trace(trace_stream, f"custom-format-smoke=failed: {type(error).__name__}: {error}")
         passed = False

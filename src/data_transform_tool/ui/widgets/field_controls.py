@@ -71,24 +71,20 @@ class ProfileCombo(QComboBox):
         self.kind = kind_for_type(kind)
         self.clear()
         self.addItem("Auto / unchanged" if self.input_profile else "As source", None)
+        self.addItem(f"Custom {self.kind}…", f"custom:{self.kind}")
         for item in DateTimeProfileRegistry.default().all():
-            if self.input_profile or item.temporal_kind.value == self.kind:
+            if item.temporal_kind.value == self.kind:
                 self.addItem(item.display_pattern, item.profile_id)
+                self.setItemData(self.count() - 1, item.name, Qt.ItemDataRole.ToolTipRole)
         presets = {
             "number": ("0.00", "0", "#,##0.00", "0.000", "0.###"),
             "text": ("@", "{value}"),
             "boolean": ("True|False", "Yes|No", "1|0"),
         }
         for category, patterns in presets.items():
-            if self.input_profile or category == self.kind:
+            if category == self.kind:
                 for pattern in patterns:
                     self.addItem(pattern, FieldFormat(category, pattern).encode())
-        for category in (
-            ("number", "date", "time", "datetime", "text", "boolean")
-            if self.input_profile
-            else (self.kind,)
-        ):
-            self.addItem(f"Custom {category}…", f"custom:{category}")
         custom = decode(profile)
         if custom and self.input_profile:
             self.kind = custom.kind
@@ -104,7 +100,9 @@ class ProfileCombo(QComboBox):
         index = self.currentIndex()
         data = self.currentData() if index >= 0 and text == self.itemText(index) else None
         if data is None and index == 0 and text == self.itemText(0):
-            if self.decimal == "," or (self.preserve and not self.input_profile):
+            if self.kind == "number" and (
+                self.decimal == "," or (self.preserve and not self.input_profile)
+            ):
                 return FieldFormat("number", "0.00", self.decimal, self.preserve).encode()
             return None
         if isinstance(data, str) and not data.startswith("custom:"):

@@ -41,6 +41,8 @@ class DateTimeFormatProfile:
     temporal_kind: TemporalKind
     output_pattern: str
     colonize_offset: bool = False
+    utc: bool = False
+    input_regex: str | None = None
 
 
 @dataclass(frozen=True)

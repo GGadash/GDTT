@@ -4,7 +4,7 @@
 desktop application for data forging, transitions, and aggregations—mainly for
 air-quality-related and other environmental time-series data.
 
-> Development status: **0.10.0-rc.1 / formatting and appearance release candidate**.
+> Development status: **0.10.1-rc.1 / ISO formatting release candidate**.
 > Reformat and Averaging now
 > continue from bounded previews into spill-backed full-file execution, CSV/XLSX output, processing
 > reports, local templates, and post-export reopen verification. The measured large-file backend
@@ -12,15 +12,15 @@ air-quality-related and other environmental time-series data.
 > exist. Combination A batch/spill execution and local Combination C-lite release acceptance are
 > complete; the separate clean-machine confirmation remains.
 
-See the [0.10.0 formatting and appearance guide](About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md).
+See the [0.10.1 formatting and appearance guide](About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md).
 
-Download the [Windows portable ZIP and installer EXE](https://github.com/GGadash/GDTT/releases/tag/v0.10.0-rc.1)
+Download the [Windows portable ZIP and installer EXE](https://github.com/GGadash/GDTT/releases/tag/v0.10.1-rc.1)
 from the release's **Assets** section. Extract the portable ZIP before running `GDTT/GDTT.exe`.
 These are unsigned release-candidate builds; verification files are included with the downloads.
 
-- Portable (no installation): `GDTT-0.10.0-windows-x64-Portable.zip`
-- Installer: `GDTT-0.10.0-windows-x64-installer.exe`
-- Source: `GDTT-0.10.0-source.zip`
+- Portable (no installation): `GDTT-0.10.1-windows-x64-Portable.zip`
+- Installer: `GDTT-0.10.1-windows-x64-installer.exe`
+- Source: `GDTT-0.10.1-source.zip`
 
 Binaries are GitHub Release assets, not files committed to the source repository. Historical
 local builds and evidence are kept outside Git; see the

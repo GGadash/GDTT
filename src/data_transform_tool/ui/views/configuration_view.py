@@ -596,6 +596,7 @@ class ReformatConfigurationView(QWidget):
         transform = TransformChoice(str(self.transform_combo.currentData()))
         if output_type != current.output_type:
             numeric = output_type in {SemanticType.INTEGER, SemanticType.DECIMAL}
+            input_profile = None
             output_profile = None
             if not numeric:
                 transform = TransformChoice.KEEP

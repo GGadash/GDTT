@@ -1,5 +1,13 @@
 # Next Steps
 
+## Current owner instruction — ISO update and publication (2026-09-15)
+
+Implement PEND-017 as 0.10.1, run focused/full regression gates, archive prior local output
+recoverably, rebuild Portable/installer/source and C-lite evidence, then commit/push and publish
+v0.10.1-rc.1. Independently download/check all eight assets after Actions succeeds.
+Keep historical releases/tags untouched. Separate clean-Windows, DPI review and signing remain
+external acceptance gates; no shutdown is requested.
+
 ## Current owner instruction — publication (2026-09-12)
 
 Complete: source commit `4789a83` and tag `v0.10.0-rc.1` are pushed; Windows/Linux CI and Windows

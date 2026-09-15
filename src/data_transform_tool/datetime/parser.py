@@ -5,8 +5,9 @@ Copyright (c) 2026 Akila DJ +. AI-assisted development: OpenAI Codex.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
-from datetime import date, datetime, time
+from datetime import UTC, date, datetime, time
 
 from data_transform_tool.datetime.models import DateTimeFormatProfile, TemporalKind
 from data_transform_tool.datetime.profiles import DateTimeProfileRegistry
@@ -36,6 +37,10 @@ class DateTimeParser:
     def parse(self, value: object, profile_id: str) -> TemporalValue:
         profile = self.registry.get(profile_id)
         if isinstance(value, datetime):
+            if profile.utc:
+                if value.utcoffset() is None:
+                    raise ValueError("UTC format requires a known source timezone.")
+                value = value.astimezone(UTC)
             return _coerce_kind(value, profile.temporal_kind)
         if (
             isinstance(value, date)
@@ -46,11 +51,15 @@ class DateTimeParser:
         if isinstance(value, time) and profile.temporal_kind is TemporalKind.TIME:
             return value
         text = str(value).strip()
+        if profile.input_regex and re.fullmatch(profile.input_regex, text) is None:
+            raise ValueError(f"Value {text!r} does not match {profile.display_pattern}.")
         for pattern in profile.python_patterns:
             try:
                 parsed = datetime.strptime(text, pattern)
             except ValueError:
                 continue
+            if profile.utc:
+                parsed = parsed.replace(tzinfo=UTC)
             return _coerce_kind(parsed, profile.temporal_kind)
         raise ValueError(
             f"Value {text!r} does not match {profile.name} ({profile.display_pattern})."
@@ -87,6 +96,17 @@ class DateTimeParser:
 
     def format(self, value: TemporalValue, profile_id: str) -> str:
         profile = self.registry.get(profile_id)
+        if (profile.utc or "%z" in profile.output_pattern) and (
+            not isinstance(value, (datetime, time)) or value.utcoffset() is None
+        ):
+            raise ValueError(
+                "UTC/offset output requires a known source timezone. "
+                "Configure the source timezone before formatting."
+            )
+        if profile.utc:
+            if not isinstance(value, datetime):
+                raise ValueError("UTC datetime output requires a full datetime value.")
+            value = value.astimezone(UTC)
         output = value.strftime(profile.output_pattern)
         if profile.profile_id == "iso_millisecond":
             output = output[:-3]

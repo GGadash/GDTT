@@ -122,7 +122,17 @@ def decode(profile: str | None) -> FieldFormat | None:
 
 
 def temporal_profile(spec: FieldFormat) -> DateTimeFormatProfile:
+    from data_transform_tool.datetime.profiles import DEFAULT_PROFILES
+
     pattern = spec.pattern
+    # Exact new ISO masks keep the same strict shape and UTC semantics when typed.
+    for profile in DEFAULT_PROFILES:
+        if (
+            profile.input_regex is not None
+            and profile.temporal_kind.value == spec.kind
+            and profile.display_pattern == pattern
+        ):
+            return profile
     tokens = re.compile(
         r"yyyy|MMMM|MMM|yy|MM|dd|HH|hh|mm|ss|AM/PM|XXX|M|d|H|h|m|s|\"[^\"]*\"|'[^']*'",
         re.IGNORECASE,

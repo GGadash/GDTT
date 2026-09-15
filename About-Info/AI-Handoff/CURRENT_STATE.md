@@ -1,6 +1,22 @@
 # Current State
 
-Last updated: 2026-09-12
+Last updated: 2026-09-15
+
+## 0.10.1 ISO format update
+
+PEND-017 adds seven ISO profiles alongside existing iso_offset, covering all eight requested
+extended/compact UTC/offset/minute/second forms. Custom is second in both field selectors;
+input/output lists follow selected type. UTC output requires a known source timezone and
+converts the instant. Compact parsing is shape-checked; exact new typed ISO masks share semantics.
+Existing profiles and saved recipes remain compatible; explicit type changes reset profiles.
+No dependency, recipe-schema, averaging or Split & Join changes. Publication target is
+v0.10.1-rc.1, explicitly authorized by the owner. All 224 tests, Ruff formatting/lint and strict
+mypy (110 source files) passed. Prior local output, packaging intermediates and RC1 download/log
+evidence are preserved under exports/archive/2026-09-15-pre-0.10.1/. Local Portable ZIP/EXE and
+installer passed metadata, required-file/hash checks, packaged smoke (including ISO conversion),
+and temporary install/launch/registration/uninstall verification. Source/C-lite/checksum evidence
+is generated under packaging/output; publication verification will be recorded after completion.
+Unsigned/separate-clean-host and actual-DPI gates remain.
 
 ## 0.10.0 RC1 publication verified
 

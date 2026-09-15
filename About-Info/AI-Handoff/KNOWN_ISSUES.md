@@ -1,5 +1,12 @@
 # Known Issues
 
+## KI-011 — ISO compatibility and timezone requirements
+
+New named ISO presets require GDTT 0.10.1. UTC Z and offset output require aware timestamps;
+configure the source/target timezone for naive local input first. Minute and no-zone output
+explicitly omit seconds/offsets. Only the documented mask subset is supported, not every ISO
+variant or Excel token. Exact new ISO masks typed in Custom inherit their UTC/shape rules.
+
 ## KI-010 — Custom masks and regional Excel display
 
 0.10.0 supports the practical subset documented in Human-Docs/FORMATTING_AND_APPEARANCE.md,

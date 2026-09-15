@@ -1,19 +1,19 @@
 # Release files and retained history
 
-Updated: 2026-09-12. GDTT — Data Transform Tool by Gadash (Akila DJ).
+Updated: 2026-09-15. GDTT — Data Transform Tool by Gadash (Akila DJ).
 
 Publication verified: [v0.10.0-rc.1](https://github.com/GGadash/GDTT/releases/tag/v0.10.0-rc.1),
 tagged source `4789a83`. Windows/Linux CI and Windows build/release passed. All eight downloaded
 assets matched GitHub digests, and six release checksums passed. Verified download copies are
-retained locally in `exports/github-v0.10.0-rc.1/` (ignored by Git).
+retained locally in `exports/archive/2026-09-15-pre-0.10.1/github-v0.10.0-rc.1/` (ignored).
 
 ## Current release candidate
 
-Tag `v0.10.0-rc.1` identifies application version 0.10.0. The expected downloadable set is:
+New release target `v0.10.1-rc.1` identifies application version 0.10.1. Expected downloads:
 
-- `GDTT-0.10.0-windows-x64-Portable.zip`: extract, then run `GDTT/GDTT.exe`.
-- `GDTT-0.10.0-windows-x64-installer.exe`: current-user installation; no admin required.
-- `GDTT-0.10.0-source.zip`: audited source without Git internals, datasets or build output.
+- `GDTT-0.10.1-windows-x64-Portable.zip`: extract, then run `GDTT/GDTT.exe`.
+- `GDTT-0.10.1-windows-x64-installer.exe`: current-user installation; no admin required.
+- `GDTT-0.10.1-source.zip`: audited source without Git internals, datasets or build output.
 - `BUILD_MANIFEST.json`, `LOCAL_C_LITE.json`, `RELEASE_CANDIDATE.md`, `SHA256SUMS.txt`, and
   `VERIFY_CHECKSUMS.ps1`: provenance, acceptance, limitations and verification.
 
@@ -26,6 +26,12 @@ the tag and can have different hashes due to build timestamps: always use the ch
 from the same release download, not the local build's checksum file.
 
 ## Recoverable local archive
+
+Before building 0.10.1, the prior local 0.10.0 output (GDTT-0.10.0-local), packaging intermediates
+(packaging-temp), independently downloaded GitHub RC1 assets (github-v0.10.0-rc.1), and five
+rc1 build/verification logs/reports were moved into `exports/archive/2026-09-15-pre-0.10.1/`.
+The earlier archive below remains untouched. No important files or historical release assets
+were deleted; restore individual items by copying them into a new folder.
 
 Old material is consolidated under `exports/archive/2026-09-12-pre-release/` (ignored by Git):
 

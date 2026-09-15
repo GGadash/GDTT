@@ -3614,3 +3614,17 @@ For the repository:
 For Codex:
 
 ## Never rely on previous chat history when the repository itself can document the current state.
+
+---
+
+# Owner amendment — 2026-09-15 (PEND-017, GDTT 0.10.1)
+
+Input and output format selectors follow the selected field type. Put Custom near the top with
+an editable mask field; numeric/text options must not offer date/time presets. For DateTime,
+include extended and compact ISO UTC (Z), numeric UTC offset, hour/minute and full-second forms.
+Prefer common extended formats before compact forms. Keep date-only/time-only presets relevant
+to their types. Preserve existing profile IDs and explicit saved recipes; review profiles again
+after a field-type change. UTC output converts known instants and never guesses a source timezone.
+See About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md for the exact examples and compatibility.
+Owner authorizes recoverable cleanup, updated documentation, a new release tag, GitHub source
+push and publication of Portable ZIP/installer EXE plus verification assets. Keep previous releases.

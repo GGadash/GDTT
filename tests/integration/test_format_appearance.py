@@ -20,10 +20,9 @@ def test_type_options_custom_input_and_separators(qtbot):
     combo = ProfileCombo(input_profile=True)
     qtbot.addWidget(combo)
     combo.load(None, "decimal")
-    assert all(
-        combo.findData(f"custom:{kind}") >= 0
-        for kind in ("number", "datetime", "date", "time", "text", "boolean")
-    )
+    assert combo.findData("custom:number") == 1
+    assert combo.findData("iso_second") == -1
+    assert combo.findData("custom:datetime") == -1
     combo.decimal = ","
     assert decode(combo.profile()).decimal == ","
     output = ProfileCombo()
@@ -58,6 +57,8 @@ def test_editor_numeric_rounding_choice_and_resize(qtbot):
     view.output_type_combo.setCurrentIndex(view.output_type_combo.findData(SemanticType.DATE))
     assert view.transform_combo.count() == 1
     assert view.output_profile_combo.findText("0.00") == -1
+    assert view.input_profile_combo.findText("0.00") == -1
+    assert view.draft.column(view._selected_source).input_profile is None
     before = view.mapping_splitter.sizes()
     view.mapping_splitter.setSizes([140, 400])
     assert view.mapping_splitter.sizes() != before
@@ -101,6 +102,40 @@ def test_wizard_type_change_clears_numeric_only_preferences(qtbot):
     assert wizard._save_current()
     assert wizard.result_draft.columns[2].output_profile is None
     assert not wizard.preserve_precision.isChecked()
+    assert wizard.input_profile_combo.findData("custom:date") == 1
+    assert wizard.input_profile_combo.findText("0.00") == -1
+    assert wizard.result_draft.columns[2].input_profile is None
+
+
+@pytest.mark.parametrize("input_profile", [False, True])
+@pytest.mark.parametrize("kind", ["datetime", "date", "time", "decimal", "text", "boolean"])
+def test_profiles_are_type_scoped_and_custom_is_prominent(qtbot, input_profile, kind):
+    combo = ProfileCombo(input_profile=input_profile)
+    qtbot.addWidget(combo)
+    combo.load(None, kind)
+    expected_kind = "number" if kind == "decimal" else kind
+    assert combo.itemData(1) == f"custom:{expected_kind}"
+    if kind == "datetime":
+        extended = ("iso_t_second", "iso_t_minute", "iso_utc", "iso_offset")
+        compact = ("iso_basic_second", "iso_basic_minute", "iso_basic_utc", "iso_basic_offset")
+        assert all(combo.findData(item) >= 2 for item in (*extended, *compact))
+        assert max(combo.findData(item) for item in extended) < min(
+            combo.findData(item) for item in compact
+        )
+    else:
+        assert combo.findData("iso_utc") == -1
+        assert combo.findData("iso_basic_second") == -1
+    if kind in {"decimal", "text", "boolean"}:
+        assert combo.findData("iso_date") == -1
+        assert combo.findData("time_second") == -1
+    combo.setCurrentIndex(1)
+    combo._custom()
+    combo.setEditText(
+        {"number": "0.00", "text": "@", "boolean": "Yes|No"}.get(
+            expected_kind, "yyyy-MM-dd" if kind == "date" else "HH:mm:ss"
+        )
+    )
+    assert decode(combo.profile()).kind == expected_kind
 
 
 def test_zone_priority_and_custom_offsets(qtbot):
