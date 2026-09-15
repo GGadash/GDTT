@@ -2,14 +2,19 @@
 
 Updated: 2026-09-15. GDTT — Data Transform Tool by Gadash (Akila DJ).
 
-Publication verified: [v0.10.0-rc.1](https://github.com/GGadash/GDTT/releases/tag/v0.10.0-rc.1),
+Current publication verified: [v0.10.1-rc.1](https://github.com/GGadash/GDTT/releases/tag/v0.10.1-rc.1)
+at source 3f33567. Windows/Linux CI and Windows build/release 34991214014 passed. All eight
+downloaded assets match GitHub digests; six release checksums passed and manifest/C-lite hashes
+agree. Verified copies are in exports/github-v0.10.1-rc.1/ (ignored by Git).
+
+Historical publication verified: [v0.10.0-rc.1](https://github.com/GGadash/GDTT/releases/tag/v0.10.0-rc.1),
 tagged source `4789a83`. Windows/Linux CI and Windows build/release passed. All eight downloaded
 assets matched GitHub digests, and six release checksums passed. Verified download copies are
 retained locally in `exports/archive/2026-09-15-pre-0.10.1/github-v0.10.0-rc.1/` (ignored).
 
 ## Current release candidate
 
-New release target `v0.10.1-rc.1` identifies application version 0.10.1. Expected downloads:
+Published tag `v0.10.1-rc.1` identifies application version 0.10.1. Downloads:
 
 - `GDTT-0.10.1-windows-x64-Portable.zip`: extract, then run `GDTT/GDTT.exe`.
 - `GDTT-0.10.1-windows-x64-installer.exe`: current-user installation; no admin required.

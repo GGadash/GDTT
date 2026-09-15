@@ -2,11 +2,12 @@
 
 ## Current owner instruction — ISO update and publication (2026-09-15)
 
-Implement PEND-017 as 0.10.1, run focused/full regression gates, archive prior local output
-recoverably, rebuild Portable/installer/source and C-lite evidence, then commit/push and publish
-v0.10.1-rc.1. Independently download/check all eight assets after Actions succeeds.
-Keep historical releases/tags untouched. Separate clean-Windows, DPI review and signing remain
-external acceptance gates; no shutdown is requested.
+Complete: PEND-017 shipped as v0.10.1-rc.1 from 3f33567. All 224 tests, local binary/installer
+verification, C-lite, Windows/Linux CI and tagged Windows build/release passed. Eight published
+assets were independently downloaded; six release checksums and all eight GitHub digests matched.
+Older local output/evidence is recoverable under exports/archive/2026-09-15-pre-0.10.1/.
+Next: owner review of ISO selections and actual DPI, separate clean-Windows acceptance, then a
+signing decision before stable promotion. Keep historical releases/tags untouched; no shutdown.
 
 ## Current owner instruction — publication (2026-09-12)
 

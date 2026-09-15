@@ -2,6 +2,17 @@
 
 Last updated: 2026-09-15
 
+## 0.10.1 RC1 publication verified
+
+Published non-draft pre-release: https://github.com/GGadash/GDTT/releases/tag/v0.10.1-rc.1.
+Tag v0.10.1-rc.1 points to 3f3356713ca8518ee8ee7c642e7b90a90b052e12. Branch CI 34991213956,
+tagged Windows/Linux CI 34991213958, and Windows build/release 34991214014 all succeeded.
+All eight assets were independently downloaded to exports/github-v0.10.1-rc.1/; six release
+checksums and all eight GitHub asset digests matched. Published manifest binary/source hashes
+match the C-lite report. Local and GitHub packaging both passed, including installer lifecycle.
+The later documentation-only commit records verification; it does not replace the immutable tag
+or release assets. Signing, separate clean-Windows acceptance and actual-DPI review remain external.
+
 ## 0.10.1 ISO format update
 
 PEND-017 adds seven ISO profiles alongside existing iso_offset, covering all eight requested
@@ -15,7 +26,7 @@ mypy (110 source files) passed. Prior local output, packaging intermediates and 
 evidence are preserved under exports/archive/2026-09-15-pre-0.10.1/. Local Portable ZIP/EXE and
 installer passed metadata, required-file/hash checks, packaged smoke (including ISO conversion),
 and temporary install/launch/registration/uninstall verification. Source/C-lite/checksum evidence
-is generated under packaging/output; publication verification will be recorded after completion.
+passed under packaging/output; published-asset verification is recorded above.
 Unsigned/separate-clean-host and actual-DPI gates remain.
 
 ## 0.10.0 RC1 publication verified

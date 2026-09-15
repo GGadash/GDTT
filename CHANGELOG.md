@@ -7,7 +7,8 @@ semantic-style versioning while it matures.
 
 ## [0.10.1] - 2026-09-15
 
-Release target: `v0.10.1-rc.1` (unsigned pre-release).
+Published as `v0.10.1-rc.1` (unsigned pre-release). All 224 tests, Windows/Linux CI,
+local/GitHub binary verification and C-lite passed; all eight published asset digests verified.
 
 - Added extended/compact ISO UTC, numeric-offset, minute and second datetime presets in input
   and output; common extended forms appear above compact forms and Custom sits near the top.
