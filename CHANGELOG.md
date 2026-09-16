@@ -5,6 +5,14 @@ semantic-style versioning while it matures.
 
 ## [Unreleased]
 
+### Wiki support links — 2026-09-17
+
+- Made the existing Ko-fi profile and GDTT project support links easier to find through a
+  dedicated Sponsor / Help section, Home links and sidebar shortcut. Clarified optional donations
+  and non-financial ways to help; application behavior and release assets remain unchanged.
+- Synchronized the complete local GitHub wiki checkout and documented its location, offline
+  reading limitations and safe clone/refresh procedure.
+
 ### Documentation and public access — 2026-09-16
 
 - Made GGadash/GDTT public and enabled its GitHub Wiki; anonymous repository access verified.

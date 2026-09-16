@@ -9,6 +9,28 @@ a separate `GGadash/GDTT.wiki.git` repository; pushing main alone does not updat
 This is documentation for the Windows app, not a GitHub Pages deployment of the desktop app.
 Public readers do not need a GitHub account. Keep wiki editing restricted to collaborators.
 
+## Local copies and refresh
+
+On this workstation, open `E:\AI\OpenAI\Codex\DTT\exports\wiki-publish\Home.md`
+for the complete GitHub wiki checkout. It contains all 17 Markdown files, including the original
+landing page, sidebar/footer and Git history. This ignored checkout is separate from the main
+repository; `About-Info/Wiki/` retains the 16 maintained source files in normal source control.
+Both copies can be read locally in a Markdown viewer. Their navigation links point to GitHub;
+use your viewer's file list to move between pages without internet access.
+
+To retrieve future wiki edits, run from the project root:
+
+```powershell
+git -C exports/wiki-publish status --short
+git -C exports/wiki-publish pull --ff-only
+```
+
+If status lists local changes, review and preserve them before pulling. If the wiki checkout is
+missing on another computer, create it with
+`git clone https://github.com/GGadash/GDTT.wiki.git exports/wiki-publish`.
+Pulling the main app repository alone does not retrieve live wiki edits. Reconcile changes back
+into `About-Info/Wiki/` before publishing again; do not overwrite either copy blindly.
+
 ## Structure and source of truth
 
 Home opens with a short overview and a reading order. Each content page begins with Summary;

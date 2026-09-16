@@ -55,12 +55,17 @@ The [complete third-party notices](https://github.com/GGadash/GDTT/blob/main/THI
 
 The current release is unsigned and has not completed separate hands-on clean-Windows acceptance. Automated test success does not guarantee correctness for every input or regulatory suitability. Preserve backups and independently review consequential outputs. See [Release status and safety](https://github.com/GGadash/GDTT/wiki/Release-Status-and-Safety).
 
-## Attribution and support
+## Attribution
 
 Suggested citation: **GDTT — Data Transform Tool by Gadash (Akila DJ), version 0.10.1**, with the [project URL](https://github.com/GGadash/GDTT) and the exact release used.
 
-- [Issues and feature requests](https://github.com/GGadash/GDTT/issues)
-- [Ko-fi profile](https://ko-fi.com/gadash)
-- [Project support link](https://ko-fi.com/s/00a96c800b)
+## Sponsor and help GDTT
+
+If GDTT is useful to you, you can support its creator through Ko-fi:
+
+- [Support Gadash on Ko-fi](https://ko-fi.com/gadash)
+- [GDTT project support on Ko-fi](https://ko-fi.com/s/00a96c800b)
+
+You can also help without donating: [report a reproducible issue, suggest a feature or propose a documentation improvement](https://github.com/GGadash/GDTT/issues). Remove private data and credentials from examples before sharing.
 
 Donations are optional. They do not change the license, grant a warranty or guarantee feature delivery. Do not send account credentials or payment details through issues or documentation.

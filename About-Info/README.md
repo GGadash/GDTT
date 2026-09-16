@@ -11,6 +11,7 @@ are grouped there; historical phase notes should not be read as current feature 
 |---|---|
 | Summary-first user documentation | `Wiki/Home.md` and its linked pages |
 | Publish or maintain the wiki | `Human-Docs/WIKI_MAINTENANCE.md` |
+| Complete local GitHub wiki checkout and refresh steps | `exports/wiki-publish/` from the project root; see `Human-Docs/WIKI_MAINTENANCE.md` |
 | Current status and next task | `AI-Handoff/CURRENT_STATE.md`, `NEXT_STEPS.md` |
 | Architectural choices | `AI-Handoff/DECISIONS.md`, `Architecture/ARCHITECTURE.md` |
 | Product overview and usage | `Human-Docs/PROJECT_OVERVIEW.md`, `USER_GUIDE.md` |

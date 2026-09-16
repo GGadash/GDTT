@@ -1,5 +1,11 @@
 # Next Steps
 
+## Wiki support/local-copy follow-up (2026-09-17)
+
+Sponsor / Help links are published in wiki commit 01654e5, with Home and sidebar navigation.
+The full local wiki is exports/wiki-publish; reviewed sources remain in About-Info/Wiki.
+See WIKI_MAINTENANCE.md for local reading and refresh commands. No app rebuild is needed.
+
 ## Current owner instruction — public repository and wiki (2026-09-16)
 
 Complete: repository is public and the live wiki is published at https://github.com/GGadash/GDTT/wiki

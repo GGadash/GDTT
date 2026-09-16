@@ -43,6 +43,12 @@ Detection provides suggestions, not permission to change the data. Review timest
 12. [Troubleshooting and FAQ](https://github.com/GGadash/GDTT/wiki/Troubleshooting-and-FAQ): common decisions and safe bug reports.
 13. [License, credits and support](https://github.com/GGadash/GDTT/wiki/License-Credits-and-Support): copyright, OpenAI Codex, libraries and support.
 
+## Sponsor / Help
+
+Support is optional: [Gadash on Ko-fi](https://ko-fi.com/gadash) · [GDTT project support](https://ko-fi.com/s/00a96c800b).
+
+See [Sponsor and help GDTT](https://github.com/GGadash/GDTT/wiki/License-Credits-and-Support#sponsor-and-help-gdtt) for details and ways to help without donating.
+
 ## Documentation scope
 
 Reviewed 2026-09-16 against app 0.10.1 and its published RC1. This wiki is a curated user guide, not a replacement for the [original specification](https://github.com/GGadash/GDTT/blob/main/DATA%20TRANSFORM%20TOOL%20STUDIO.md), [changelog](https://github.com/GGadash/GDTT/blob/main/CHANGELOG.md), [versioned documentation map](https://github.com/GGadash/GDTT/blob/main/About-Info/README.md), or actual release evidence. Historical documents may describe older phases; prefer this guide and the current release notes for availability.

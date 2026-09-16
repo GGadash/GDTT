@@ -1,6 +1,16 @@
 # Current State
 
-Last updated: 2026-09-16
+Last updated: 2026-09-17
+
+## Wiki Sponsor / Help and local copy update
+
+The existing Ko-fi profile and GDTT project support URLs now have a dedicated Sponsor and help
+section, direct Home links and a sidebar shortcut. Live wiki master is
+01654e5f2fcf0e29f5abe5529e1c6aacf4f4a718. The complete local checkout is exports/wiki-publish
+(17 Markdown files plus Git history); About-Info/Wiki holds the 16 managed source files.
+WIKI_MAINTENANCE.md now explains local viewing, cloning and safe refresh/reconciliation.
+The documentation validator passed 14 pages and 90 local links with exact LICENSE quotation;
+the 265-file source audit passed. No application code, version, binaries or release tags changed.
 
 ## Public repository and wiki documentation
 

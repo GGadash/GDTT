@@ -15,4 +15,6 @@
 - [Troubleshooting and FAQ](https://github.com/GGadash/GDTT/wiki/Troubleshooting-and-FAQ)
 - [License Credits and Support](https://github.com/GGadash/GDTT/wiki/License-Credits-and-Support)
 
+[Sponsor / Help (Ko-fi)](https://github.com/GGadash/GDTT/wiki/License-Credits-and-Support#sponsor-and-help-gdtt)
+
 [Downloads](https://github.com/GGadash/GDTT/releases) · [Issues](https://github.com/GGadash/GDTT/issues)
