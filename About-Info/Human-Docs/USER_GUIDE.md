@@ -1,5 +1,12 @@
 # User Guide
 
+Current release: **0.10.1 / v0.10.1-rc.1**. For a summary-first guide without historical phase
+labels, use the [Wiki](https://github.com/GGadash/GDTT/wiki) or [source copy](../Wiki/Home.md).
+The EXE/installer are unsigned. Automated Windows/Linux checks and local C-lite passed;
+separate hands-on clean-Windows acceptance and actual-DPI review remain pending. Keep source
+backups and independently review outputs. [Release safety](../Wiki/Release-Status-and-Safety.md)
+and the root [LICENSE](../../LICENSE) explain limitations and the as-is/no-warranty terms.
+
 ## Phase 2 source inspection
 
 Run `uv run gdtt` (the compatibility command `uv run data-transform-tool` also works). Choose
@@ -36,7 +43,7 @@ source file is changed.
 
 ## End-user workflow
 
-1. Choose Reformat or Averaging.
+1. Choose Reformat or Averaging, or use the separate [Split / Join guide](SPLIT_JOIN.md).
 2. Select or drop one file, or a compatible batch, and choose a worksheet where applicable.
 3. Review detected schema, null markers, timestamps, and interval.
 4. Configure explicit transformations or aggregation rules.

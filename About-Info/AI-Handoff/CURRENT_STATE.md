@@ -1,6 +1,31 @@
 # Current State
 
-Last updated: 2026-09-15
+Last updated: 2026-09-16
+
+## Public repository and wiki documentation
+
+Owner authorized public visibility, wiki creation and relevant documentation updates. Repository
+GGadash/GDTT is now PUBLIC with has_wiki=true; anonymous API access confirms it. Before changing
+visibility, the 247-file source audit had no errors and a bounded check of 416 historical Git blobs
+found no matches for the existing credential patterns, banned generated/sensitive filenames or
+non-fixture dataset paths. This is publication hygiene, not an exhaustive security certification.
+
+About-Info/Wiki contains 14 content pages, sidebar/footer and three Mermaid diagrams. Each page
+starts with a summary; workflows, file locations, exact license text, Codex/dependency credits,
+unsigned release and pending manual clean-Windows/DPI acceptance are covered. Root/internal guides
+were refreshed, including the obsolete FAQ. scripts/verify_wiki_docs.py checks navigation,
+repository link targets, code fences and exact LICENSE quotation. App version remains 0.10.1.
+
+The owner initialized Home after browser automation failed with a sandbox-helper setup error.
+The live wiki is published at https://github.com/GGadash/GDTT/wiki, wiki commit
+2d23538233ce4e6fd6662662110156258bc956d3 on master. All 16 managed Markdown files match the
+reviewed source (normalized line endings); the owner's extra initial GDTT-documentation page is
+retained as a link to Home. Anonymous HTTP 200/content/footer checks passed for Home, setup,
+release safety, license and architecture pages. Browser-based visual review was unavailable;
+Mermaid source and Markdown structure were checked, not screenshot-render certification.
+The documentation validator passed 14 pages and 88 repository/wiki links plus exact LICENSE text;
+the 265-file source audit passed, and CI now includes the wiki validator. The ignored publication
+checkout is exports/wiki-publish. No app code, binaries, tags or root license terms changed.
 
 ## 0.10.1 RC1 publication verified
 
@@ -264,17 +289,17 @@ The original local-only restriction was superseded by the 2026-09-12 publication
 
 ## Unfinished
 
-- Combination C separate-computer distribution verification, code-signing selection, and
-  screenshots remain later work. The current artifacts are unsigned development builds and have
-  only been exercised on the build host.
+- Combination C separate-computer hands-on verification, code-signing selection and actual-DPI
+  screenshots remain later work. Current unsigned pre-release artifacts passed automated local
+  and GitHub Windows checks; those do not complete the hands-on separate-computer gate.
 - This build host cannot supply the clean disposable environment: Windows Sandbox is absent,
   `HypervisorPresent` is false, and CPU firmware virtualization reports disabled. Enable
   virtualization in firmware and install Windows Sandbox, or use another clean Windows VM/host.
 
 ## Exact next step
 
-Combinations A, B, and optional D are complete on the build host, and the `v0.8.0-rc.3` GitHub
-pre-release is published and verified. Combination C is next: use a
+Combinations A, B, and optional D are complete; `v0.10.1-rc.1` is published and verified.
+The repository and maintained wiki are public. Combination C's manual gate is next: use a
 separate clean Windows environment for rebuild/install/launch/uninstall/dependency verification,
 including picker, drag/drop, compatible/incompatible batch, per-file verification, and
 continuation smoke tests. Then decide signing and finish release-readiness evidence. Local C-lite

@@ -5,6 +5,18 @@ semantic-style versioning while it matures.
 
 ## [Unreleased]
 
+### Documentation and public access — 2026-09-16
+
+- Made GGadash/GDTT public and enabled its GitHub Wiki; anonymous repository access verified.
+- Added a versioned, summary-first 14-page wiki with workflow/reference guides, navigation,
+  three Mermaid diagrams, exact license quotation, product/Codex/library credits and release limits.
+- Corrected the obsolete FAQ and updated README, overview, user guide, module map and acceptance
+  notes. Clarified that automated GitHub Windows tests passed while separate hands-on clean-Windows
+  acceptance, actual-DPI review and code signing remain pending.
+- Published the wiki and verified anonymous access. Added a repeatable wiki structure/link/license
+  checker to CI and maintenance instructions; preserved the owner's initial landing link.
+- No application version, runtime behavior, release tags or existing binaries changed.
+
 ## [0.10.1] - 2026-09-15
 
 Published as `v0.10.1-rc.1` (unsigned pre-release). All 224 tests, Windows/Linux CI,

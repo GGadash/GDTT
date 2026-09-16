@@ -1,5 +1,16 @@
 # Next Steps
 
+## Current owner instruction — public repository and wiki (2026-09-16)
+
+Complete: repository is public and the live wiki is published at https://github.com/GGadash/GDTT/wiki
+(wiki master 2d23538233ce4e6fd6662662110156258bc956d3). Fourteen guide pages, sidebar/footer and
+the retained initial landing link are present. Source navigation/license validation and anonymous
+live content/footer checks passed. Reviewed sources are under About-Info/Wiki; CI runs
+scripts/verify_wiki_docs.py. Follow WIKI_MAINTENANCE.md and reconcile any future web edits.
+Next optional owner review: read the live wiki/diagrams in a browser and report wording/layout
+preferences. Separate hands-on clean-Windows/DPI acceptance and signing remain unchanged.
+No new release, binary rebuild, signing, shutdown or history rewriting is part of this docs task.
+
 ## Current owner instruction — ISO update and publication (2026-09-15)
 
 Complete: PEND-017 shipped as v0.10.1-rc.1 from 3f33567. All 224 tests, local binary/installer

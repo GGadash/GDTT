@@ -1,5 +1,19 @@
 # Decisions
 
+## D-027 — Public repository and maintained wiki (2026-09-16)
+
+- Owner authorizes making GGadash/GDTT public and publishing a structured wiki, plus updates to
+  existing documentation where copyright, attribution or release disclaimers are unclear.
+- Version the wiki source in About-Info/Wiki and publish it into the separate GitHub wiki after
+  the initial web Home page exists. Reconcile web edits before synchronizing; do not force-push.
+- Keep normal collaborator-only wiki editing; public readability is not authority to grant
+  anonymous editing. No Pages-hosted desktop-app conversion is requested.
+- Preserve the root license text exactly. Explain its Akila DJ notice and the About panel's
+  Gadash notice without a silent license change. Credit OpenAI Codex and dependencies separately.
+- Distinguish passed automated Windows/Linux/build-host checks from pending separate hands-on
+  clean-Windows/DPI acceptance. Do not imply signatures or regulatory/security certification.
+- This is documentation/settings work only; keep app 0.10.1 and existing release assets unchanged.
+
 ## D-026 — ISO presets and type-scoped profiles (2026-09-15)
 
 - Implement PEND-017 as patch version 0.10.1; owner authorizes cleanup, commit/push and publication

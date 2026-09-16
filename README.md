@@ -4,6 +4,15 @@
 desktop application for data forging, transitions, and aggregations—mainly for
 air-quality-related and other environmental time-series data.
 
+Start with the [Wiki](https://github.com/GGadash/GDTT/wiki) for a short overview and detailed
+workflow guides; the same reviewed content is [versioned in this repository](About-Info/Wiki/Home.md).
+
+> **Release limitations:** the Windows EXE and installer are unsigned. Automated tests and
+> GitHub Windows/Linux builds passed, but separate hands-on clean-Windows acceptance and
+> actual-DPI review remain pending. This is a pre-release, not a stable acceptance claim.
+> Checksums are not publisher signatures. Keep security protections enabled, back up inputs,
+> and independently validate consequential results. See [release safety](About-Info/Wiki/Release-Status-and-Safety.md).
+
 > Development status: **0.10.1-rc.1 / ISO formatting release candidate**.
 > Reformat and Averaging now
 > continue from bounded previews into spill-backed full-file execution, CSV/XLSX output, processing
@@ -199,7 +208,7 @@ Build the complete locally isolated release candidate with:
 Local C-lite has passed, including fresh extraction, stripped Python/developer environment,
 disposable settings/logs, representative CSV/TSV/XLSX workflows, source audit, installer
 lifecycle, dependency inventory, reports, and checksums. A separate clean Windows confirmation
-still precedes a final public release. See
+still precedes promotion to a stable release; the current pre-release is publicly available. See
 [`RELEASE_ACCEPTANCE.md`](About-Info/Human-Docs/RELEASE_ACCEPTANCE.md).
 
 Pushing an explicitly reviewed `v*` tag runs the Windows gates and automatically publishes the
@@ -231,6 +240,11 @@ See [`About-Info/Git-GitHub/GIT_AND_GITHUB_GUIDE.md`](About-Info/Git-GitHub/GIT_
 The project uses the license text in [`LICENSE`](LICENSE). It is created by Gadash (Akila DJ)
 with OpenAI Codex as an AI-assisted development collaborator. Dependencies remain under
 their own licenses; see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
+The About panel displays `Copyright (c) 2026 Gadash +`; the authoritative root LICENSE retains
+`Copyright (c) 2026 Akila DJ +` and the owner's supplied permission/warranty terms. The software
+is provided **as is**, without warranty. Optional attribution for original GDTT work does not
+remove dependency-license obligations. Codex credit is not an endorsement or warranty by OpenAI.
 
 Source, Actions results, and releases are hosted at
 [`GGadash/GDTT`](https://github.com/GGadash/GDTT).

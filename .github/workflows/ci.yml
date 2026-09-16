@@ -59,6 +59,9 @@ jobs:
       - name: Audit prospective release source
         run: uv run python scripts/audit_release_tree.py
 
+      - name: Validate wiki navigation and license text
+        run: uv run python scripts/verify_wiki_docs.py
+
       - name: Exercise representative CSV, TSV, and XLSX workflows
         run: uv run python scripts/run_representative_workflows.py --output-root "${{ runner.temp }}/dtt-representative"
 

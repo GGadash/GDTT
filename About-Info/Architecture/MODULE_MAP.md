@@ -24,8 +24,12 @@
 | Full-file execution/export composition | `io/full_reader.py`, `transformation/batch_executor.py`, `aggregation/batch_engine.py`, `app/export_workflow.py` | Phase 9 batch/spill implemented |
 | Data/null validation | `validation/`, `export/verification.py` | Phase 4 plus streamed Phase 9 verification |
 | CSV/XLSX writers and naming | `export/` | Phase 8 implemented |
+| Split / Join engine and workflow | `split_join/`, `app/split_join_workflow.py`, `ui/views/split_join_view.py` | Implemented since 0.9.0 |
 | Processing reports and evidence sidecars | `reporting/processing_report.py` | Phase 8 implemented |
 | Recipe templates and XLSX styles | `templates/` | Phase 8 implemented |
 | Review/export UI and workers | `ui/views/export_view.py`, `ui/workers/export_worker.py` | Phase 8 implemented |
 
 Use symbols and filenames, not manually maintained line numbers, when locating code.
+
+For public user documentation and publication procedure, see `About-Info/Wiki/` and
+`About-Info/Human-Docs/WIKI_MAINTENANCE.md`.

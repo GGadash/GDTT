@@ -25,13 +25,14 @@ verification, templates, and a Process more similar files continuation path.
 
 ## KI-003 — Separate clean-Windows distribution verification remains
 
-The PyInstaller portable package and current-user NSIS installer pass on the Windows build host,
-including temporary silent install/application smoke/uninstall. Combination C must repeat build,
-install, launch, and uninstall checks in a separate clean Windows environment. Artifacts are also
+The PyInstaller portable package and current-user NSIS installer pass automated checks locally
+and in GitHub's Windows build workflow, including temporary install/application smoke/uninstall.
+The remaining gate is separate hands-on acceptance of the published downloads on an ordinary
+clean Windows computer; a source rebuild there is an optional stronger check. Artifacts are also
 unsigned until the owner provides a code-signing identity and explicitly selects signing.
 The current build host has no Windows Sandbox executable or alternate VM command, reports no
-active hypervisor, and reports firmware virtualization disabled; Combination C therefore needs a
-firmware/Windows-feature change or another clean Windows host.
+active hypervisor, and reports firmware virtualization disabled. Another physical computer is
+sufficient; enabling Sandbox or changing firmware is not required for artifact-only testing.
 
 Local C-lite now passes fresh extraction, minimal PATH/no inherited Python environment,
 disposable settings/log paths, representative CSV/TSV/XLSX workflows, repository hygiene,

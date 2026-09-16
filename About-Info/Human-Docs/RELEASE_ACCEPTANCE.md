@@ -5,13 +5,19 @@ uses a fresh portable extraction, a minimal runtime PATH, no inherited Python en
 disposable settings/log directories, synthetic workflows, and a complete installer lifecycle.
 It is strong build-host evidence, but it is not the same as a separate clean Windows computer.
 
+For v0.10.1-rc.1, automated GitHub Windows/Linux CI and the Windows release pipeline also passed.
+What remains is separate hands-on acceptance with published downloads and actual display scaling,
+not an assertion that no independent automated Windows runner has tested the app. The current
+EXE/installer are unsigned; hashes are not publisher signatures. Keep Windows security enabled.
+
 ## Verify the copied artifacts on another computer
 
 No virtualization, Python, Git, or administrator permission is required for this artifact-only
 check.
 
-1. Copy the complete `packaging/output/` release-candidate contents to a Windows 10/11 x64
-   computer that has not previously used GDTT.
+1. Download the matching release assets from GitHub (or copy the complete local candidate) to
+   a suitable Windows x64 computer without GDTT's development environment. Another physical
+   computer is enough; no Sandbox, VM, firmware change or operating-system reinstall is needed.
 2. Open PowerShell in that directory and run:
 
 ```powershell
@@ -40,6 +46,9 @@ powershell -ExecutionPolicy Bypass -File .\VERIFY_CHECKSUMS.ps1 -Directory .
 10. Capture Light and Dark screenshots and record Windows edition/version/build. Note any
    SmartScreen or antivirus message exactly; the current release candidate is intentionally
    unsigned until the owner selects signing.
+11. Exercise the ISO UTC/offset and compact formats, optional gap filling, averaging completeness,
+    and all Split / Join operations. Check filenames and values, not only whether the app opens.
+12. Test actual display scaling, resized field panels, font-size controls and theme palettes.
 
 The small fixture `tests/fixtures/monitoring_gap.csv` inside the source archive is synthetic and
 may be used for the manual workflow. It contains no operational measurements.
