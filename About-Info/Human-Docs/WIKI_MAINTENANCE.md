@@ -65,6 +65,6 @@ If publication is pending, say so explicitly and link the source copy instead of
 
 ## Documentation-only boundary
 
-Documentation/settings changes do not change app version 0.10.1, rebuild binaries, retag the
+Documentation/settings changes do not change the app version, rebuild binaries, retag the
 release, or replace verified assets. CI may still run its normal checks on the main documentation
 commit. The historical source ZIP remains the snapshot tied to its release tag.

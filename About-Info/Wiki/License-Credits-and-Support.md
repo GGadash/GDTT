@@ -57,11 +57,13 @@ The current release is unsigned and has not completed separate hands-on clean-Wi
 
 ## Attribution
 
-Suggested citation: **GDTT — Data Transform Tool by Gadash (Akila DJ), version 0.10.1**, with the [project URL](https://github.com/GGadash/GDTT) and the exact release used.
+Suggested citation: **GDTT — Data Transform Tool by Gadash (Akila DJ), version 0.10.2**, with the [project URL](https://github.com/GGadash/GDTT) and the exact release used.
 
 ## Sponsor and help GDTT
 
 If GDTT is useful to you, you can support its creator through Ko-fi:
+
+These links are also available inside the app's **About → Sponsor / Donate** section from version 0.10.2.
 
 - [Support Gadash on Ko-fi](https://ko-fi.com/gadash)
 - [GDTT project support on Ko-fi](https://ko-fi.com/s/00a96c800b)

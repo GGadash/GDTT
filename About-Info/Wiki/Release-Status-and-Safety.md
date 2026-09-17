@@ -2,25 +2,25 @@
 
 ## Summary
 
-**v0.10.1-rc.1 is an unsigned pre-release, not a fully accepted stable release.** Automated tests and packaging checks passed. Separate hands-on testing on a normal clean Windows computer, actual-DPI review and a signing decision remain pending.
+**v0.10.2-rc.1 is an unsigned pre-release, not a fully accepted stable release.** Automated tests and packaging checks passed. Separate hands-on testing on a normal clean Windows computer, actual-DPI review and a signing decision remain pending.
 
-Status reviewed **2026-09-16**. Read the evidence attached to the exact release you download.
+Status reviewed **2026-09-17**. Read the evidence attached to the exact release you download.
 
-## What passed for 0.10.1 RC1
+## What passed for 0.10.2 RC1
 
 | Check | Evidence/status |
 | --- | --- |
-| Automated tests | 224 passed |
+| Automated tests | 226 passed |
 | Formatting, lint and strict typing | Ruff and mypy passed |
-| Windows/Linux CI | [Tagged CI](https://github.com/GGadash/GDTT/actions/runs/34991213958) passed |
-| Portable packaging and installer lifecycle | [Windows build/release](https://github.com/GGadash/GDTT/actions/runs/34991214014) passed |
-| Local C-lite | Fresh extraction, limited environment, isolated settings/logs, representative CSV/TSV/XLSX workflows and installer cleanup passed |
+| Windows/Linux CI | [Tagged CI](https://github.com/GGadash/GDTT/actions/runs/35235309166) passed |
+| Portable packaging and installer lifecycle | [Windows build/release](https://github.com/GGadash/GDTT/actions/runs/35235309343) passed |
+| Build-host C-lite | Fresh extraction, limited environment, isolated settings/logs, representative CSV/TSV/XLSX workflows and installer cleanup passed |
 | Published files | Eight independently downloaded GitHub asset digests matched; six checksum entries passed |
 | Manual clean-Windows acceptance | **Pending** |
 | Trusted code signing | **Not applied** |
 | Actual monitor/DPI owner acceptance | **Pending** |
 
-Release source tag: `v0.10.1-rc.1` at `3f3356713ca8518ee8ee7c642e7b90a90b052e12`. Later documentation commits do not change the tagged binaries. [Release downloads and evidence](https://github.com/GGadash/GDTT/releases/tag/v0.10.1-rc.1).
+Release source tag: `v0.10.2-rc.1` at `675f6647275b4921b01fc9b86b4e5bb9860e8404`. Later documentation commits do not change the tagged binaries. [Release downloads and evidence](https://github.com/GGadash/GDTT/releases/tag/v0.10.2-rc.1).
 
 ## What unsigned means
 

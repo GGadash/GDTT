@@ -2,10 +2,11 @@
 
 ## Current instruction — About update and release (2026-09-17)
 
-Finish verification of PEND-018 / 0.10.2, then commit/push and tag v0.10.2-rc.1 as authorized.
-Verify Windows/Linux CI, tagged Windows portable/installer build and published asset hashes.
-Update the live wiki and publication evidence after success. Preserve older release assets.
-Unsigned, separate manual clean-Windows and actual-DPI gates remain; no shutdown requested.
+Complete: PEND-018 shipped as v0.10.2-rc.1 at 675f664. All 226 tests, Windows/Linux CI,
+portable/installer and build-host C-lite passed. Eight downloaded asset digests and six release
+checksums matched. Wiki/local documentation is synchronized at wiki commit 9e7bdfc.
+Next optional owner step: review About in the downloaded app, then separate manual clean-Windows,
+actual-DPI acceptance and a signing decision. Preserve older releases; no shutdown requested.
 
 ## Wiki support/local-copy follow-up (2026-09-17)
 

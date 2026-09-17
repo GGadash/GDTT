@@ -4,7 +4,7 @@
 
 **GDTT — Data Transform Tool by Gadash (Akila DJ)** is a local Windows desktop app for data forging, transformations and aggregation, mainly for air-quality and other environmental time-series data. It reads CSV, TSV, delimited TXT and XLSX, lets you review explicit rules, and verifies exported CSV/Excel files.
 
-**Current documented release: [v0.10.1-rc.1](https://github.com/GGadash/GDTT/releases/tag/v0.10.1-rc.1).** It is an **unsigned pre-release**. Automated Windows/Linux checks and local C-lite isolation passed; separate hands-on clean-Windows acceptance and actual monitor-scaling review remain pending. Read [Release status and safety](https://github.com/GGadash/GDTT/wiki/Release-Status-and-Safety) before use. Passing checks is not a guarantee of correctness for every dataset.
+**Current documented release: [v0.10.2-rc.1](https://github.com/GGadash/GDTT/releases/tag/v0.10.2-rc.1).** It is an **unsigned pre-release**. Automated Windows/Linux checks and build-host C-lite isolation passed; separate hands-on clean-Windows acceptance and actual monitor-scaling review remain pending. Read [Release status and safety](https://github.com/GGadash/GDTT/wiki/Release-Status-and-Safety) before use. Passing checks is not a guarantee of correctness for every dataset.
 
 [Download and start](https://github.com/GGadash/GDTT/wiki/Getting-Started) · [Report a problem](https://github.com/GGadash/GDTT/issues) · [Source repository](https://github.com/GGadash/GDTT)
 
@@ -51,4 +51,4 @@ See [Sponsor and help GDTT](https://github.com/GGadash/GDTT/wiki/License-Credits
 
 ## Documentation scope
 
-Reviewed 2026-09-16 against app 0.10.1 and its published RC1. This wiki is a curated user guide, not a replacement for the [original specification](https://github.com/GGadash/GDTT/blob/main/DATA%20TRANSFORM%20TOOL%20STUDIO.md), [changelog](https://github.com/GGadash/GDTT/blob/main/CHANGELOG.md), [versioned documentation map](https://github.com/GGadash/GDTT/blob/main/About-Info/README.md), or actual release evidence. Historical documents may describe older phases; prefer this guide and the current release notes for availability.
+Reviewed 2026-09-17 against app 0.10.2 and its published RC1. This wiki is a curated user guide, not a replacement for the [original specification](https://github.com/GGadash/GDTT/blob/main/DATA%20TRANSFORM%20TOOL%20STUDIO.md), [changelog](https://github.com/GGadash/GDTT/blob/main/CHANGELOG.md), [versioned documentation map](https://github.com/GGadash/GDTT/blob/main/About-Info/README.md), or actual release evidence. Historical documents may describe older phases; prefer this guide and the current release notes for availability.

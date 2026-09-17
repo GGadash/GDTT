@@ -6,13 +6,13 @@ Download the Windows x64 portable ZIP or installer from the official release. No
 
 ## 1. Choose the download
 
-Open [GDTT v0.10.1-rc.1 Assets](https://github.com/GGadash/GDTT/releases/tag/v0.10.1-rc.1).
+Open [GDTT v0.10.2-rc.1 Assets](https://github.com/GGadash/GDTT/releases/tag/v0.10.2-rc.1).
 
 | File | Use |
 | --- | --- |
-| `GDTT-0.10.1-windows-x64-Portable.zip` | Run without installing. Extract the complete folder, not just the EXE. |
-| `GDTT-0.10.1-windows-x64-installer.exe` | Install for the current Windows user, with Start Menu/uninstall entries. |
-| `GDTT-0.10.1-source.zip` | Developers or people rebuilding the app; not the ready-to-run download. |
+| `GDTT-0.10.2-windows-x64-Portable.zip` | Run without installing. Extract the complete folder, not just the EXE. |
+| `GDTT-0.10.2-windows-x64-installer.exe` | Install for the current Windows user, with Start Menu/uninstall entries. |
+| `GDTT-0.10.2-source.zip` | Developers or people rebuilding the app; not the ready-to-run download. |
 | `SHA256SUMS.txt` and `VERIFY_CHECKSUMS.ps1` | Integrity checks for the matching release files. |
 | `BUILD_MANIFEST.json`, `LOCAL_C_LITE.json`, `RELEASE_CANDIDATE.md` | Build provenance, acceptance results and remaining limitations. |
 
@@ -23,7 +23,7 @@ Use the verifier/checksums from the **same release** as the files. Do not mix lo
 For an individual file, PowerShell can calculate a hash without launching the app:
 
 ```powershell
-Get-FileHash -Algorithm SHA256 .\GDTT-0.10.1-windows-x64-Portable.zip
+Get-FileHash -Algorithm SHA256 .\GDTT-0.10.2-windows-x64-Portable.zip
 ```
 
 Compare it with the corresponding entry in the official `SHA256SUMS.txt`. For the complete flat set of release assets, review the supplied verifier and follow [release acceptance instructions](https://github.com/GGadash/GDTT/blob/main/About-Info/Human-Docs/RELEASE_ACCEPTANCE.md). A checksum detects a changed file; it is not a trusted publisher signature or proof that software is harmless.

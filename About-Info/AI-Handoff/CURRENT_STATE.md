@@ -2,15 +2,22 @@
 
 Last updated: 2026-09-17
 
-## 0.10.2 About links and support update
+## 0.10.2 RC1 About update and publication verified
 
 PEND-018 is implemented: scrollable About overview with project/wiki/releases/issues/safety
 links, concise license summary and both optional Ko-fi links. Existing Components/full License
-tabs and processing behavior are unchanged. Patch version 0.10.2; owner authorized publication
-as v0.10.2-rc.1. Focused About/inspection tests and Ruff/mypy passed. Full regression initially
-found the old packaging-version expectation and an absolute path in the prior wiki guide;
-both corrected. All 226 tests now pass, as do wiki validation (14 pages / 90 links) and diff
-whitespace checks. Tagged build/publication verification remains in progress.
+tabs and processing behavior are unchanged. Published v0.10.2-rc.1 points to
+675f6647275b4921b01fc9b86b4e5bb9860e8404. All 226 tests, Ruff/mypy, the 266-file source audit
+and wiki validation (14 pages / 90 links) passed. Branch CI 35235309766 and tagged CI
+35235309166 passed on Windows/Linux; the tagged Linux job needed one retry after a native Qt
+bus error in the existing Split/Join test (About tests passed). No unrelated runtime fix applied.
+Windows build/release 35235309343 passed portable checks, installer lifecycle and build-host
+C-lite. Eight assets were independently downloaded into exports/github-v0.10.2-rc.1; all eight
+GitHub digests and six checksum entries matched. Existing local build outputs remain untouched.
+Light/dark About renders were reviewed with installed Windows fonts; images are in
+exports/about-0.10.2. Actual-DPI/manual separate-clean-host acceptance and signing remain pending.
+The source and live Wiki now document the About links and release evidence, wiki master
+9e7bdfc6c7f261005ea8b53ca879685d5fee3dc8. Later documentation commits do not replace tag/assets.
 
 ## Wiki Sponsor / Help and local copy update
 

@@ -7,7 +7,9 @@ semantic-style versioning while it matures.
 
 ## [0.10.2] - 2026-09-17
 
-Release target: `v0.10.2-rc.1` (unsigned pre-release).
+Published as `v0.10.2-rc.1` (unsigned pre-release) from `675f664`. All 226 tests, Windows/Linux
+CI, packaging/installer and build-host C-lite passed. Eight published asset digests and six
+checksums independently verified. Tagged Linux CI needed one retry after an existing Qt crash.
 
 - PEND-018: reorganized the About overview into project links, brief licensing and optional
   Ko-fi support. Added GitHub, Wiki, downloads, issue reporting and release-safety links.
