@@ -2,6 +2,16 @@
 
 Last updated: 2026-09-17
 
+## 0.10.2 About links and support update
+
+PEND-018 is implemented: scrollable About overview with project/wiki/releases/issues/safety
+links, concise license summary and both optional Ko-fi links. Existing Components/full License
+tabs and processing behavior are unchanged. Patch version 0.10.2; owner authorized publication
+as v0.10.2-rc.1. Focused About/inspection tests and Ruff/mypy passed. Full regression initially
+found the old packaging-version expectation and an absolute path in the prior wiki guide;
+both corrected. All 226 tests now pass, as do wiki validation (14 pages / 90 links) and diff
+whitespace checks. Tagged build/publication verification remains in progress.
+
 ## Wiki Sponsor / Help and local copy update
 
 The existing Ko-fi profile and GDTT project support URLs now have a dedicated Sponsor and help

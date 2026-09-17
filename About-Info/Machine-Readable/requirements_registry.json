@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "product": "GDTT — Data Transform Tool by Gadash (Akila DJ)",
-  "updated": "2026-09-16",
+  "updated": "2026-09-17",
   "requirements": [
     {
       "id": "CODEX-001",
@@ -496,6 +496,15 @@
       "status": "implemented",
       "test_reference": "tests/unit/test_datetime_transformations.py; tests/unit/test_custom_formats.py; tests/integration/test_format_appearance.py",
       "implementation_symbol": "DateTimeProfileRegistry; DateTimeParser; ProfileCombo",
+      "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
+    },
+    {
+      "id": "PEND-018",
+      "description": "Scrollable About overview with GitHub, wiki, releases, issues and safety links, a brief license summary and optional Ko-fi support; preserve full license and Components tabs.",
+      "module": "ui/dialogs/about_dialog.py",
+      "status": "implemented",
+      "test_reference": "tests/integration/test_about_dialog.py",
+      "implementation_symbol": "AboutDialog",
       "documentation_reference": "About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md"
     },
     {

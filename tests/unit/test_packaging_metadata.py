@@ -23,7 +23,7 @@ def test_application_icons_and_offscreen_smoke_contract_exist() -> None:
 
 def test_windows_version_resource_uses_canonical_product_metadata() -> None:
     generator = _version_generator()
-    assert generator["version_tuple"](__version__) == (0, 10, 1, 0)
+    assert generator["version_tuple"](__version__) == (0, 10, 2, 0)
     resource = generator["version_resource"](__version__)
     assert "GDTT" in resource
     assert "Gadash (Akila DJ)" in resource

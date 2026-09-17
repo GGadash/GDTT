@@ -13,7 +13,7 @@ workflow guides; the same reviewed content is [versioned in this repository](Abo
 > Checksums are not publisher signatures. Keep security protections enabled, back up inputs,
 > and independently validate consequential results. See [release safety](About-Info/Wiki/Release-Status-and-Safety.md).
 
-> Development status: **0.10.1-rc.1 / ISO formatting release candidate**.
+> Development status: **0.10.2-rc.1 / About and support-links release candidate**.
 > Reformat and Averaging now
 > continue from bounded previews into spill-backed full-file execution, CSV/XLSX output, processing
 > reports, local templates, and post-export reopen verification. The measured large-file backend
@@ -23,7 +23,7 @@ workflow guides; the same reviewed content is [versioned in this repository](Abo
 
 See the [0.10.1 formatting and appearance guide](About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md).
 
-Download the [Windows portable ZIP and installer EXE](https://github.com/GGadash/GDTT/releases/tag/v0.10.1-rc.1)
+Download the [Windows portable ZIP and installer EXE](https://github.com/GGadash/GDTT/releases/tag/v0.10.2-rc.1)
 from the release's **Assets** section. Extract the portable ZIP before running `GDTT/GDTT.exe`.
 These are unsigned release-candidate builds; verification files are included with the downloads.
 

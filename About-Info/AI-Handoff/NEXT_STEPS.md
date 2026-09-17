@@ -1,5 +1,12 @@
 # Next Steps
 
+## Current instruction — About update and release (2026-09-17)
+
+Finish verification of PEND-018 / 0.10.2, then commit/push and tag v0.10.2-rc.1 as authorized.
+Verify Windows/Linux CI, tagged Windows portable/installer build and published asset hashes.
+Update the live wiki and publication evidence after success. Preserve older release assets.
+Unsigned, separate manual clean-Windows and actual-DPI gates remain; no shutdown requested.
+
 ## Wiki support/local-copy follow-up (2026-09-17)
 
 Sponsor / Help links are published in wiki commit 01654e5, with Home and sidebar navigation.

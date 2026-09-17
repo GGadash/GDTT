@@ -5,6 +5,18 @@ semantic-style versioning while it matures.
 
 ## [Unreleased]
 
+## [0.10.2] - 2026-09-17
+
+Release target: `v0.10.2-rc.1` (unsigned pre-release).
+
+- PEND-018: reorganized the About overview into project links, brief licensing and optional
+  Ko-fi support. Added GitHub, Wiki, downloads, issue reporting and release-safety links.
+- Preserved the full offline license and Components tabs. Added scrollable, theme-aware content,
+  browser/privacy guidance and the existing unsigned/manual clean-Windows limitations.
+- Added focused light/dark, enlarged-font, link and license regression coverage.
+- Corrected a developer-specific absolute path in the wiki maintenance guide to a portable
+  project-relative path. No dataset processing, workflow, dependency or license-term changes.
+
 ### Wiki support links — 2026-09-17
 
 - Made the existing Ko-fi profile and GDTT project support links easier to find through a

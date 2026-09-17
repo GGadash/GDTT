@@ -3628,3 +3628,13 @@ after a field-type change. UTC output converts known instants and never guesses 
 See About-Info/Human-Docs/FORMATTING_AND_APPEARANCE.md for the exact examples and compatibility.
 Owner authorizes recoverable cleanup, updated documentation, a new release tag, GitHub source
 push and publication of Portable ZIP/installer EXE plus verification assets. Keep previous releases.
+
+## Confirmed About and support update (2026-09-17)
+
+PEND-018: extend only the app's About content with the GitHub repository and Wiki links,
+brief licensing and a full-license link, plus a clearly optional Sponsor / Donate section using
+https://ko-fi.com/gadash and https://ko-fi.com/s/00a96c800b. Include useful download, issue-reporting
+and release-safety links. Preserve existing full License and Components tabs, copyright/Codex
+credits and all other app workflows. External pages open only on user selection; no data upload.
+Update relevant docs and publish patch 0.10.2 with release tag v0.10.2-rc.1 via the established
+verified Windows portable/installer workflow. Unsigned/manual clean-Windows gates remain.

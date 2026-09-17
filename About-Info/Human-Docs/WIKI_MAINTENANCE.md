@@ -11,7 +11,7 @@ Public readers do not need a GitHub account. Keep wiki editing restricted to col
 
 ## Local copies and refresh
 
-On this workstation, open `E:\AI\OpenAI\Codex\DTT\exports\wiki-publish\Home.md`
+From the project root, open `exports/wiki-publish/Home.md`
 for the complete GitHub wiki checkout. It contains all 17 Markdown files, including the original
 landing page, sidebar/footer and Git history. This ignored checkout is separate from the main
 repository; `About-Info/Wiki/` retains the 16 maintained source files in normal source control.

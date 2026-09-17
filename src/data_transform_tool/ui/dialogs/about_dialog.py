@@ -1,6 +1,6 @@
 """About, credits, dependency citations, and license presentation.
 
-Copyright (c) 2026 Akila DJ +. AI-assisted development: OpenAI Codex.
+Copyright (c) 2026 Gadash (Akila DJ) +. AI-assisted development: OpenAI Codex.
 """
 
 from __future__ import annotations
@@ -8,7 +8,7 @@ from __future__ import annotations
 from html import escape
 from importlib.metadata import PackageNotFoundError, version
 
-from PySide6.QtCore import Qt
+from PySide6.QtGui import QPalette
 from PySide6.QtWidgets import (
     QDialog,
     QDialogButtonBox,
@@ -57,23 +57,47 @@ class AboutDialog(QDialog):
         layout.addWidget(buttons)
 
     def _about_tab(self) -> QWidget:
-        page = QWidget()
-        layout = QVBoxLayout(page)
-        layout.setContentsMargins(18, 18, 18, 18)
-        description = QLabel(PRODUCT_DESCRIPTION)
-        description.setWordWrap(True)
-        description.setProperty("role", "subtitle")
-        layout.addWidget(description)
-        layout.addSpacing(12)
-        details = QLabel(
-            f"Version {__version__}\n\nCopyright (c) 2026 Gadash +\n{DEVELOPMENT_CREDIT}\n\n"
-            "Datasets are processed locally. No account or cloud upload is required."
+        browser = QTextBrowser()
+        browser.setObjectName("aboutOverview")
+        browser.setAccessibleName("About GDTT, project links and optional support")
+        browser.setOpenExternalLinks(True)
+        browser.setToolTip("Links open in your default browser; no dataset is uploaded.")
+        link_color = browser.palette().color(QPalette.ColorRole.Highlight).name()
+        browser.document().setDefaultStyleSheet(
+            f"a {{ color: {link_color}; text-decoration: underline; }}"
         )
-        details.setWordWrap(True)
-        details.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-        layout.addWidget(details)
-        layout.addStretch()
-        return page
+        project = "https://github.com/GGadash/GDTT"
+        browser.setHtml(
+            f"<p>{escape(PRODUCT_DESCRIPTION)}</p>"
+            f"<p><b>Version {escape(__version__)}</b><br>"
+            f"Copyright (c) 2026 Gadash +<br>{escape(DEVELOPMENT_CREDIT)}</p>"
+            "<h3>Explore GDTT</h3>"
+            f'<p><a href="{project}">GitHub project</a> &middot; '
+            f'<a href="{project}/wiki">User guide / Wiki</a> &middot; '
+            f'<a href="{project}/releases">Downloads and releases</a><br>'
+            f'<a href="{project}/issues">Report an issue / Suggest a feature</a> &middot; '
+            f'<a href="{project}/wiki/Release-Status-and-Safety">Release safety</a></p>'
+            "<h3>License at a glance</h3>"
+            "<p>Free to use, modify and redistribute, including commercially. Provided "
+            "&ldquo;as is&rdquo;, without warranty. Attribution is appreciated, not required. "
+            "See the <b>License</b> tab for the full terms or "
+            f'<a href="{project}/blob/main/LICENSE">read the project license online</a>. '
+            "Third-party components retain their own licenses; see <b>Components</b>.</p>"
+            "<hr><h3>Fuel the next transformation</h3>"
+            "<p><b>Sponsor / Donate via Ko-fi</b><br>"
+            "If GDTT saves you time, help support its continued development.</p>"
+            '<p><a href="https://ko-fi.com/gadash">Support Gadash on Ko-fi</a> &middot; '
+            '<a href="https://ko-fi.com/s/00a96c800b">GDTT project support</a></p>'
+            "<p>Entirely optional: donations do not unlock features, change the license "
+            "or guarantee support or delivery. You can also help by sharing feedback, "
+            "reporting reproducible issues or improving the documentation.</p>"
+            "<hr><p><small>Data processing stays local. External links open in your browser "
+            "and require internet access; GDTT does not upload your dataset. "
+            "Remove private data from issue reports.<br>"
+            "Release builds are unsigned; separate hands-on clean-Windows acceptance "
+            "remains pending. Back up inputs and review important results.</small></p>"
+        )
+        return browser
 
     def _components_tab(self) -> QWidget:
         browser = QTextBrowser()

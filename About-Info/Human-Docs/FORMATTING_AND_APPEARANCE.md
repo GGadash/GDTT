@@ -101,6 +101,18 @@ Select all/Deselect all affects only the adjacent field, marker, format, derived
 group. It does not grant overwrite permission or bulk-confirm timestamp/completeness decisions.
 About shows the new copyright wording; the existing root license has not been rewritten.
 
+## About, links and optional support (0.10.2)
+
+Open About from the app menu. Its scrollable overview groups the GitHub project, Wiki,
+downloads, issue/feature reporting and release-safety links. A short license summary links the
+online LICENSE; the full offline License and Components tabs remain available unchanged.
+The Sponsor / Donate section, headed "Fuel the next transformation", contains the Ko-fi profile
+and GDTT project support links. Donations are optional and do not unlock features or guarantee
+support/delivery. Feedback and documentation improvements are welcome without donating.
+Links open only when selected, in the default browser, and require internet access; dataset
+processing remains local. The page retains copyright, Codex credit and unsigned/clean-Windows
+limitations. It wraps and scrolls at the minimum dialog size with enlarged fonts in Light/Dark.
+
 ## Verification and release boundary
 
 Focused tests cover locale parsing, numeric precision, CSV and both Excel outputs, stored masks,

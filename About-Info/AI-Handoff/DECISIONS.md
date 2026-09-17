@@ -1,5 +1,15 @@
 # Decisions
 
+## D-028 — About links and optional support (2026-09-17)
+
+- Owner authorizes the About-only UI update, important project/help links, documentation,
+  release tag and GitHub push. Use patch 0.10.2 / v0.10.2-rc.1; retain prior tags/assets.
+- Group links and optional Ko-fi support in a scrollable overview. Preserve full License and
+  Components tabs, all data workflows, dependency versions and settings/recipe schemas.
+- Use existing verified HTTPS destinations. No automatic browser navigation, embedded payment
+  flow, dataset upload, new telemetry or feature gating. Keep unsigned/clean-host limitations.
+- Reuse the established tagged Windows build and verification workflow for binary publication.
+
 ## D-027 — Public repository and maintained wiki (2026-09-16)
 
 - Owner authorizes making GGadash/GDTT public and publishing a structured wiki, plus updates to
