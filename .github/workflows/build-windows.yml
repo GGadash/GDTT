@@ -83,7 +83,7 @@ jobs:
       contents: write
     steps:
       - name: Download verified release candidate
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: GDTT-windows-x64
           path: release-assets
